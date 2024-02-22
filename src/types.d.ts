@@ -1,0 +1,173 @@
+//import size from "./poubelle/size";
+
+// Create a type from the size object
+export type SizeType = typeof size;
+
+// Extract keys of the size object
+export type SizeKeys = keyof typeof size;
+
+// Extract values of the size object
+export type SizeValues = SizeType[SizeKeys];
+
+//export type NumInString<LIGHHHT extends string> = LIGHHHT extends `${number}` ? string : LIGHHHT extends keyof SizeType ? SizeType[LIGHHHT] : never;
+
+type fraction<F extends string> = F extends `${number}/${number}` ? `${number}%` : never;
+export type IsNumberP<N> = N extends `${number}` ? `${string}rem` : never;
+export type ReturnDico<P extends string> = P extends SizeKeys ? SizeType[P] : never;
+export type BeforeInArr<A extends unknown[]> = A extends [...infer B, infer C] ? B : never;
+export type CssInArr<A extends unknown[]> = A extends [...infer B, infer C] ? C : never;
+
+
+type regexArray = RegExpMatchArray | null;
+type Category = "col" | "row" | "grid" | "font" | "text" | "bg" | "border" | "stroke" | "outline" | "underline" | "ring" | "divide";
+type currentElement<T extends number> = T extends 0 ? "" : string;
+
+type Before =
+	| "hover"
+	| "focus"
+	| "focus-within"
+	| "focus-visible"
+	| "active"
+	| "visited"
+	| "target"
+	| "first"
+	| "last"
+	| "only"
+	| "odd"
+	| "even"
+	| "first-of-type"
+	| "last-of-type"
+	| "only-of-type"
+	| "empty"
+	| "disabled"
+	| "enabled"
+	| "checked"
+	| "indeterminate"
+	| "default"
+	| "required"
+	| "valid"
+	| "invalid"
+	| "in-range"
+	| "out-of-range"
+	| "placeholder-shown"
+	| "autofill"
+	| "read-only"
+	| "before"
+	| "after"
+	| "first-letter"
+	| "first-line"
+	| "marker"
+	| "selection"
+	| "file"
+	| "backdrop"
+	| "placeholder"
+	| "sm"
+	| "md"
+	| "lg"
+	| "xl"
+	| "2xl"
+	| "3xl"
+	| "max-sm"
+	| "max-md"
+	| "max-lg"
+	| "max-xl"
+	| "max-2xl"
+	| "dark"
+	| "portrait"
+	| "landscape"
+	| "motion-safe"
+	| "motion-reduce"
+	| "contrast-more"
+	| "contrast-less"
+	| "print"
+	| "aria-checked"
+	| "aria-disabled"
+	| "aria-expanded"
+	| "aria-hidden"
+	| "aria-pressed"
+	| "aria-readonly"
+	| "aria-required"
+	| "aria-selected"
+	| ("open" & string);
+
+type StringElement<T = string | number> = T | Array<StringElement<T>>;
+
+interface NestedElementResult {
+	before?: Before[];
+	cssInside: Array<string | Before>[];
+}
+
+interface finnalREturn {
+	category: Category;
+	before: Before[];
+	state: Before[];
+	css: [string];
+}
+type Mapp = Map<"Category", Category>;
+
+/// flex number 1-9
+type Enumerate<N extends number, Acc extends number[] = []> = Acc["length"] extends N ? Acc[number] : Enumerate<N, [...Acc, Acc["length"]]>;
+
+export type IntRange<F extends number, T extends number> = Exclude<Enumerate<T>, Enumerate<F>>;
+
+type InterValueFromColor<Color extends string> = Color extends `${infer N}-${infer C}-${infer T}` ? { namespace: N; color: C; tone: T } : never;
+
+type TailwindExtra<Match extends string> = Match extends `${infer N extends Category}-[${infer C}]` ? { Category: N; stringElement: C } : never;
+type SplitInsideBrakets<Inside extends string> = Inside extends `${infer N extends Before}:[${infer C}]` ? { before: N; stringElement: C } : string;
+
+type JoinArrayResult<T extends Before[], U extends [Category, string]> = T extends [Before, Before] ? [string, `${Category}-${string}`] : T extends [Before] ? `${Category}-${string}` : never;
+
+interface FixedLengthArray<T extends unknown[], L extends number> {
+	length: L;
+}
+type LengthOfArray<Type extends readonly unknown[]> = Type["length"];
+type LastInArray<Type extends unknown[]> = Type extends [...unknown[], infer R] ? R : never;
+type RemoveLastInArray<Type extends unknown[]> = Type extends [...infer R, unknown] ? R : never;
+
+type inff<T extends string> = T extends `bg-${infer N extends string}` ? N : never;
+
+type LastOrString<Type extends string | string[]> = Type extends unknown[] ? LastInArray<Type> : Type;
+
+type LastOfArray<T extends []> = T extends [...T[number], infer U] ? U : never;
+type Pop<T extends unknown[]> = T extends [...infer R, infer _] ? R : never;
+type Regex = `${string}:[${string}]`;
+
+type IsRegex<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]` ? true : false;
+
+type IsRegex2<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]`
+	? {
+		before: Bef;
+		inside: inside;
+	}
+	: never;
+
+interface ReturnFlex {
+	display: "flex";
+	"flex-direction": "row" | "column";
+	"justify-content": "start" | "center" | "end";
+	"align-items": "start" | "center" | "end";
+}
+type UnionValueDictionary<T extends Record<string, string>> = T[keyof T];
+
+/**
+ * obj pour nested il permet de faire a partir d'un array un obj
+ * avec tout dedans before,cat,css*
+ */
+type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
+	? A extends Category ? base<A, B> : never :
+	T extends [...infer F, infer G, infer H]
+	? F extends Before[]
+	? G extends Category
+	? base<G, H> & BeforeObj<F> : never : never : never
+
+type testObj = MakeObjBeforeCatCss<["bg", "red"]>
+
+
+type BeforeObj<T extends Before[]> = {
+	BEFORE: T
+}
+
+type base<T, K> = {
+	CATEGORY: T;
+	CSS: K;
+}

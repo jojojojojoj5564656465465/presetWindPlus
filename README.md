@@ -17,26 +17,37 @@ You need [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind) and th
 
 ## Usage
 ```shell
-pnpm i unocss-preset-wind-extra unocss @unocss/preset-wind
+pnpm i preset-wind-plus unocss @unocss/preset-wind
 ```
 
 ```ts
 // uno.config.ts
-import {presetWind, defineConfig } from 'unocss'
-import  unocssPresetWindExtra  from 'unocss-preset-wind-extra'
+import { defineConfig, presetWind } from 'unocss'
+import presetWindPlus from 'preset-wind-plus'
 
 export default defineConfig({
   presets: [
     // ...
     presetWind(),
-    unocssPresetWindExtra(),
+    presetWindPlus(),
+  ],
+})
+```
+```ts
+// astro.config.ts
+import { defineConfig } from 'astro/config'
+import UnoCSS from 'unocss/astro'
+
+export default defineConfig({
+  integrations: [
+    UnoCSS(),
   ],
 })
 ```
 | Unocss My preset              | tailwind like or CSS                           |
 |-------------------------------|------------------------------------------------|
 | flex\|10\|50\|500             | grow-10 shrik-50 basis-500                     |
-| flex\|10\|50\|500rem          | grow-10 shrik-50 basis-500rem                  |
+| flex\|10\|50\|[500rem]        | grow-10 shrik-50 basis-500rem                  |
 | flex\|10\|50                  | grow-10 shrik-50                               |
 | px-[6%]-[10rem]               | pl-[6%] pr-[10rem]                             |
 | px-6-10                       | pl-6 pr-10                                     |
@@ -60,6 +71,9 @@ export default defineConfig({
 | mx-trim \| my-trim \| mt-trim | margin-trim                                    |
 | grid-area-one                 | grid-area: one;                                |
 | grid-area-helloWorld          | grid-area: helloWorld;                         |
+| my-trim                       | margin-trim: block                             |
+| mt-trim                       | margin-trim: block-start;                      |
+
 ```
 #### All css sizes supported if they are iside [brackets]
 em|rem|%|vw|vh|svh|lvh|svw|lvw|dvw|svi|lvi|dvb => [21svh] [5/7] [1px]
@@ -70,7 +84,7 @@ grid-[col-start-1,col-span-2,lg:[col-start-1,col-span-3,row-span-12]]
 
 ```
 ## Compress the length of tailwindcss Class
-### Merge rules for : 
+### Merge rules for :
 "grid"|"font" | "text" | "bg" | "border" | "stroke" | "outline" | "underline" | "ring" | "divide"| "row"| "col";
 It reqiuere the ```presetWind()``` [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind)to work because it convert to tailwindcss class
 [Preset-wind presset](https://www.npmjs.com/package/@unocss/preset-wind)
@@ -87,7 +101,6 @@ Decompose the layout of the divs in a grid from 1 to 9.
 ```md
 flex-row-1 flex-row-2 flex-row-3 flex-row-4 flex-row-5 flex-row-6 flex-row-7 flex-row-8 flex-row-9
 flex-col-1 flex-col-2 flex-col-3 flex-col-4 flex-col-5 flex-col-6 flex-col-7 flex-col-8 flex-col-9
-			
 ```
 ### unocss to tailwindcss exemple:
 ```md
@@ -137,7 +150,6 @@ https://github.com/jojojojojoj5564656465465/unocss-preset-starter/assets/4518491
 	<div class="bg-[#ffff] size-10 m-3 md:row-[span-6,start-6] gap-3-9 flex|1|20|50%"></div>
 </div>
 
-
 <div class="grid grid-[rows-3,flow-col] grid-cols-[auto,1fr,10px] gap-4 px-[6rem]-[8em]">
   <div class="row-[start-2,span-2] grid-area-one gap-2-6 px-6-1 inset-x-4 p-[16rem]-16-auto-full">01</div>
   <div class="col-[end-3,span-2] bg-red grid-area-two">02</div>
@@ -151,4 +163,4 @@ https://github.com/jojojojojoj5564656465465/unocss-preset-starter/assets/4518491
 
 ## License
 
-[MIT](./LICENSE) License © 2023 
+[MIT](./LICENSE) License © 2023

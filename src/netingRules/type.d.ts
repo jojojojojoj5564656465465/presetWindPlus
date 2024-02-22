@@ -130,24 +130,28 @@ interface ReturnFlex {
 type UnionValueDictionary<T extends Record<string, string>> = T[keyof T];
 
 /**
- * obj pour nested il permet de faire a partir d'un array un obj 
+ * obj pour nested il permet de faire a partir d'un array un obj
  * avec tout dedans before,cat,css*
  */
 type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
-	? A extends Category ? base<A, B> : never :
-	T extends [...infer F, infer G, infer H]
-	? F extends Before[]
-	? G extends Category
-	? base<G, H> & BeforeObj<F> : never : never : never
+	? A extends Category
+		? base<A, B>
+		: never
+	: T extends [...infer F, infer G, infer H]
+	  ? F extends Before[]
+			? G extends Category
+				? base<G, H> & BeforeObj<F>
+				: never
+			: never
+	  : never;
 
-type testObj = MakeObjBeforeCatCss<["bg","red"]>	
+type testObj = MakeObjBeforeCatCss<["bg", "red"]>;
 
-
-type BeforeObj<T extends Before[]> = {
-	BEFORE: T
+interface BeforeObj<T extends Before[]> {
+	BEFORE: T;
 }
 
-type base<T, K> = {
+interface base<T, K> {
 	CATEGORY: T;
 	CSS: K;
 }

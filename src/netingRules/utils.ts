@@ -15,7 +15,8 @@ export function lastJoin(x: Set<string>): string {
  * @param {string[][]} array
  * @returns {string}
  */
-export function joinArray(array: string[][]): string | never {
+/*
+ function joinArray(array: string[][]): string | never {
 	switch (array.length) {
 		case 2: {
 			const [state, catANDcss] = array as [Before[], [Category, string]];
@@ -29,6 +30,7 @@ export function joinArray(array: string[][]): string | never {
 			console.error("limite 2 arrays joinArray");
 	}
 }
+*/
 
 /**
  * @description Split inside the lg:[....] throw error if more than 2 elements in Array
@@ -36,31 +38,27 @@ export function joinArray(array: string[][]): string | never {
  * @returns {string[][]} Array of string or throw an error
  */
 
-export const splitInsideBrakets = (x: string): string[][] => {
+export function splitInsideBrakets(x: string) {
 	if (!["[", "]", "(", ")"].some((e) => includes(x, e))) {
 		if ([",", ":"].some((e) => includes(x, e))) {
 			const result: string[][] = [];
 			const temp: string[] = removeDuplicates(split(x, ","));
-			for (const e of temp) {
-				result.push(removeDuplicates(split(e, ":")));
-			}
+			for (const e of temp) result.push(removeDuplicates(split(e, ":")));
+
 			return result;
 		}
 		return [[x]];
-
 	}
 
 	console.error("error in Syntax ':[]' is missing OR '('  ')' IS NOT ALLOWED \n no dynamic values please \n\n ");
-
-
-};
+}
 
 /**
  * Description first function to use to split by (,)
  * @param {string} arg_splitString
  * @returns {Set<string>}
  */
-export const splitString = (arg_splitString: string | undefined): Set<string> => {
+export function splitString(arg_splitString: string | undefined): Set<string> {
 	eliminerUndefined<string>(arg_splitString, "splitString is undefined");
 	const removeSpaceInString = (string: string): string => {
 		return trim(string)
@@ -72,14 +70,10 @@ export const splitString = (arg_splitString: string | undefined): Set<string> =>
 	const result = new Set<string>();
 	let currentElement: currentElement<typeof countBrackets> = "";
 
-
-
 	for (const char of removeSpaceInString(arg_splitString)) {
-		if (char === "[") {
-			countBrackets++;
-		} else if (char === "]") {
-			countBrackets--;
-		}
+		if (char === "[") countBrackets++;
+		else if (char === "]") countBrackets--;
+
 		if (char === "," && countBrackets === 0) {
 			result.add(trim(toLowerCase(currentElement)));
 			currentElement &&= "";
@@ -87,24 +81,19 @@ export const splitString = (arg_splitString: string | undefined): Set<string> =>
 			currentElement += trim(char);
 		}
 	}
-	if (trim(currentElement) !== "") {
-		result.add(trim(toLowerCase(currentElement)));
-	}
+	if (trim(currentElement) !== "") result.add(trim(toLowerCase(currentElement)));
 
 	return result;
-
-};
+}
 
 /**
  * Description: Remove duplicates in an array: [hover , hover, red]  = [hover , red]
  * @param {(string|Before)} array
  * @returns {string[]} without duplicate in a string[]
  */
-export const removeDuplicates = (array: (string | Before)[]): string[] => {
+export function removeDuplicates(array: (string | Before)[]): string[] {
 	return [...new Set(array)];
-};
-
-
+}
 
 export const regex: Record<string, RegExp> = {
 	isRegexTest: /:\[/,
@@ -118,10 +107,8 @@ export const regex: Record<string, RegExp> = {
  */
 export const TempMap = new Map<"isRegex" | "noRegex", Set<string>>([
 	["isRegex", new Set()],
-	["noRegex", new Set()]
+	["noRegex", new Set()],
 ]);
-
-
 
 /**
  * ancien object a supprimer pour
@@ -137,28 +124,26 @@ export const finalStringProcess = {
 	 * @returns {any}
 	 */
 	makeArrayFromTempMapNoRegex(): string[][] {
-		return Array.from(TempMap.get("noRegex") ?? [], x => split(x, ":").filter(Boolean));
+		return Array.from(TempMap.get("noRegex") ?? [], (x) => split(x, ":").filter(Boolean));
 	},
 	AddCatergoryToArray(array: string[][], category: Category): string[][] {
-		for (const subArray of array) {
-			subArray.splice(subArray.length - 1, 0, category);
-		}
+		for (const subArray of array) subArray.splice(subArray.length - 1, 0, category);
+
 		return array;
 	},
 	makeFinalStringWithCategory(array: string[][]): string {
-		const temp = new Set<string>()
+		const temp = new Set<string>();
 
 		for (const subArray of array) {
 			const before: string[] = subArray.slice(0, subArray.length - 2);
 			const catAndCSS: string[] = subArray.slice(-2);
 
-			const result = before.length > 0 ? `${before.join(":")}:${catAndCSS.join("-")}` : catAndCSS.join("-")
-			temp.add(result)
+			const result = before.length > 0 ? `${before.join(":")}:${catAndCSS.join("-")}` : catAndCSS.join("-");
+			temp.add(result);
 		}
-		return Array.from(temp).join(" ")
-	}
-}
-
+		return Array.from(temp).join(" ");
+	},
+};
 
 /**
  *
@@ -167,13 +152,9 @@ export const finalStringProcess = {
  * @description use predicate to know if it's a regex or not
  */
 export function moveToSetIfNoRegex(x: string): void {
-	if (x.includes("[")) {
-		TempMap.get("isRegex")?.add(x);
-	} else {
-		TempMap.get("noRegex")?.add(x);
-	}
+	if (x.includes("[")) TempMap.get("isRegex")?.add(x);
+	else TempMap.get("noRegex")?.add(x);
 }
-
 
 // export const filterRegexOnly = (setFrom_splitString: Set<string>): Regex[] => {
 // 	const listFoundRegex = Array.from(setFrom_splitString).filter(PredicatRegex);
@@ -186,12 +167,9 @@ export function moveToSetIfNoRegex(x: string): void {
 // };
 
 export function isRegexP(input: string): asserts input is Regex {
-	if (input === undefined) {
-		console.error("Value is undefined function errorNoRegex");
-	}
-	if (!regex.isRegexTest.test(input)) {
-		console.error("Value is not a regex Expression Valid !function errorNoRegex");
-	}
+	if (input === undefined) console.error("Value is undefined function errorNoRegex");
+
+	if (!regex.isRegexTest.test(input)) console.error("Value is not a regex Expression Valid !function errorNoRegex");
 }
 
 /**
@@ -200,4 +178,4 @@ export function isRegexP(input: string): asserts input is Regex {
  * @param regex
  * @returns
  */
-export const matcherREGEX = (str: string, regex: RegExp) => str.match(regex) as RegExpMatchArray
+export const matcherREGEX = (str: string, regex: RegExp) => str.match(regex) as RegExpMatchArray;

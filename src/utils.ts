@@ -1,4 +1,4 @@
-import { UnitArray } from "./Class/Units";
+import UnitArray from "./Class/Units";
 
 /**
  * Description
@@ -6,40 +6,34 @@ import { UnitArray } from "./Class/Units";
  @example
   margin : 2px 2px 2px 2px
  */
-export const removeDuplicateArrayPaddingOrMargin = (array: Array<string>): Array<string> => {
+export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array<string> {
 	switch (array.length) {
 		case 2:
-			if (array[0] === array[1]) {
-				array.pop();
-			}
-			if (new Set(array).size === 1) {
-				array.splice(1, 2);
-			}
+			if (array[0] === array[1]) array.pop();
+
+			if (new Set(array).size === 1) array.splice(1, 2);
+
 			break;
 		case 3:
-			if (array[1] === array[2]) {
-				array.pop();
-			}
-			if (new Set(array).size === 1) {
-				array.splice(1, 3);
-			}
+			if (array[1] === array[2]) array.pop();
+
+			if (new Set(array).size === 1) array.splice(1, 3);
+
 			break;
 		case 4:
 			if (array[0] === array[2]) {
-				if (array[1] === array[3]) {
-					array.splice(3, 1);
-				}
+				if (array[1] === array[3]) array.splice(3, 1);
+
 				array.splice(2, 1);
 			}
-			if (new Set(array).size === 1) {
-				array.splice(1, 3);
-			}
+			if (new Set(array).size === 1) array.splice(1, 3);
+
 			break;
 		default:
 			console.error("ARRAY IS TOO SHORT MUST BE AN ERROR");
 	}
 	return array;
-};
+}
 
 /**
  * @description take all units from regex and convert it USE CLASS UnitArray
@@ -47,14 +41,14 @@ export const removeDuplicateArrayPaddingOrMargin = (array: Array<string>): Array
  * @returns [ '1rem', '15px', '1.25rem', 'max-content' ]
  */
 export function convertUnitFromArray(array: string[]): string[] {
-
 	for (let index = 0; index < array.length; index++) {
-		const element = new UnitArray(array[index]);
-		element.numberRemOrString()
+		const e = array[index];
+		eliminerUndefined<string>(e, "array is undefined");
+		const element = new UnitArray(e);
+		element.numberRemOrString();
 		array.splice(index, 1, element.el);
 	}
-	return array
-
+	return array.filter(Boolean);
 }
 
 /**
@@ -63,12 +57,9 @@ export function convertUnitFromArray(array: string[]): string[] {
  * @param msg error message in case there is undefined
  */
 export function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
-	if (input === undefined) {
-		console.error(msg ?? "Value is undefined");
-	}
-	if (input === null) {
-		console.error(msg ?? "Value is null");
-	}
+	if (input === undefined) console.error(msg ?? "Value is undefined");
+
+	if (input === null) console.error(msg ?? "Value is null");
 }
 
 /**
@@ -77,14 +68,9 @@ export function eliminerUndefined<T>(input: unknown, msg?: string): asserts inpu
  * @param x which group are you looking for
  * @returns string without undefined
  */
-export const matchFromRegex = <T>(match: RegExpMatchArray, x: string) => {
+export function matchFromRegex<T>(match: RegExpMatchArray, x: string) {
 	const result = match.groups?.[x];
-	if (result === undefined) {
-		console.error("no match in regex",x);
+	if (result === undefined) console.error("no match in regex", x);
 
-	}
 	return result as T;
 }
-
-
-

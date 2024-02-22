@@ -1,9 +1,8 @@
-//import { join, replace, split } from "string-ts";
-import { splitString, moveToSetIfNoRegex, TempMap, isRegexP, finalStringProcess } from "./utils";
-//import { eliminerUndefined } from "../utils";
+// import { join, replace, split } from "string-ts";
 import { IfRegex } from "../Class/ifRegex";
+import { TempMap, finalStringProcess, isRegexP, moveToSetIfNoRegex, splitString } from "./utils";
 
-
+// import { eliminerUndefined } from "../utils";
 
 /**
  *
@@ -12,17 +11,16 @@ import { IfRegex } from "../Class/ifRegex";
  * @returns {string}
  */
 function tailwindKiller(category: Category, x: string) {
-	const splitFromString: Set<string> = splitString(x);  ///good
-	for (const iterator of splitFromString) {
-		moveToSetIfNoRegex(iterator);
-	}
+	const splitFromString: Set<string> = splitString(x); /// good
+	for (const iterator of splitFromString) moveToSetIfNoRegex(iterator);
+
 	for (const iterator of TempMap?.get("isRegex") ?? []) {
 		isRegexP(iterator);
 		const element = new IfRegex(iterator);
 		element.forloop();
 	}
-	const ArrayReadyToModify = finalStringProcess.makeArrayFromTempMapNoRegex()
-	const AddCategory = finalStringProcess.AddCatergoryToArray(ArrayReadyToModify, category)
-	return finalStringProcess.makeFinalStringWithCategory(AddCategory)
+	const ArrayReadyToModify = finalStringProcess.makeArrayFromTempMapNoRegex();
+	const AddCategory = finalStringProcess.AddCatergoryToArray(ArrayReadyToModify, category);
+	return finalStringProcess.makeFinalStringWithCategory(AddCategory);
 }
 export default tailwindKiller;

@@ -1,4 +1,4 @@
-//import size from "./poubelle/size";
+// import size from "./poubelle/size";
 
 // Create a type from the size object
 export type SizeType = typeof size;
@@ -9,14 +9,13 @@ export type SizeKeys = keyof typeof size;
 // Extract values of the size object
 export type SizeValues = SizeType[SizeKeys];
 
-//export type NumInString<LIGHHHT extends string> = LIGHHHT extends `${number}` ? string : LIGHHHT extends keyof SizeType ? SizeType[LIGHHHT] : never;
+// export type NumInString<LIGHHHT extends string> = LIGHHHT extends `${number}` ? string : LIGHHHT extends keyof SizeType ? SizeType[LIGHHHT] : never;
 
 type fraction<F extends string> = F extends `${number}/${number}` ? `${number}%` : never;
 export type IsNumberP<N> = N extends `${number}` ? `${string}rem` : never;
 export type ReturnDico<P extends string> = P extends SizeKeys ? SizeType[P] : never;
 export type BeforeInArr<A extends unknown[]> = A extends [...infer B, infer C] ? B : never;
 export type CssInArr<A extends unknown[]> = A extends [...infer B, infer C] ? C : never;
-
 
 type regexArray = RegExpMatchArray | null;
 type Category = "col" | "row" | "grid" | "font" | "text" | "bg" | "border" | "stroke" | "outline" | "underline" | "ring" | "divide";
@@ -136,9 +135,9 @@ type IsRegex<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]` ? t
 
 type IsRegex2<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]`
 	? {
-		before: Bef;
-		inside: inside;
-	}
+			before: Bef;
+			inside: inside;
+	  }
 	: never;
 
 interface ReturnFlex {
@@ -154,20 +153,24 @@ type UnionValueDictionary<T extends Record<string, string>> = T[keyof T];
  * avec tout dedans before,cat,css*
  */
 type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
-	? A extends Category ? base<A, B> : never :
-	T extends [...infer F, infer G, infer H]
-	? F extends Before[]
-	? G extends Category
-	? base<G, H> & BeforeObj<F> : never : never : never
+	? A extends Category
+		? base<A, B>
+		: never
+	: T extends [...infer F, infer G, infer H]
+	  ? F extends Before[]
+			? G extends Category
+				? base<G, H> & BeforeObj<F>
+				: never
+			: never
+	  : never;
 
-type testObj = MakeObjBeforeCatCss<["bg", "red"]>
+type testObj = MakeObjBeforeCatCss<["bg", "red"]>;
 
-
-type BeforeObj<T extends Before[]> = {
-	BEFORE: T
+interface BeforeObj<T extends Before[]> {
+	BEFORE: T;
 }
 
-type base<T, K> = {
+interface base<T, K> {
 	CATEGORY: T;
 	CSS: K;
 }

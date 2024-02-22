@@ -1,25 +1,23 @@
-import { definePreset } from '@unocss/core'
+import { definePreset } from "@unocss/core";
 
-import { convertUnitFromArray, eliminerUndefined, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from './utils';
+import { convertUnitFromArray, eliminerUndefined, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
 
-import AllUnitsHandler from './Class/AllUnits';
-import UnitArray from './Class/Units'
-import tailwindKiller from './netingRules/tailwindKiller';
+import AllUnitsHandler from "./Class/AllUnits";
+import UnitArray from "./Class/Units";
+import tailwindKiller from "./netingRules/tailwindKiller";
 const presetWindPlus = definePreset(() => {
-
-
 	return {
-		name: 'presetWindPlus',
+		name: "presetWindPlus",
 		// Customize your preset here
 		rules: [
 			[
 				/^flex\|(?<grow>\d+)?\|(?<shrink>\d+)?\|?(\d+|\[\w+\])?$/,
 				(match) => {
-					const [, grow = 1, shrink = 0, basis] = match as [unknown, number, number, string | "auto"]
+					const [, grow = 1, shrink = 0, basis] = match as [unknown, number, number, string | "auto"];
 					if (basis) {
 						const basisClass = new UnitArray(basis);
 						//run this function to process the basis
-						basisClass.numberRemOrString()
+						basisClass.numberRemOrString();
 						return {
 							flex: `${grow} ${shrink} ${basisClass.el}`,
 						};
@@ -33,7 +31,7 @@ const presetWindPlus = definePreset(() => {
 			[
 				/^flex-(row|col)-([1-9])$/,
 				(match) => {
-					const [_, direction, flexNumber] = match as [unknown, "row" | "col", IntRange<1, 10>]
+					const [_, direction, flexNumber] = match as [unknown, "row" | "col", IntRange<1, 10>];
 					type PositionProps = Readonly<"start" | "center" | "end">;
 					const positions = {
 						1: ["start", "start"],
@@ -60,12 +58,12 @@ const presetWindPlus = definePreset(() => {
 			[
 				/^(?<direction>p|m)-(?<allUnits>.+)/,
 				(match) => {
-					const direction = matchFromRegex<"p" | "m">(match, "direction")
-					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false)
+					const direction = matchFromRegex<"p" | "m">(match, "direction");
+					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
 					const combination = {
 						p: "padding",
-						m: "margin"
+						m: "margin",
 					} as const satisfies Record<typeof direction, string>;
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
 					const arrayWithoutDuplicate = removeDuplicateArrayPaddingOrMargin(array);
@@ -83,9 +81,9 @@ const presetWindPlus = definePreset(() => {
 						my: "margin-block",
 						gap: "gap",
 					} as const satisfies Record<string, string>;
-					const direction = match[1] as keyof typeof combination
+					const direction = match[1] as keyof typeof combination;
 
-					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true)
+					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
 					eliminerUndefined(direction, "inset direction is undefined");
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
@@ -98,13 +96,12 @@ const presetWindPlus = definePreset(() => {
 			[
 				/^inset-(?<direction>x|y)-(?<allUnits>.+)/,
 				(match) => {
-					const direction = matchFromRegex<"x" | "y">(match, "direction")
-					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true)
+					const direction = matchFromRegex<"x" | "y">(match, "direction");
+					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
 					const combination = {
 						x: "inset-inline",
 						y: "inset-block",
 					} as const satisfies Record<"x" | "y", string>;
-
 
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
@@ -117,13 +114,12 @@ const presetWindPlus = definePreset(() => {
 				/^size-(?<allUnits>.+)/,
 				(match): Record<"block-size" | "inline-size", string>[] => {
 					const classMatch = new AllUnitsHandler(match, 2, true);
-					const array = convertUnitFromArray(classMatch.returnArray);
-					const [s, optional] = array;
+					const array: string[] = convertUnitFromArray(classMatch.returnArray).filter(Boolean);
 
 					return [
 						{
-							"block-size": s,
-							"inline-size": optional ?? s,
+							"block-size": array[0] as string,
+							"inline-size": array[1] ?? (array[0] as string),
 						},
 					];
 				},
@@ -132,7 +128,7 @@ const presetWindPlus = definePreset(() => {
 			[
 				/(?<direction>^m(?:(x|y|t|b|l|r)))-trim\b$/,
 				(match): Record<"margin-trim", "inline" | "block" | "block-start" | "block-end" | "inline-start" | "inline-end">[] => {
-					const [, s] = match as [unknown, "mx" | "my" | "mt" | "mb" | "ml" | "mr"]
+					const [, s] = match as [unknown, "mx" | "my" | "mt" | "mb" | "ml" | "mr"];
 					const dictionary = {
 						mx: "inline",
 						my: "block",
@@ -169,23 +165,19 @@ const presetWindPlus = definePreset(() => {
 						"grid-area": match,
 					};
 				},
-			]
-
+			],
 		],
 		shortcuts: [
 			[
 				/^(?<category>col|row|grid|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>.*)\]/,
 				(match): string => {
-					const category = matchFromRegex<Category>(match, "category")
-					const stringElement = matchFromRegex<string>(match, "css")
+					const category = matchFromRegex<Category>(match, "category");
+					const stringElement = matchFromRegex<string>(match, "css");
 					return tailwindKiller(category, stringElement);
-				}
-			]
-		]
+				},
+			],
+		],
+	};
+});
 
-
-	}
-})
-
-
-export default presetWindPlus
+export default presetWindPlus;

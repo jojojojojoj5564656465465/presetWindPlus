@@ -1,10 +1,8 @@
 import UnitArray from "./Class/Units";
 
 /**
- * Description
- REMOVE DUPLICATES IN MARGIN OR PADDING TO AVOID REPETITION IN CSS OUTPUT
- @example
-  margin : 2px 2px 2px 2px
+ * @description  REMOVE DUPLICATES IN MARGIN OR PADDING TO AVOID REPETITION IN CSS OUTPUT
+ * @example  margin : 2px 2px 2px 2px
  */
 export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array<string> {
 	switch (array.length) {

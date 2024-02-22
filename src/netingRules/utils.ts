@@ -94,14 +94,14 @@ export function splitString(arg_splitString: string | undefined): Set<string> {
 export function removeDuplicates(array: (string | Before)[]): string[] {
 	return [...new Set(array)];
 }
-
+/*
 export const regex: Record<string, RegExp> = {
 	isRegexTest: /:\[/,
 	// nestedBrackets: new RegExp("(\\w+):\\[(.+?)\\]|(\\w+)?:?(\\w+):\\[(.+?)\\]"),
 	// beforeCapture: new RegExp("(?<before>.*):\\[(?<cssInside>.*)\\]"),
 	// dynamicUnitBracks: new RegExp("(?<!:)\\[(?<cssDynamicUnit>\\d+[a-z]+)\\]"),
 };
-
+*/
 /**
  * @description temporary map to store regex and no regex
  */
@@ -166,10 +166,10 @@ export function moveToSetIfNoRegex(x: string): void {
 // 	return listFoundRegex;
 // };
 
-export function isRegexP(input: string): asserts input is Regex {
-	if (input === undefined) console.error("Value is undefined function errorNoRegex");
-
-	if (!regex.isRegexTest.test(input)) console.error("Value is not a regex Expression Valid !function errorNoRegex");
+export function isRegexP(input: unknown): input is Regex {
+	const isRegexTest= /:\[/
+	eliminerUndefined<string>(input, "input is undefined");
+	return isRegexTest.test(input)
 }
 
 /**

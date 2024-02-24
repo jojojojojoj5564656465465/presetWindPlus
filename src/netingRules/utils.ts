@@ -106,10 +106,10 @@ export const regex: Record<string, RegExp> = {
  * @description temporary map to store regex and no regex
  */
 export const TempMap = new Map<"isRegex" | "noRegex", Set<string>>([
-	["isRegex", new Set()],
-	["noRegex", new Set()],
+	["isRegex", new Set<Regex>()],
+	["noRegex", new Set<string>()],
 ]);
-
+type TempMapType<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Regex : string;
 /**
  * ancien object a supprimer pour
  * faire une class a ala place
@@ -156,20 +156,11 @@ export function moveToSetIfNoRegex(x: string): void {
 	else TempMap.get("noRegex")?.add(x);
 }
 
-// export const filterRegexOnly = (setFrom_splitString: Set<string>): Regex[] => {
-// 	const listFoundRegex = Array.from(setFrom_splitString).filter(PredicatRegex);
-// 	for (const eACH_splitString of setFrom_splitString) {
-// 		if (listFoundRegex.some((listFoundRegex_ELEMENT) => includes(eACH_splitString, listFoundRegex_ELEMENT))) {
-// 			setFrom_splitString.delete(eACH_splitString);
-// 		}
-// 	}
-// 	return listFoundRegex;
-// };
-
 export function isRegexP(input: unknown): input is Regex {
 	const isRegexTest= /:\[/
 	eliminerUndefined<string>(input, "input is undefined");
 	return isRegexTest.test(input)
+
 }
 
 /**

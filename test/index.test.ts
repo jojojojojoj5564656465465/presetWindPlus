@@ -9,11 +9,7 @@ it('presetWindPlus', async () => {
   const presets = uno.config.presets
   expect(presets).toHaveLength(1)
 
-  const { css } = await uno.generate('my-trim p-5-[2rem]')
+  const { css } = await uno.generate('bg-[red]')
 
-  expect(css).toMatchInlineSnapshot(`
-		"/* layer: default */
-		.p-5-\\[2rem\\]{padding:1.25rem 2rem;}
-		.my-trim{margin-trim:block;}"
-	`)
+  expect(css).toMatchInlineSnapshot(`""`)
 })

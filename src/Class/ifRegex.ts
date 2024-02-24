@@ -45,7 +45,7 @@ export class IfRegex {
 	 * @param msg message in case that is undefined
 	 * @returns
 	 */
-	mapGet<T extends Set<string>>(params: "isRegex" | "noRegex", msg?: string): T {
+	static mapGet<T extends Set<string>>(params: "isRegex" | "noRegex", msg?: string): T {
 		if (TempMap.get(params) instanceof Set && TempMap.has(params)) {
 			const result = TempMap.has(params) && TempMap.get(params);
 			eliminerUndefined<T>(result, msg);
@@ -83,11 +83,11 @@ export class IfRegex {
 		const set: Set<string> = splitString(this._texte);
 		for (const iterator of set) this.checkIfRegexAndSendToMAP(iterator);
 
-		for (const iterator of this.mapGet("isRegex", "problem isregex in foorLoop")) {
+		for (const iterator of IfRegex.mapGet("isRegex", "problem isregex in foorLoop")) {
 			const result: Set<string> = this.createObjectFromRegex(iterator);
 			for (const el of result) this.checkIfRegexAndSendToMAP(el);
 
-			this._texte &&= this.mapGet("noRegex", "problem noRegex in foorLoop");
+			this._texte &&= IfRegex.mapGet("noRegex", "problem noRegex in foorLoop");
 		}
 	}
 }

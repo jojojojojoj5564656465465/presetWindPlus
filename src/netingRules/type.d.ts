@@ -116,9 +116,9 @@ type IsRegex<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]` ? t
 
 type IsRegex2<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]`
 	? {
-			before: Bef;
-			inside: inside;
-	  }
+	before: Bef;
+	inside: inside;
+}
 	: never;
 
 interface ReturnFlex {
@@ -135,15 +135,15 @@ type UnionValueDictionary<T extends Record<string, string>> = T[keyof T];
  */
 type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
 	? A extends Category
-		? base<A, B>
-		: never
+? base<A, B>
+: never
 	: T extends [...infer F, infer G, infer H]
-	  ? F extends Before[]
-			? G extends Category
-				? base<G, H> & BeforeObj<F>
-				: never
-			: never
-	  : never;
+	? F extends Before[]
+	? G extends Category
+	? base<G, H> & BeforeObj<F>
+	: never
+	: never
+	: never;
 
 type testObj = MakeObjBeforeCatCss<["bg", "red"]>;
 
@@ -155,3 +155,5 @@ interface base<T, K> {
 	CATEGORY: T;
 	CSS: K;
 }
+
+type Size = "full" | "screen" | "min" | "max" | "fit" | "fill" | "auto" | "dvw" | "svw" | "lvw"

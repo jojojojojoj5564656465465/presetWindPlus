@@ -14,8 +14,7 @@ function tailwindKiller(category: Category, x: string) {
 	const splitFromString: Set<string> = splitString(x); /// good
 	for (const iterator of splitFromString) moveToSetIfNoRegex(iterator);
 
-	for (const iterator of TempMap?.get("isRegex") ?? []) {
-		isRegexP(iterator);
+	for (const iterator of IfRegex.mapGet<Set<Regex>>("isRegex")) {
 		const element = new IfRegex(iterator);
 		element.forloop();
 	}

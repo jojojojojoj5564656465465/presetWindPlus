@@ -51,7 +51,8 @@
     "test": "vitest",
     "test:update": "vitest --update",
     "play": "vite playground",
-    "deploy": "vite build playground"
+    "deploy": "vite build playground",
+    "testcode": "bun --watch run src/testcode.ts"
   },
   "peerDependencies": {
     "@unocss/core": "< 1"

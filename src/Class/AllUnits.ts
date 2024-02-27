@@ -30,6 +30,13 @@ class AllUnitsHandler {
 		return this.#tempString;
 	}
 
+	get execRegex(): string[] {
+		if (this.match) {
+			return this.match.slice(1, this.sizeLimite + 1).filter(Boolean);
+		}
+		return [];
+	}
+
 	/**
 	 *
 	 * @param array
@@ -43,13 +50,21 @@ class AllUnitsHandler {
 	get splitedArray(): string[] {
 		const splitt = split(this.#tempString, "-");
 		this.checkLimiteSize(splitt);
-		return this.duplicate === true ? [...new Set(splitt)] : splitt;
+		return this.removeDuplicateOptional(splitt);
+	}
+	removeDuplicateOptional(x: string[]): string[] {
+		return this.duplicate === true ? [...new Set(x)] : x;
 	}
 
 	get returnArray(): string[] {
 		this.groups;
 		return this.splitedArray;
 	}
+	get returnArray2(): string[] {
+		this.checkLimiteSize(this.execRegex)
+		return this.removeDuplicateOptional(this.execRegex) 
+	}
+
 }
 
 export default AllUnitsHandler;

@@ -130,10 +130,10 @@ const presetWindPlus = definePreset(() => {
 			],
 
 			[
-				/^size-(?<allUnits>.+)/,
+				/^size-([[|\]|\w]+)-?([[|\]|\w]+)?$/,
 				(match_allUnits): Record<"block-size" | "inline-size", string>[] => {
 					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
-					const array: string[] = convertUnitFromArray(classMatch.returnArray).filter(Boolean);
+					const array: string[] = convertUnitFromArray(classMatch.returnArray2);
 
 					return [
 						{

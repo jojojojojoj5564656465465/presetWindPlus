@@ -69,6 +69,10 @@ export function eliminerUndefined<T>(input: unknown, msg?: string): asserts inpu
 export function matchFromRegex<T>(match: RegExpMatchArray, x: string) {
 	const result = match.groups?.[x];
 	if (result === undefined) console.error("no match in regex", x);
-
+	removeDirectionInArray(match)
 	return result as T;
+}
+
+function removeDirectionInArray(array: RegExpMatchArray):void {
+	array.splice(1, 1)
 }

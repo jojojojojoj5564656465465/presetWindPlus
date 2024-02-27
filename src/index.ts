@@ -95,7 +95,7 @@ const presetWindPlus = definePreset(() => {
 
 			[
 				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
-				new  RegExp("^inset-(?<direction>x|y)-(?<allUnits>[\\w\\-\\/\\[\\]]+)"),
+				new RegExp("^inset-(?<direction>x|y)-([[|\\]|\\w]+)-?([[|\\]|\\w]+)?$"),
 				///^inset-(?<direction>x|y)-(?<allUnits>[\w\-\/\[\]]+)/,
 				(match) => {
 					const direction = matchFromRegex<"x" | "y">(match, "direction");
@@ -106,7 +106,7 @@ const presetWindPlus = definePreset(() => {
 					} as const satisfies Record<"x" | "y", string>;
 
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					return { [returnDirection]: array.join(" ") };
 				},
 				{ autocomplete: "inset-(x|y)-<num>-<num>" },

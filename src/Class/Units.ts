@@ -2,7 +2,6 @@ import { split } from "string-ts";
 import { matchFromRegex } from "../utils";
 type Element = string | `${number}` | Size | Regex;
 
-
 /**
  * This is a description of the MyClass constructor function.
  * @class Fonction
@@ -74,14 +73,13 @@ class UnitArray extends Fonction {
 	}
 
 	fractionP(x = this.el): x is `${string}/${string}]` {
-		const fraction: RegExp = /(^\w{1}\/\w{1}$)/
+		const fraction: RegExp = /(^\w{1}\/\w{1}$)/;
 		return fraction.test(x);
 	}
 
 	regex = {
 		// biome-ignore lint/complexity/useRegexLiterals: <explanation>
 		Braket: new RegExp("^\\[(?<insideBrakets>\\w+)\\]"),
-
 
 		// biome-ignore lint/complexity/useRegexLiterals: <explanation>
 		valideInsideBraket: new RegExp("^\\d+\\w+$"),

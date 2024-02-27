@@ -94,7 +94,9 @@ const presetWindPlus = definePreset(() => {
 			],
 
 			[
-				/^inset-(?<direction>x|y)-(?<allUnits>.+)/,
+				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
+				new  RegExp("^inset-(?<direction>x|y)-(?<allUnits>[\\w\\-\\/\\[\\]]+)"),
+				///^inset-(?<direction>x|y)-(?<allUnits>[\w\-\/\[\]]+)/,
 				(match) => {
 					const direction = matchFromRegex<"x" | "y">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
@@ -109,11 +111,28 @@ const presetWindPlus = definePreset(() => {
 				},
 				{ autocomplete: "inset-(x|y)-<num>-<num>" },
 			],
+			[
+				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
+				new RegExp("^gap-(?<direction>x|y)-(?<allUnits>[\\w\\-\\/\\[\\]]+)"),
+				(match) => {
+					const direction = matchFromRegex<"x" | "y">(match, "direction");
+					const ClassArrayOfUnits = new AllUnitsHandler(match, 1, true);
+					const combination = {
+						x: "column-gap",
+						y: "row-gap",
+					} as const satisfies Record<"x" | "y", string>;
+		
+					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+					return { [returnDirection]: array.join(" ") };
+				},
+				{ autocomplete: "gap-(x|y)-<num>" },
+			],
 
 			[
 				/^size-(?<allUnits>.+)/,
-				(match): Record<"block-size" | "inline-size", string>[] => {
-					const classMatch = new AllUnitsHandler(match, 2, true);
+				(match_allUnits): Record<"block-size" | "inline-size", string>[] => {
+					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
 					const array: string[] = convertUnitFromArray(classMatch.returnArray).filter(Boolean);
 
 					return [
@@ -128,7 +147,7 @@ const presetWindPlus = definePreset(() => {
 			[
 				/(?<direction>^m(?:(x|y|t|b|l|r)))-trim\b$/,
 				(match): Record<"margin-trim", "inline" | "block" | "block-start" | "block-end" | "inline-start" | "inline-end">[] => {
-					const [, s] = match as [unknown, "mx" | "my" | "mt" | "mb" | "ml" | "mr"];
+					const s = matchFromRegex<"mx" | "my" | "mt" | "mb" | "ml" | "mr">(match, "direction");
 					const dictionary = {
 						mx: "inline",
 						my: "block",

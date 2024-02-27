@@ -3,12 +3,12 @@ import { TempMap, splitString } from "../netingRules/utils";
 import { eliminerUndefined } from "../utils";
 
 export class IfRegex {
-	texte: string;
+	texte: Regex | string;
 	/**
 	 *
 	 * @param {Regex} texte
 	 */
-	constructor(texte: Regex) {
+	constructor(texte: Regex | string) {
 		this.texte = texte;
 	}
 
@@ -41,18 +41,13 @@ export class IfRegex {
 
 	/**
 	 *new Map always give me ts error so i made this function to eliminate the Undefinded issue
-	 * @param params - isRegex or noRegex
-	 * @param msg message in case that is undefined
+	 * @param {"isRegex" | "noRegex"} params - isRegex or noRegex
 	 * @returns
 	 */
-	static mapGet<T extends Set<string>>(params: "isRegex" | "noRegex", msg?: string): T {
-		if (TempMap.get(params) instanceof Set && TempMap.has(params)) {
-			const result = TempMap.has(params) && TempMap.get(params);
-			eliminerUndefined<T>(result, msg);
-			return result;
-		}
-		console.error(`this.TempMap.has(params) ${msg}`);
-		throw new Error("mapGet Error");
+	static mapGet<T extends "isRegex" | "noRegex">(params: T) {
+		const result = TempMap.has(params) && TempMap.get(params);
+		eliminerUndefined<TempMapType<T>>(result, "mapGet() is undefined");
+		return result;
 	}
 
 	regex = {
@@ -83,11 +78,11 @@ export class IfRegex {
 		const set: Set<string> = splitString(this._texte);
 		for (const iterator of set) this.checkIfRegexAndSendToMAP(iterator);
 
-		for (const iterator of IfRegex.mapGet("isRegex", "problem isregex in foorLoop")) {
+		for (const iterator of IfRegex.mapGet("isRegex")) {
 			const result: Set<string> = this.createObjectFromRegex(iterator);
 			for (const el of result) this.checkIfRegexAndSendToMAP(el);
 
-			this._texte &&= IfRegex.mapGet("noRegex", "problem noRegex in foorLoop");
+			this._texte &&= IfRegex.mapGet("noRegex");
 		}
 	}
 }

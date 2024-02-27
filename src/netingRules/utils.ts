@@ -33,7 +33,7 @@ export function lastJoin(x: Set<string>): string {
 */
 
 /**
- * @description Split inside the lg:[....] throw error if more than 2 elements in Array
+ * @description Split inside the lg:[....] log error if more than 2 elements in Array
  * @param {string} x
  * @returns {string[][]} Array of string or throw an error
  */
@@ -109,7 +109,6 @@ export const TempMap = new Map<"isRegex" | "noRegex", Set<string>>([
 	["isRegex", new Set<Regex>()],
 	["noRegex", new Set<string>()],
 ]);
-type TempMapType<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Regex : string;
 /**
  * ancien object a supprimer pour
  * faire une class a ala place
@@ -156,11 +155,10 @@ export function moveToSetIfNoRegex(x: string): void {
 	else TempMap.get("noRegex")?.add(x);
 }
 
-export function isRegexP(input: unknown): input is Regex {
-	const isRegexTest= /:\[/
+function isRegexP(input: unknown): input is Regex {
+	const isRegexTest = /:\[/;
 	eliminerUndefined<string>(input, "input is undefined");
-	return isRegexTest.test(input)
-
+	return isRegexTest.test(input);
 }
 
 /**

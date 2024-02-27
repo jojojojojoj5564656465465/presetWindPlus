@@ -1,6 +1,6 @@
 // import { join, replace, split } from "string-ts";
 import { IfRegex } from "../Class/ifRegex";
-import { TempMap, finalStringProcess, isRegexP, moveToSetIfNoRegex, splitString } from "./utils";
+import { finalStringProcess, moveToSetIfNoRegex, splitString } from "./utils";
 
 // import { eliminerUndefined } from "../utils";
 
@@ -14,7 +14,7 @@ function tailwindKiller(category: Category, x: string) {
 	const splitFromString: Set<string> = splitString(x); /// good
 	for (const iterator of splitFromString) moveToSetIfNoRegex(iterator);
 
-	for (const iterator of IfRegex.mapGet<Set<Regex>>("isRegex")) {
+	for (const iterator of IfRegex.mapGet("isRegex")) {
 		const element = new IfRegex(iterator);
 		element.forloop();
 	}

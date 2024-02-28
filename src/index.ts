@@ -56,20 +56,21 @@ const presetWindPlus = definePreset(() => {
 				{ autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
 			],
 			[
-				/^(?<direction>p|m)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
+				/^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 				(match) => {
-					const direction = matchFromRegex<"p" | "m">(match, "direction");
+					const direction = matchFromRegex<"p" | "m" |"inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					const combination = {
 						p: "padding",
 						m: "margin",
+						inset: "inset"
 					} as const satisfies Record<typeof direction, string>;
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
 					const arrayWithoutDuplicate = removeDuplicateArrayPaddingOrMargin(array);
 					return { [returnDirection]: arrayWithoutDuplicate.join(" ") };
 				},
-				{ autocomplete: "(p|m)-<num>-<num>-<num>-<num>" },
+				{ autocomplete: "(p|m|inset)-<num>-<num>-<num>-<num>" },
 			],
 			[
 				/(?<direction>^(?:p|m)(?:x|y)|gap)-([[|\]|\w]+)-?([[|\]|\w]+)?$/,

@@ -11,7 +11,7 @@ const presetWindPlus = definePreset(() => {
 		// Customize your preset here
 		rules: [
 			[
-				/^flex\|(?<grow>\d+)?\|(?<shrink>\d+)?\|?(\d+|\[\w+\])?$/,
+				/^flex\|(?<grow>\d+)?\|(?<shrink>\d+)?\|?(\d+|\[\w+\]|auto)?$/,
 				(match) => {
 					const [, grow = 1, shrink = 0, basis] = match as [unknown, number, number, string | "auto"];
 					if (basis) {
@@ -56,11 +56,11 @@ const presetWindPlus = definePreset(() => {
 				{ autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
 			],
 			[
-				/^(?<direction>p|m)-(?<allUnits>.+)/,
+				/^(?<direction>p|m)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 				(match) => {
 					const direction = matchFromRegex<"p" | "m">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					const combination = {
 						p: "padding",
 						m: "margin",
@@ -72,7 +72,7 @@ const presetWindPlus = definePreset(() => {
 				{ autocomplete: "(p|m)-<num>-<num>-<num>-<num>" },
 			],
 			[
-				/(^(?:p|m)(?:x|y)|gap)-(?<allUnits>.+)/,
+				/(?<direction>^(?:p|m)(?:x|y)|gap)-([[|\]|\w]+)-?([[|\]|\w]+)?$/,
 				(match) => {
 					const combination = {
 						px: "padding-inline",
@@ -81,11 +81,11 @@ const presetWindPlus = definePreset(() => {
 						my: "margin-block",
 						gap: "gap",
 					} as const satisfies Record<string, string>;
-					const direction = match[1] as keyof typeof combination;
-
+					//const direction = match[1] as keyof typeof combination;
+					const direction = matchFromRegex<keyof typeof combination>(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
-					eliminerUndefined(direction, "inset direction is undefined");
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
+					eliminerUndefined(direction, "(?:p|m)(?:x|y)|gap) direction is undefined");
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
 
 					return { [returnDirection]: array.join(" ") };
@@ -96,7 +96,7 @@ const presetWindPlus = definePreset(() => {
 			[
 				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
 				new RegExp("^inset-(?<direction>x|y)-([[|\\]|\\w]+)-?([[|\\]|\\w]+)?$"),
-				///^inset-(?<direction>x|y)-(?<allUnits>[\w\-\/\[\]]+)/,
+
 				(match) => {
 					const direction = matchFromRegex<"x" | "y">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
@@ -113,7 +113,7 @@ const presetWindPlus = definePreset(() => {
 			],
 			[
 				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
-				new RegExp("^gap-(?<direction>x|y)-(?<allUnits>[\\w\\-\\/\\[\\]]+)"),
+				new RegExp("^gap-(?<direction>x|y)-([[|\\]|\\w]+)$"),
 				(match) => {
 					const direction = matchFromRegex<"x" | "y">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 1, true);
@@ -123,7 +123,7 @@ const presetWindPlus = definePreset(() => {
 					} as const satisfies Record<"x" | "y", string>;
 		
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					return { [returnDirection]: array.join(" ") };
 				},
 				{ autocomplete: "gap-(x|y)-<num>" },
@@ -134,7 +134,7 @@ const presetWindPlus = definePreset(() => {
 				(match_allUnits): Record<"block-size" | "inline-size", string>[] => {
 					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
 					const array: string[] = convertUnitFromArray(classMatch.returnArray2);
-
+					
 					return [
 						{
 							"block-size": array[0] as string,

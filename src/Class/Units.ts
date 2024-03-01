@@ -99,19 +99,24 @@ class UnitArray extends Fonction {
 	 *
 	 */
 	numberRemOrString() {
-		if (this.NumberP()) {
-			this.el = this.convertToRem(this.EachElement);
-		} else if (this.IncludesP()) {
-			this.el = this.size[this.el as keyof typeof this.size];
-		} else if (this.fractionP()) {
-			this.el = this.fractionPourcentageGenerator(this.el as `${string}/${string}`);
-		} else if (this.insideBraketP()) {
-			const match = this.el.match(this.regex.Braket) as RegExpMatchArray;
-			const groups = matchFromRegex<string>(match, "insideBrakets");
-			this.el = this.valideinsideBraket(groups) ? groups : "error-insid-brakets";
-		} else {
-			this.el = "error size";
+		try {
+			if (this.NumberP()) {
+				this.el = this.convertToRem(this.EachElement);
+			} else if (this.IncludesP()) {
+				this.el = this.size[this.el as keyof typeof this.size];
+			} else if (this.fractionP()) {
+				this.el = this.fractionPourcentageGenerator(this.el as `${string}/${string}`);
+			} else if (this.insideBraketP()) {
+				const match = this.el.match(this.regex.Braket) as RegExpMatchArray;
+				const groups = matchFromRegex<string>(match, "insideBrakets");
+				this.el = this.valideinsideBraket(groups) ? groups : "error-insid-brakets";
+			} else {
+				this.el = "error size";
+			}
+		} catch (error) {
+			console.error(error);
 		}
+
 	}
 }
 

@@ -1,5 +1,6 @@
 import { split } from "string-ts";
 import { eliminerUndefined } from "../utils";
+import { deprecate } from "util";
 
 /**
  * @classdesc Take allUnits groups from regex and make an array from it
@@ -22,7 +23,9 @@ class AllUnitsHandler {
 		this.duplicate = duplicate;
 		this.sizeLimite = sizeLimite;
 	}
-
+	/**
+	 * @deprecated
+	 */
 	get groups(): string {
 		const s = this.match?.groups?.allUnits;
 		eliminerUndefined<string>(s, "undefined in class AllUnitsHandler");
@@ -46,7 +49,9 @@ class AllUnitsHandler {
 	checkLimiteSize(array: unknown[]): asserts array is string[] {
 		if (array.length > this.sizeLimite) console.error("You gave too much arguments !");
 	}
-
+	/**
+	 * @deprecated
+	 */
 	get splitedArray(): string[] {
 		const splitt = split(this.#tempString, "-");
 		this.checkLimiteSize(splitt);
@@ -56,10 +61,11 @@ class AllUnitsHandler {
 		return this.duplicate === true ? [...new Set(x)] : x;
 	}
 
-	get returnArray(): string[] {
-		this.groups;
-		return this.splitedArray;
-	}
+
+	// get returnArray(): string[] {
+	// 	this.groups;
+	// 	return this.splitedArray;
+	// }
 	get returnArray2(): string[] {
 		this.checkLimiteSize(this.execRegex)
 		return this.removeDuplicateOptional(this.execRegex) 

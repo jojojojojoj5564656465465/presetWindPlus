@@ -1,6 +1,6 @@
 ## Features
 
-We like the tailwindcss syntax, but it's often too long to read. Today, with unocss and this preset, you can reduce tailwindcss syntax by 30% and improve code readability.
+We like the tailwindcss syntax, but it's often too long to read. Today, with unocss and this preset, you can reduce tailwind syntax by 30% and improve code readability.
 You need [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind) and this preset to work
 ![Reduce 30% tailwind syntax](https://github.com/jojojojojoj5564656465465/unocss-preset-starter/assets/45184918/efb0180e-38f5-4360-89f5-92b646995de1)
 
@@ -59,6 +59,7 @@ export default defineConfig({
 | inset-x-[6%]-[9vw]            | inset-inline: 6% 9vw                           |
 | inset-y-6-9                   | inset-block: 1.5rem 2.25rem                    |
 | m-5-6-9-10                    |                                                |
+| inset-6-9-10                  |  inset : 6 9 10;                               |
 | p-6-4-8-201                   | pt-6 pr-4 pb-8 pl-201 or py-6-8 px-4-201       |
 | p-[6%]-[4rem]-[8vw]-[201%]    | pt-6% pr-4rem pb-8vw pl-201%                   |
 | p-6-4                         | py-6 px-4                                      |

@@ -58,7 +58,7 @@ const presetWindPlus = definePreset(() => {
 			[
 				/^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 				(match) => {
-					const direction = matchFromRegex<"p" | "m" |"inset">(match, "direction");
+					const direction = matchFromRegex<"p" | "m" | "inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					const combination = {
@@ -122,7 +122,7 @@ const presetWindPlus = definePreset(() => {
 						x: "column-gap",
 						y: "row-gap",
 					} as const satisfies Record<"x" | "y", string>;
-		
+
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					return { [returnDirection]: array.join(" ") };
@@ -131,17 +131,19 @@ const presetWindPlus = definePreset(() => {
 			],
 
 			[
-				/^size-([[|\]|\w]+)-?([[|\]|\w]+)?$/,
-				(match_allUnits): Record<"block-size" | "inline-size", string>[] => {
+				/^size-(\[?\w+\]?)-?(\[?\w+\]?)?$/,
+				(match_allUnits) => {
 					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
 					const array: string[] = convertUnitFromArray(classMatch.returnArray2);
-					
-					return [
-						{
-							"block-size": array[0] as string,
-							"inline-size": array[1] ?? (array[0] as string),
-						},
-					];
+					if (array[0] !== undefined) {
+						return [
+							{
+								"block-size": array[0],
+								"inline-size": array[1] ?? (array[0]),
+							},
+						];
+					}
+					console.error("size allUnits are undefined");
 				},
 				{ autocomplete: "size-<num>-<num>" },
 			],

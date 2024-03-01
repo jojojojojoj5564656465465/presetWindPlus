@@ -3,6 +3,7 @@ type Category = "col" | "row" | "grid" | "font" | "text" | "bg" | "border" | "st
 type currentElement<T extends number> = T extends 0 ? "" : string;
 type Size = "full" | "screen" | "min" | "max" | "fit" | "fill" | "auto" | "dvw" | "svw" | "lvw"|"px";
 type TempMapType<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Set<Regex> : Set<string>;
+type TempMap<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Regex : string;
 type Before =
 	| "hover"
 	| "focus"

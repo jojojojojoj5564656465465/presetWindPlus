@@ -31,12 +31,23 @@ export class IfRegex {
 		return this.regex.isRegexTest.test(input);
 	}
 
-	checkIfRegexAndSendToMAP(x: Regex | string): void {
+	aacheckIfRegexAndSendToMAP(x: Regex | string): void {
 		function sendToMap(name: "isRegex" | "noRegex", x: string) {
 			eliminerUndefined<Set<string>>(TempMap.get(name));
 			return TempMap.get(name)?.add(x);
 		}
 		this.PredicatRegex(x) ? sendToMap("isRegex", x) : sendToMap("noRegex", x);
+	}
+	checkIfRegexAndSendToMAP(x:string): void {
+
+		function sendToMap<T extends "isRegex" | "noRegex", K extends TempMap<T>>(name: T, x: K) {
+			return TempMap.get(name)?.add(x);
+		}
+		if (this.PredicatRegex(x)) {
+			sendToMap("isRegex", x);
+		} else {
+			sendToMap("noRegex", x);
+		}
 	}
 
 	/**
@@ -45,7 +56,10 @@ export class IfRegex {
 	 * @returns
 	 */
 	static mapGet<T extends "isRegex" | "noRegex">(params: T) {
-		const result = TempMap.has(params) && TempMap.get(params);
+		const result = TempMap.get(params)
+		if (!TempMap.has(params)){
+			throw new Error(`${params} is missing"`);	
+		}	
 		eliminerUndefined<TempMapType<T>>(result, "mapGet() is undefined");
 		return result;
 	}

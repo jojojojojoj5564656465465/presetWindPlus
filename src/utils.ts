@@ -40,11 +40,15 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
  */
 export function convertUnitFromArray(array: string[]): string[] {
 	for (let index = 0; index < array.length; index++) {
-		const e = array[index];
-		eliminerUndefined<string>(e, "array is undefined");
-		const element = new UnitArray(e);
-		element.numberRemOrString();
-		array.splice(index, 1, element.el);
+		try {
+			const e = array[index];
+			if (e === undefined) throw new Error("array e is undefined");
+			const element = new UnitArray(e);
+			element.numberRemOrString();
+			array.splice(index, 1, element.el);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 	return array.filter(Boolean);
 }
@@ -68,11 +72,19 @@ export function eliminerUndefined<T>(input: unknown, msg?: string): asserts inpu
  */
 export function matchFromRegex<T>(match: RegExpMatchArray, x: string) {
 	const result = match.groups?.[x];
-	if (result === undefined) console.error("no match in regex", x);
+	if (result===undefined) {
+		throw new Error("the groups you provide is undefined in the Regex matchFromRegex");
+	}
 	removeDirectionInArray(match)
 	return result as T;
+
+
 }
 
-function removeDirectionInArray(array: RegExpMatchArray):void {
+/**
+ * @description remove direction in array match A
+ * @param {RegExpMatchArray} array come from Match
+ */
+function removeDirectionInArray(array: RegExpMatchArray): void {
 	array.splice(1, 1)
 }

@@ -1,6 +1,6 @@
 import { includes, join, split, toLowerCase, trim } from "string-ts";
 import { eliminerUndefined } from "../utils";
-
+import { IfRegex } from "../Class/ifRegex";
 /**
  * @description join Set to make a string used at end of script
  * @param {Set<string>} 'list of Set of class
@@ -123,7 +123,7 @@ export const finalStringProcess = {
 	 * @returns {any}
 	 */
 	makeArrayFromTempMapNoRegex(): string[][] {
-		return Array.from(TempMap.get("noRegex") ?? [], (x) => split(x, ":").filter(Boolean));
+		return Array.from(IfRegex.mapGet("noRegex"), (x) => split(x, ":").filter(Boolean));
 	},
 	AddCatergoryToArray(array: string[][], category: Category): string[][] {
 		for (const subArray of array) subArray.splice(subArray.length - 1, 0, category);

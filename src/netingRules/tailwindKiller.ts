@@ -1,7 +1,7 @@
 // import { join, replace, split } from "string-ts";
 import { IfRegex } from "../Class/ifRegex";
 import { finalStringProcess, moveToSetIfNoRegex, splitString } from "./utils";
-
+import TempMapClass from "../Class/TempMap";
 
 /**
  *

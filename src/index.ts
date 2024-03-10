@@ -4,7 +4,6 @@ import { convertUnitFromArray, eliminerUndefined, matchFromRegex, removeDuplicat
 
 import AllUnitsHandler from "./Class/AllUnits";
 import UnitArray from "./Class/Units";
-import tailwindKiller from "./netingRules/tailwindKiller";
 import tailwindKiller2 from "./netingRules/tailwindKiller2";
 const presetWindPlus = definePreset(() => {
 	return {

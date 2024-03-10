@@ -55,12 +55,11 @@ export class IfRegex {
 		 * @returns
 		 * @deprecated
 		 */
-		static mapGet<T extends "isRegex" | "noRegex">(params: T): TempMapType<T> {
+		static mapGet<T extends "isRegex" | "noRegex">(params: T) {
 			const result = TempMap.get(params);
 			if (!TempMap.has(params)) {
 				throw new Error(`${params} is missing"`);
 			}
-			eliminerUndefined<TempMapType<T>>(result, "mapGet() is undefined");
 			return result;
 		}
 
@@ -87,7 +86,7 @@ export class IfRegex {
 
 			return returnSet;
 		}
-
+/*
 		forloop(): void {
 			const set: Set<string> = splitString(this._texte);
 
@@ -99,5 +98,5 @@ export class IfRegex {
 
 				this._texte &&= IfRegex.mapGet("noRegex");
 			}
-		}
+		}*/
 	}

@@ -59,9 +59,9 @@ export function convertUnitFromArray(array: string[]): string[] {
  * @param msg error message in case there is undefined
  */
 export function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
-	if (input === undefined) console.error(msg ?? "Value is undefined");
+	if (input === undefined) console.error(msg ?? "Value is undefined 🫎🫎");
 
-	if (input === null) console.error(msg ?? "Value is null");
+	if (input === null) console.error(msg ?? "Value is null 🫎🫎");
 }
 
 /**

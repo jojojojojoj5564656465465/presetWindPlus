@@ -5,6 +5,7 @@ import { convertUnitFromArray, eliminerUndefined, matchFromRegex, removeDuplicat
 import AllUnitsHandler from "./Class/AllUnits";
 import UnitArray from "./Class/Units";
 import tailwindKiller from "./netingRules/tailwindKiller";
+import tailwindKiller2 from "./netingRules/tailwindKiller2";
 const presetWindPlus = definePreset(() => {
 	return {
 		name: "presetWindPlus",
@@ -192,10 +193,10 @@ const presetWindPlus = definePreset(() => {
 		shortcuts: [
 			[
 				/^(?<category>col|row|grid|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>.*)\]/,
-				(match): string => {
+				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");
-					return tailwindKiller(category, stringElement);
+					return tailwindKiller2(category, stringElement);
 				},
 			],
 		],

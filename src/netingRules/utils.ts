@@ -1,6 +1,7 @@
 import { includes, join, split, toLowerCase, trim } from "string-ts";
 import { eliminerUndefined } from "../utils";
 import { IfRegex } from "../Class/ifRegex";
+import TempMapClass from "../Class/TempMap";
 /**
  * @description join Set to make a string used at end of script
  * @param {Set<string>} 'list of Set of class
@@ -59,7 +60,7 @@ export function splitInsideBrakets(x: string) {
  * @returns {Set<string>}
  */
 export function splitString(arg_splitString: string | undefined): Set<string> {
-	eliminerUndefined<string>(arg_splitString, "splitString is undefined");
+	eliminerUndefined<string>(arg_splitString, `🫎🫎 splitString eliminerUndefined function is ${arg_splitString} ET N EXISTE PAS `);
 	const removeSpaceInString = (string: string): string => {
 		return trim(string)
 			.replace(/,+/g, " ")
@@ -69,7 +70,6 @@ export function splitString(arg_splitString: string | undefined): Set<string> {
 
 	const result = new Set<string>();
 	let currentElement: currentElement<typeof countBrackets> = "";
-
 	for (const char of removeSpaceInString(arg_splitString)) {
 		if (char === "[") countBrackets++;
 		else if (char === "]") countBrackets--;
@@ -82,7 +82,6 @@ export function splitString(arg_splitString: string | undefined): Set<string> {
 		}
 	}
 	if (trim(currentElement) !== "") result.add(trim(toLowerCase(currentElement)));
-
 	return result;
 }
 
@@ -122,8 +121,8 @@ export const finalStringProcess = {
 	 * @returns [ "lg", "hover", "first", "orange" ]
 	 * @returns {any}
 	 */
-	makeArrayFromTempMapNoRegex(): string[][] {
-		return Array.from(IfRegex.mapGet("noRegex"), (x) => split(x, ":").filter(Boolean));
+	makeArrayFromTempMapNoRegex(setOfNoRegex: Set<string>): string[][] {
+		return Array.from(setOfNoRegex, (x) => split(x, ":").filter(Boolean));
 	},
 	AddCatergoryToArray(array: string[][], category: Category): string[][] {
 		for (const subArray of array) subArray.splice(subArray.length - 1, 0, category);

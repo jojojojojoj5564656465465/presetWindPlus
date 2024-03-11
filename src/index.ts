@@ -191,7 +191,7 @@ const presetWindPlus = definePreset(() => {
 		],
 		shortcuts: [
 			[
-				/^(?<category>col|row|grid|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>.*)\]/,
+				/^(?<category>col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>.*)\]/,
 				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");

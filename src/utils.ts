@@ -28,7 +28,7 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 
 			break;
 		default:
-			console.error("ARRAY IS TOO SHORT MUST BE AN ERROR");
+			console.error("ARRAY IS TOO SHORT MUST BE AN ERROR",array.length);
 	}
 	return array;
 }

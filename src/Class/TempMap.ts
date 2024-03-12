@@ -70,7 +70,7 @@ export default class TempMapClass {
 	 * @returns send to the right TempMap if it's a regex or not
 	 * @description use predicate to know if it's a regex or not
 	 */
-	sendToRegexOrNoRegex():void {
+	sendToRegexOrNoRegex(): void {
 		const x: Set<string | Regex> = this.Initial ?? this._IsRegex;
 
 		for (const iterator of x) {

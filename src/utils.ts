@@ -28,7 +28,7 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 
 			break;
 		default:
-			console.error("ARRAY IS TOO SHORT MUST BE AN ERROR",array.length);
+			console.error("ARRAY IS TOO SHORT MUST BE AN ERROR", array.length);
 	}
 	return array;
 }
@@ -72,13 +72,11 @@ export function eliminerUndefined<T>(input: unknown, msg?: string): asserts inpu
  */
 export function matchFromRegex<T>(match: RegExpMatchArray, x: string) {
 	const result = match.groups?.[x];
-	if (result===undefined) {
+	if (result === undefined) {
 		throw new Error("the groups you provide is undefined in the Regex matchFromRegex");
 	}
-	removeDirectionInArray(match)
+	removeDirectionInArray(match);
 	return result as T;
-
-
 }
 
 /**
@@ -86,5 +84,5 @@ export function matchFromRegex<T>(match: RegExpMatchArray, x: string) {
  * @param {RegExpMatchArray} array come from Match
  */
 function removeDirectionInArray(array: RegExpMatchArray): void {
-	array.splice(1, 1)
+	array.splice(1, 1);
 }

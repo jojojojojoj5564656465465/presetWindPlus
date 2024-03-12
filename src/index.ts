@@ -64,7 +64,7 @@ const presetWindPlus = definePreset(() => {
 					const combination = {
 						p: "padding",
 						m: "margin",
-						inset: "inset"
+						inset: "inset",
 					} as const satisfies Record<typeof direction, string>;
 					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
 					const arrayWithoutDuplicate = removeDuplicateArrayPaddingOrMargin(array);
@@ -73,7 +73,7 @@ const presetWindPlus = definePreset(() => {
 				{ autocomplete: "(p|m|inset)-<num>-<num>-<num>-<num>" },
 			],
 			[
-				/(?<direction>^(?:p|m)(?:x|y)|gap)-([[|\]|\w]+)-?([[|\]|\w]+)?$/,
+				/(?<direction>^(?:p|m)(?:x|y)|gap)-(\[?\w+%?\]?)-?(\[?\w+%?\]?)?$/,
 				(match) => {
 					const combination = {
 						px: "padding-inline",
@@ -114,7 +114,7 @@ const presetWindPlus = definePreset(() => {
 			],
 			[
 				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
-				new RegExp("^gap-(?<direction>x|y)-([[|\\]|\\w]+)$"),
+				new RegExp("^gap-(?<direction>x|y)-([\\[?\\w%\\]?]+)$"),
 				(match) => {
 					const direction = matchFromRegex<"x" | "y">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 1, true);
@@ -139,7 +139,7 @@ const presetWindPlus = definePreset(() => {
 						return [
 							{
 								"block-size": array[0],
-								"inline-size": array[1] ?? (array[0]),
+								"inline-size": array[1] ?? array[0],
 							},
 						];
 					}
@@ -191,7 +191,7 @@ const presetWindPlus = definePreset(() => {
 		],
 		shortcuts: [
 			[
-				/^(?<category>col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[@\-\w:,[\]]+)\]/,
+				/^(?<category>col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[/!@\-\w:,[\]]+)\]/,
 				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");

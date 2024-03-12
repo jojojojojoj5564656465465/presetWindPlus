@@ -1,7 +1,5 @@
 import { includes, join, split, toLowerCase, trim } from "string-ts";
 import { eliminerUndefined } from "../utils";
-import { IfRegex } from "../Class/ifRegex";
-import TempMapClass from "../Class/TempMap";
 /**
  * @description join Set to make a string used at end of script
  * @param {Set<string>} 'list of Set of class
@@ -53,7 +51,6 @@ export function splitInsideBrakets(x: string) {
 
 	console.error("error in Syntax ':[]' is missing OR '('  ')' IS NOT ALLOWED \n no dynamic values please \n\n ");
 }
-
 /**
  * Description first function to use to split by (,)
  * @param {string} arg_splitString
@@ -93,14 +90,7 @@ export function splitString(arg_splitString: string | undefined): Set<string> {
 export function removeDuplicates(array: (string | Before)[]): string[] {
 	return [...new Set(array)];
 }
-/*
-export const regex: Record<string, RegExp> = {
-	isRegexTest: /:\[/,
-	// nestedBrackets: new RegExp("(\\w+):\\[(.+?)\\]|(\\w+)?:?(\\w+):\\[(.+?)\\]"),
-	// beforeCapture: new RegExp("(?<before>.*):\\[(?<cssInside>.*)\\]"),
-	// dynamicUnitBracks: new RegExp("(?<!:)\\[(?<cssDynamicUnit>\\d+[a-z]+)\\]"),
-};
-*/
+
 /**
  * @description temporary map to store regex and no regex
  */
@@ -148,12 +138,17 @@ export const finalStringProcess = {
  * @param x : string
  * @returns send to the right TempMap if it's a regex or not
  * @description use predicate to know if it's a regex or not
+ * @deprecated
  */
 export function moveToSetIfNoRegex(x: string): void {
 	if (x.includes("[")) TempMap.get("isRegex")?.add(x);
 	else TempMap.get("noRegex")?.add(x);
 }
-
+/**
+ * 
+ * @deprecated
+ * @returns 
+ */
 function isRegexP(input: unknown): input is Regex {
 	const isRegexTest = /:\[/;
 	eliminerUndefined<string>(input, "input is undefined");

@@ -156,7 +156,7 @@ https://github.com/jojojojojoj5564656465465/unocss-preset-starter/assets/4518491
   <div class="col-[end-3,span-2] bg-red grid-area-two">02</div>
   <div class="size-9-7">03</div>
   <div class="size-[9%]-[7rem] m-[7%]-[5rem]-screen-auto">09</div>
-  <div class="mx-8rem-4 mx-auto mx-10-5 py-[88px]-88">03</div>
+  <div class="mx-8rem-4 mx-auto mx-10-5 py-[88px]-88 px-px">03</div>
   <div class="inset-x-5-9 inset-y-[50%]-[9rem] bg-[red,lg:[hover:green-100,green-600],md:pink]">03</div>
 </div>
 

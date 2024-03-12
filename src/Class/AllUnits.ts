@@ -1,6 +1,6 @@
+
 import { split } from "string-ts";
 import { eliminerUndefined } from "../utils";
-import { deprecate } from "util";
 
 /**
  * @classdesc Take allUnits groups from regex and make an array from it
@@ -62,15 +62,10 @@ class AllUnitsHandler {
 	}
 
 
-	// get returnArray(): string[] {
-	// 	this.groups;
-	// 	return this.splitedArray;
-	// }
 	get returnArray2(): string[] {
-		this.checkLimiteSize(this.execRegex)
-		return this.removeDuplicateOptional(this.execRegex) 
+		this.checkLimiteSize(this.execRegex);
+		return this.removeDuplicateOptional(this.execRegex);
 	}
-
 }
 
 export default AllUnitsHandler;

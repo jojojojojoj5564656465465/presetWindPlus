@@ -58,7 +58,7 @@ class UnitArray extends Fonction {
 		dvw: "100dvw",
 		svw: "100svw",
 		lvw: "100lvw",
-		px: "1px"
+		px: "1px",
 	} as const satisfies Record<Size, string>;
 
 	NumberP(x = this.el): x is `${number}` {
@@ -116,7 +116,6 @@ class UnitArray extends Fonction {
 		} catch (error) {
 			console.error(error);
 		}
-
 	}
 }
 

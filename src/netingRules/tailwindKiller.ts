@@ -1,7 +1,7 @@
-//import TempMapClass from "../Class/TempMap";
+import TempMapClass from "../Class/TempMap";
 // import { join, replace, split } from "string-ts";
 //import { IfRegex } from "../Class/ifRegex";
-//import { finalStringProcess, moveToSetIfNoRegex, splitString } from "./utils";
+import { BuildTailwindKiller, splitString } from "./utils";
 
 /**
  *
@@ -11,14 +11,18 @@
  */
 function tailwindKiller(category: Category, x: string) {
 	const splitFromString: Set<string> = splitString(x); /// good
-	for (const iterator of splitFromString) moveToSetIfNoRegex(iterator);
+	const T = new TempMapClass(splitFromString);
 
-	for (const iterator of IfRegex.mapGet("isRegex")) {
-		const element = new IfRegex(iterator);
-		element.forloop();
+	try {
+		T.sendToRegexOrNoRegex();
+		while (T.SizeIsZero) {
+			T.IfRegex2;
+			T.sendToRegexOrNoRegex();
+		}
+		const merge = new BuildTailwindKiller(category, T._noRegex);
+		return merge.build;
+	} catch (error) {
+		console.error("💔💔💔💔", error);
 	}
-	// const ArrayReadyToModify = finalStringProcess.makeArrayFromTempMapNoRegex();
-	// const AddCategory = finalStringProcess.AddCatergoryToArray(ArrayReadyToModify, category);
-	// return finalStringProcess.makeFinalStringWithCategory(AddCategory);
 }
-//export default tailwindKiller;
+export default tailwindKiller;

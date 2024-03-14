@@ -70,7 +70,7 @@ export function eliminerUndefined<T>(input: unknown, msg?: string): asserts inpu
  * @param x which group are you looking for
  * @returns string without undefined
  */
-export function matchFromRegex<T>(match: RegExpMatchArray, x: string) {
+export function matchFromRegex<T = string>(match: RegExpMatchArray, x: string) {
 	const result = match.groups?.[x];
 	if (result === undefined) {
 		throw new Error("the groups you provide is undefined in the Regex matchFromRegex");

@@ -1,4 +1,3 @@
-
 import { split } from "string-ts";
 import { eliminerUndefined } from "../utils";
 
@@ -61,10 +60,13 @@ class AllUnitsHandler {
 		return this.duplicate === true ? [...new Set(x)] : x;
 	}
 
-
 	get returnArray2(): string[] {
-		this.checkLimiteSize(this.execRegex);
-		return this.removeDuplicateOptional(this.execRegex);
+		try {
+			this.checkLimiteSize(this.execRegex);
+			return this.removeDuplicateOptional(this.execRegex);
+		} catch (error) {
+			throw new Error("error in AllUnitsHandler returnArray2");
+		}
 	}
 }
 

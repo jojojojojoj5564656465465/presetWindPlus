@@ -1,8 +1,5 @@
 import { splitString } from "../netingRules/utils";
-//import { eliminerUndefined } from "../utils";
 
-// type Regex = `${string}:[${string}]`;
-// type TempMapType<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Set<Regex> : Set<string>;
 export default class TempMapClass {
 	Initial: Set<string> | null;
 	IsRegex: Set<Regex>;
@@ -105,7 +102,8 @@ export default class TempMapClass {
 	}
 
 	/**
-	 * il prend ce qui est regex
+	 *
+	 * @param x
 	 */
 	sendBackTo3(x: Map<string, Set<string>>) {
 		const TempSet = new Set<string>();

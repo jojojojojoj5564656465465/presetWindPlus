@@ -4,7 +4,7 @@ import { convertUnitFromArray, eliminerUndefined, matchFromRegex, removeDuplicat
 
 import AllUnitsHandler from "./Class/AllUnits";
 import UnitArray from "./Class/Units";
-import tailwindKiller2 from "./netingRules/tailwindKiller2";
+import tailwindKiller2 from "./netingRules/tailwindKiller";
 const presetWindPlus = definePreset(() => {
 	return {
 		name: "presetWindPlus",
@@ -114,7 +114,7 @@ const presetWindPlus = definePreset(() => {
 			],
 			[
 				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
-				new RegExp("^gap-(?<direction>x|y)-([\\[?\\w%\\]?]+)$"),
+				new RegExp("^gap-(?<direction>x|y)-([\\[?\\w%?\\]?]+)$"),
 				(match) => {
 					const direction = matchFromRegex<"x" | "y">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 1, true);
@@ -131,7 +131,7 @@ const presetWindPlus = definePreset(() => {
 			],
 
 			[
-				/^size-(\[?\w+\]?)-?(\[?\w+\]?)?$/,
+				/^size-(\[?\w+%?\]?)-?(\[?\w+%?\]?)?$/,
 				(match_allUnits) => {
 					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
 					const array: string[] = convertUnitFromArray(classMatch.returnArray2);
@@ -195,7 +195,7 @@ const presetWindPlus = definePreset(() => {
 				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");
-					return tailwindKiller2(category, stringElement);
+					return tailwindKiller(category, stringElement);
 				},
 			],
 		],

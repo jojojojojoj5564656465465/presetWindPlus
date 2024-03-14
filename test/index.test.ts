@@ -1,10 +1,10 @@
-import { createGenerator, presetWind } from "unocss";
+import { createGenerator } from "unocss";
 import { expect, it } from 'vitest'
 import presetWindPlus from '../src'
 
 it('presetWindPlus', async () => {
   const uno = createGenerator({
-			presets: [presetWind()],
+			presets: [presetWindPlus()],
 		});
   const presets = uno.config.presets
   expect(presets).toHaveLength(1)

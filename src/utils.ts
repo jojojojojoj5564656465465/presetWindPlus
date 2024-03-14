@@ -27,8 +27,6 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 			if (new Set(array).size === 1) array.splice(1, 3);
 
 			break;
-		default:
-			console.error("ARRAY IS TOO SHORT MUST BE AN ERROR", array.length);
 	}
 	return array;
 }
@@ -42,7 +40,7 @@ export function convertUnitFromArray(array: string[]): string[] {
 	for (let index = 0; index < array.length; index++) {
 		try {
 			const e = array[index];
-			if (e === undefined) throw new Error("array e is undefined");
+			if (e === undefined) throw new Error("array convertUnitFromArray is undefined");
 			const element = new UnitArray(e);
 			element.numberRemOrString();
 			array.splice(index, 1, element.el);

@@ -29,9 +29,10 @@ const presetWindPlus = definePreset(() => {
 				{ autocomplete: "flex|<num>|<num>|(<num>|auto)" },
 			],
 			[
-				/^flex-(row|col)-([1-9])$/,
+				/^flex-(?<direction>row|col)-(?<num>[1-9])$/,
 				(match) => {
-					const [_, direction, flexNumber] = match as [unknown, "row" | "col", IntRange<1, 10>];
+					const direction = matchFromRegex<"row" | "col">(match, "direction");
+					const flexNumber = matchFromRegex(match, "num") as IntRange<1, 10>;
 					type PositionProps = Readonly<"start" | "center" | "end">;
 					const positions = {
 						1: ["start", "start"],

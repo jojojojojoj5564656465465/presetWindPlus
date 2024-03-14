@@ -123,7 +123,7 @@ export class BuildTailwindKiller {
 	}
 
 	private makeFinalStringWithCategory(array: string[][]): string {
-		const results = new Set<string>(); 
+		const results = new Set<string>();
 		for (const subArray of array) {
 			const before: string[] = subArray.slice(0, subArray.length - 2);
 			const catAndCSS: string[] = subArray.slice(-2);
@@ -133,7 +133,7 @@ export class BuildTailwindKiller {
 		}
 		return Array.from(results).join(" ");
 	}
-	get build() {
+	get build(): string {
 		const ArrayReadyToModify = this.makeArrayFromTempMapNoRegex();
 		const AddCategory = this.AddCatergoryToArray(ArrayReadyToModify);
 		return this.makeFinalStringWithCategory(AddCategory);

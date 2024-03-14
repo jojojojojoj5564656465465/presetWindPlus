@@ -19,8 +19,8 @@ function tailwindKiller(category: Category, x: string) {
 			T.IfRegex2;
 			T.sendToRegexOrNoRegex();
 		}
-		const merge = new BuildTailwindKiller(category, T._noRegex);
-		return merge.build;
+		const B = new BuildTailwindKiller(category, T._noRegex);
+		return B.build;
 	} catch (error) {
 		console.error("💔💔💔💔", error);
 	}

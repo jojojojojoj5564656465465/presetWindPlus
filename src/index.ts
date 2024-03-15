@@ -55,13 +55,13 @@ const presetWindPlus = definePreset(() => {
 				},
 				{ autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
 			],
-			[
-				/^(?<direction>p|m|inset)-(\[\w+%?\]|\d|\[\d\/\d\])-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?$/g,
+			[	/^(?<direction>p|m|inset)-(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})-?(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})?-?(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})?-?(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})?$/g,
+				
 				(match) => {
-					// old /^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 					const direction = matchFromRegex<"p" | "m" | "inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
+					// /^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 					const combination = {
 						p: "padding",
 						m: "margin",

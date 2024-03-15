@@ -25,3 +25,7 @@ it("presetWindPlus", async () => {
 
 // /^(?<direction>p|m|inset)-(\[\w+%?\]|\d|\[\d\/\d\])-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?$/g;
 //  /^(?<direction>p|m|inset)-(\[\w+%?\]|\d|\[\d\/\d\])-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?$/g
+
+
+
+/// cest la nouvelle version apres le bug  /^(?<direction>p|m|inset)-(\[\d+(?:[a-z]+|%)\]|\d+|[a-z]+|\d*\/*\d*)/mg

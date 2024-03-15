@@ -55,8 +55,8 @@ const presetWindPlus = definePreset(() => {
 				},
 				{ autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
 			],
-			[	/^(?<direction>p|m|inset)-(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})-?(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})?-?(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})?-?(\[\d+(?:[a-z]+|%)\]|\d\/\d|[a-z]+|\d{1,3})?$/g,
-				
+			[
+				/^(?<direction>p|m|inset)-(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?$/,
 				(match) => {
 					const direction = matchFromRegex<"p" | "m" | "inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);

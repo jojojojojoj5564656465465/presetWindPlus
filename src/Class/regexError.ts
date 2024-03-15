@@ -7,5 +7,6 @@ export class RegexError extends Error {
 		this.regex = regex;
 		this.match = input.match(this.regex);
 		this.name = "RegexError";
+		this.stack=""
 	}
 }

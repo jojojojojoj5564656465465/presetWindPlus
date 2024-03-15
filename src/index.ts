@@ -131,7 +131,7 @@ const presetWindPlus = definePreset(() => {
 			],
 
 			[
-				/^size-(\[?\w+%?\]?)-?(\[?\w+%?\]?)?$/,
+				/^size-((?:\[\d+\w*%?\]|\d+\/?\.?\d?|[a-z]+))-?((?:\[\d+\w*%?\]|\d+\/?\.?\d?|[a-z]+))?$/,
 				(match_allUnits) => {
 					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
 					const array: string[] = convertUnitFromArray(classMatch.returnArray2);

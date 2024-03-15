@@ -65,43 +65,7 @@ export function removeDuplicates(array: (string | Before)[]): string[] {
 	return [...new Set(array)];
 }
 
-/**
- * ancien object a supprimer pour
- * faire une class a ala place
- * @argument je sais pas
- *
- *
- */
-const finalStringProcess = {
-	/**
-	 * OBJECTIF : Generer des arrays que je vais pouvoir manipuler pour ajouter la categorie en avant dernier
-	 * @returns [ "lg", "hover", "first", "orange" ]
-	 * @returns {any}
-	 */
-	makeArrayFromTempMapNoRegex(setOfNoRegex: Set<string>): string[][] {
-		return Array.from(setOfNoRegex, (x) => split(x, ":").filter(Boolean));
-	},
-	AddCatergoryToArray(array: string[][], category: Category): string[][] {
-		for (const subArray of array) subArray.splice(subArray.length - 1, 0, category);
 
-		return array;
-	},
-	makeFinalStringWithCategory(array: string[][]): string {
-		const temp = new Set<string>();
-
-		for (const subArray of array) {
-			const before: string[] = subArray.slice(0, subArray.length - 2);
-			const catAndCSS: string[] = subArray.slice(-2);
-
-			const result = before.length > 0 ? `${before.join(":")}:${catAndCSS.join("-")}` : catAndCSS.join("-");
-			temp.add(result);
-		}
-		return Array.from(temp).join(" ");
-	},
-	// const ArrayReadyToModify = finalStringProcess.makeArrayFromTempMapNoRegex(T._noRegex);
-	// const AddCategory = finalStringProcess.AddCatergoryToArray(ArrayReadyToModify, category);
-	// return finalStringProcess.makeFinalStringWithCategory(AddCategory);
-};
 export class BuildTailwindKiller {
 	category: Category;
 	noRegex: Set<string>;

@@ -61,7 +61,6 @@ const presetWindPlus = definePreset(() => {
 					const direction = matchFromRegex<"p" | "m" | "inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
-					// /^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 					const combination = {
 						p: "padding",
 						m: "margin",

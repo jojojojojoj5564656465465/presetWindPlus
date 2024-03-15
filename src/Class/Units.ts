@@ -56,8 +56,11 @@ class UnitArray extends Fonction {
 		fill: "fill",
 		auto: "auto",
 		dvw: "100dvw",
+		dvh: "100dvh",
 		svw: "100svw",
+		svh: "100svh",
 		lvw: "100lvw",
+		lvh: "100lvh",
 		px: "1px",
 	} as const satisfies Record<Size, string>;
 

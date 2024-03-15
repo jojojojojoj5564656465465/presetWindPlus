@@ -16,7 +16,6 @@ const presetWindPlus = definePreset(() => {
 					const [, grow = 1, shrink = 0, basis] = match as [unknown, number, number, string | "auto"];
 					if (basis) {
 						const basisClass = new UnitArray(basis);
-						//run this function to process the basis
 						basisClass.numberRemOrString();
 						return {
 							flex: `${grow} ${shrink} ${basisClass.el}`,
@@ -57,8 +56,9 @@ const presetWindPlus = definePreset(() => {
 				{ autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
 			],
 			[
-				/^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
+				/^(?<direction>p|m|inset)-(\[\w+%?\]|\d|\[\d\/\d\])-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?$/g,
 				(match) => {
+					// old /^(?<direction>p|m|inset)-([[|\]|\w]+)-?([[|\]|\w]+)?-?([[|\]|\w]+)?-?([[|\]|\w]+)?$/,
 					const direction = matchFromRegex<"p" | "m" | "inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);

@@ -71,7 +71,7 @@ export function eliminerUndefined<T>(input: unknown, msg?: string): asserts inpu
 export function matchFromRegex<T = string>(match: RegExpMatchArray, x: string) {
 	const result = match.groups?.[x];
 	if (result === undefined) {
-		throw new Error("the groups you provide is undefined in the Regex matchFromRegex");
+		throw new Error("the groups you provide is undefined in the Regex matchFromRegex", { cause: result });
 	}
 	removeDirectionInArray(match);
 	return result as T;

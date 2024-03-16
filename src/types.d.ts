@@ -140,12 +140,6 @@ type IsRegex2<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]`
 	  }
 	: never;
 
-interface ReturnFlex {
-	display: "flex";
-	"flex-direction": "row" | "column";
-	"justify-content": "start" | "center" | "end";
-	"align-items": "start" | "center" | "end";
-}
 type UnionValueDictionary<T extends Record<string, string>> = T[keyof T];
 
 /**

@@ -18,14 +18,3 @@ it("presetWindPlus", async () => {
     .hover\\:px-9:hover{padding-left:2.25rem;padding-right:2.25rem;}"
   `);
 });
-//    /^(?<direction>p|m|inset)-(\[\w+%?\]|\d+|\[\d*\/\d*\])\B-?/
-
-//    ^(?<direction>p|m|inset)-((\[\w+.*%?\]|\d*(?!\w)|\[\d*\/\d*\]))-?((\[\w+.*%?\]|\d*(?!\w)|\[\d*\/\d*\]))?-?(\[\w+.*%?\]|\d*(?!\w)|\[\d*\/\d*\])?-?(\[\w+.*%?\]|\d*(?!\w)|\[\d*\/\d*\])?$
-//    ^(?<direction>p|m|inset)-(\[\w+\]|\d|\[\d\/\d\])-?(\[\w+\]|\d|\[\d\/\d\])?-?(\[\w+\]|\d|\[\d\/\d\])?-?(\[\w+\]|\d|\[\d\/\d\])?$
-
-// /^(?<direction>p|m|inset)-(\[\w+%?\]|\d|\[\d\/\d\])-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?$/g;
-//  /^(?<direction>p|m|inset)-(\[\w+%?\]|\d|\[\d\/\d\])-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?-?(\[\w+%?\]|\d|\[\d\/\d\])?$/g
-
-
-
-/// cest la nouvelle version apres le bug  /^(?<direction>p|m|inset)-(\[\d+(?:[a-z]+|%)\]|\d+|[a-z]+|\d*\/*\d*)/mg

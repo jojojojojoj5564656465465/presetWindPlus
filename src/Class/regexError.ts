@@ -5,7 +5,7 @@ export class RegexError extends Error {
 	constructor(parameters: string, regex: RegExp, input: string) {
 		super(parameters);
 		this.regex = regex;
-		this.input = input
+		this.input = input;
 		this.name = "RegexError";
 		this.cause = "The regex is not satisfied";
 	}

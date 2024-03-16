@@ -1,8 +1,7 @@
 type regexArray = RegExpMatchArray | null;
-type Category = "col" | "row" | "grid" | "font" | "text" | "bg" | "border" | "stroke" | "outline" | "underline" | "ring" | "divide";
+type Category = "list" | "col" | "row" | "grid" | "font" | "text" | "bg" | "border" | "stroke" | "outline" | "underline" | "ring" | "divide";
 type currentElement<T extends number> = T extends 0 ? "" : string;
-type Size = "full" | "screen" | "min" | "max" | "fit" | "fill" | "auto" | "dvw" | "svw" | "lvw" | "px"|"dvh"|"svh"|"lvh"|"dvh";
-//type TempMapType<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Set<Regex> : Set<string>;
+type Size = "full" | "screen" | "min" | "max" | "fit" | "fill" | "auto" | "dvw" | "svw" | "lvw" | "px" | "dvh" | "svh" | "lvh" | "dvh";
 type TempMap<T extends "isRegex" | "noRegex"> = T extends "isRegex" ? Regex : string;
 type Before =
 	| "hover"
@@ -146,9 +145,6 @@ type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
 				: never
 			: never
 	  : never;
-
-type testObj = MakeObjBeforeCatCss<["bg", "red"]>;
-
 interface BeforeObj<T extends Before[]> {
 	BEFORE: T;
 }

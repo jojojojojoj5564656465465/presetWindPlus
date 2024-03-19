@@ -45,7 +45,7 @@ export function convertUnitFromArray(array: string[]): string[] {
 			element.numberRemOrString();
 			array.splice(index, 1, element.el);
 		} catch (error) {
-			console.error(error);
+			console.error("convertUnitFromArray error: ", error);
 		}
 	}
 	return array.filter(Boolean);

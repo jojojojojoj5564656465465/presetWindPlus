@@ -1,7 +1,7 @@
 {
   "name": "preset-wind-plus",
   "type": "module",
-  "version": "2.0.23",
+  "version": "2.0.24",
   "packageManager": "pnpm@8.7.0",
   "description": "<description>",
   "author": "unpreset <https://github.com/unpreset>",

@@ -6,3 +6,4 @@ dist
 .wireit/
 poubelle
 mytest.ts
+test/index.test.ts

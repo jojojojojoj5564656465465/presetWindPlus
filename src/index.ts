@@ -1,6 +1,6 @@
 import { definePreset } from "@unocss/core";
 
-import { convertUnitFromArray, elementFromDictionary, eliminerUndefined, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
+import { convertUnitFromArray, elementFromDictionary, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
 
 import AllUnitsHandler from "./Class/AllUnits";
 import UnitArray from "./Class/Units";

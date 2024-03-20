@@ -22,7 +22,7 @@ function tailwindKiller(category: Category, x: string) {
 		const B = new BuildTailwindKiller(category, T._noRegex);
 		return B.build;
 	} catch (error) {
-		console.error("💔💔💔💔", error);
+		console.error("💔💔💔💔tailwindKiller", error);
 	}
 }
 export default tailwindKiller;

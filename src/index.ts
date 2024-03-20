@@ -1,6 +1,6 @@
 import { definePreset } from "@unocss/core";
 
-import { convertUnitFromArray, eliminerUndefined, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
+import { convertUnitFromArray, elementFromDictionary, eliminerUndefined, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
 
 import AllUnitsHandler from "./Class/AllUnits";
 import UnitArray from "./Class/Units";
@@ -45,7 +45,7 @@ const presetWindPlus = definePreset(() => {
 						9: ["end", "end"],
 					} as const satisfies Record<typeof flexNumber, readonly [PositionProps, PositionProps]>;
 					const columORrow = direction === "row" ? "row" : "column";
-					const [justify, align] = positions[flexNumber];
+					const [justify, align] =  positions[flexNumber];
 					return {
 						display: "flex",
 						"flex-direction": columORrow,
@@ -66,7 +66,7 @@ const presetWindPlus = definePreset(() => {
 						m: "margin",
 						inset: "inset",
 					} as const satisfies Record<typeof direction, string>;
-					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
+					const returnDirection = elementFromDictionary(combination, direction);
 					const arrayWithoutDuplicate = removeDuplicateArrayPaddingOrMargin(array);
 					return { [returnDirection]: arrayWithoutDuplicate.join(" ") };
 				},
@@ -82,13 +82,10 @@ const presetWindPlus = definePreset(() => {
 						my: "margin-block",
 						gap: "gap",
 					} as const satisfies Record<string, string>;
-					//const direction = match[1] as keyof typeof combination;
 					const direction = matchFromRegex<keyof typeof combination>(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
-					eliminerUndefined(direction, "(?:p|m)(?:x|y)|gap) direction is undefined");
-					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
-
+					const returnDirection = elementFromDictionary(combination, direction);
 					return { [returnDirection]: array.join(" ") };
 				},
 				{ autocomplete: "(gap|px|py|mx|my)-<num>-<num>" },
@@ -106,7 +103,7 @@ const presetWindPlus = definePreset(() => {
 						y: "inset-block",
 					} as const satisfies Record<"x" | "y", string>;
 
-					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
+					const returnDirection = elementFromDictionary(combination, direction);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					return { [returnDirection]: array.join(" ") };
 				},
@@ -123,7 +120,7 @@ const presetWindPlus = definePreset(() => {
 						y: "row-gap",
 					} as const satisfies Record<"x" | "y", string>;
 
-					const returnDirection: UnionValueDictionary<typeof combination> = combination[direction];
+					const returnDirection = elementFromDictionary(combination, direction);
 					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
 					return { [returnDirection]: array.join(" ") };
 				},
@@ -159,12 +156,10 @@ const presetWindPlus = definePreset(() => {
 						ml: "inline-start",
 						mr: "inline-end",
 					} as const satisfies Record<typeof s, string>;
-
-					const resultFunction = (x: keyof typeof dictionary): UnionValueDictionary<typeof dictionary> => dictionary[x];
-
+					const returnDirection = elementFromDictionary(dictionary, s);
 					return [
 						{
-							"margin-trim": resultFunction(s),
+							"margin-trim": returnDirection,
 						},
 					];
 				},

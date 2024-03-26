@@ -45,7 +45,7 @@ const presetWindPlus = definePreset(() => {
 						9: ["end", "end"],
 					} as const satisfies Record<typeof flexNumber, readonly [PositionProps, PositionProps]>;
 					const columORrow = direction === "row" ? "row" : "column";
-					const [justify, align] =  positions[flexNumber];
+					const [justify, align] = positions[flexNumber];
 					return {
 						display: "flex",
 						"flex-direction": columORrow,

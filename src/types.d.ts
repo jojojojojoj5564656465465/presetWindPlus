@@ -137,7 +137,7 @@ type IsRegex2<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]`
 	? {
 			before: Bef;
 			inside: inside;
-	  }
+		}
 	: never;
 
 type UnionValueDictionary<T extends Record<string, string>> = T[keyof T];
@@ -151,12 +151,12 @@ type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
 		? base<A, B>
 		: never
 	: T extends [...infer F, infer G, infer H]
-	  ? F extends Before[]
+		? F extends Before[]
 			? G extends Category
 				? base<G, H> & BeforeObj<F>
 				: never
 			: never
-	  : never;
+		: never;
 
 type testObj = MakeObjBeforeCatCss<["bg", "red"]>;
 

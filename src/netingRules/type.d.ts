@@ -119,7 +119,7 @@ type IsRegex2<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]`
 	? {
 			before: Bef;
 			inside: inside;
-	  }
+		}
 	: never;
 
 interface ReturnFlex {
@@ -139,12 +139,12 @@ type MakeObjBeforeCatCss<T extends string[]> = T extends [infer A, infer B]
 		? base<A, B>
 		: never
 	: T extends [...infer F, infer G, infer H]
-	  ? F extends Before[]
+		? F extends Before[]
 			? G extends Category
 				? base<G, H> & BeforeObj<F>
 				: never
 			: never
-	  : never;
+		: never;
 interface BeforeObj<T extends Before[]> {
 	BEFORE: T;
 }

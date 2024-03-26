@@ -68,7 +68,7 @@ class UnitArray extends Fonction {
 		return !Number.isNaN(Number(x));
 	}
 
-	IncludesP(x = this.el): x is keyof typeof this.size {
+	IncludesP(x = this.el): x is Size {
 		return x in this.size;
 	}
 

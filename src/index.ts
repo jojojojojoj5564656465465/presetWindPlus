@@ -2,8 +2,9 @@ import { definePreset } from "@unocss/core";
 
 import { convertUnitFromArray, elementFromDictionary, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
 
-import AllUnitsHandler from "./Class/AllUnits";
-import UnitArray from "./Class/Units";
+//import AllUnitsHandler from "./Class/AllUnits";
+//import UnitArray from "./Class/Units";
+import { AllUnitsHandler, UnitArray } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
 const presetWindPlus = definePreset(() => {
 	return {

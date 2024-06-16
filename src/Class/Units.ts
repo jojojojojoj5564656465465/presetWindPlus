@@ -21,8 +21,20 @@ class Fonction {
 	}
 
 	fractionPourcentageGenerator = (x: `${string}/${string}`): `${number}%` => {
-		const array = split(x, "/") as [string, string];
-		const pourcentage: number = (~~array[0] / ~~array[1]) * 100;
+		const array = split(x, "/");
+    if (array.length !== 2) {
+      return "0%";
+    }
+    const [numérateur, dénominateur] = array;
+    this.eliminerUndefined<string>(
+      numérateur,
+      "fraction numérateur is undefined"
+    );
+    this.eliminerUndefined<string>(
+      dénominateur,
+      "fraction dénominateur is undefined"
+    );
+    const pourcentage: number = (~~numérateur / ~~dénominateur) * 100;
 		return `${pourcentage}%`;
 	};
 }

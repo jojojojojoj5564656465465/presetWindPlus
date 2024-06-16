@@ -1,6 +1,5 @@
 import TempMapClass from "../Class/TempMap";
 // import { join, replace, split } from "string-ts";
-//import { IfRegex } from "../Class/ifRegex";
 import { BuildTailwindKiller, splitString } from "./utils";
 
 /**

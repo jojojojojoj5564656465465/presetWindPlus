@@ -1,8 +1,16 @@
 import UnitArray from "./Class/Units";
 
 /**
- * @description  REMOVE DUPLICATES IN MARGIN OR PADDING TO AVOID REPETITION IN CSS OUTPUT
- * @example  margin : 2px 2px 2px 2px
+ * Removes duplicates in margin or padding values to avoid repetition in CSS output.
+ *
+ * @param {string[]} array - An array of margin or padding values (e.g. "2px 2px 2px
+2px").
+ * @returns {string[]} The input array with duplicates removed.
+ *
+ * @example
+ * const originalArray = ["2px", "2px", "2px", "2px"];
+ * const resultArray = removeDuplicateArrayPaddingOrMargin(originalArray);
+ * console.log(resultArray); // Output: ["2px"]
  */
 export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array<string> {
 	switch (array.length) {
@@ -26,6 +34,9 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 			}
 			if (new Set(array).size === 1) array.splice(1, 3);
 
+			break;
+		default:
+			// No duplicates to remove
 			break;
 	}
 	return array;

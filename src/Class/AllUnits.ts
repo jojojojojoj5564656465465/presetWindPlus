@@ -1,4 +1,3 @@
-
 /**
  * @classdesc Take allUnits groups from regex and make an array from it
  * @class AllUnitsHandler

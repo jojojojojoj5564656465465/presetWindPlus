@@ -1,6 +1,6 @@
+import { splitString } from "../netingRules/utils";
 //import { RegexError } from "../Class/regexError";
 import { RegexError } from "./index";
-import { splitString } from "../netingRules/utils";
 export default class TempMapClass {
 	Initial: Set<string> | null;
 	IsRegex: Set<Regex>;

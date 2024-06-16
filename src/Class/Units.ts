@@ -15,7 +15,7 @@ class Fonction {
 		if (input === null) console.error(msg ?? "Value is null");
 	}
 
-	convertToRem(x: string) {
+	convertToRem(x: string): `${string}rem` {
 		const result = Number(x) / 4;
 		return `${result}rem`;
 	}
@@ -77,8 +77,12 @@ class UnitArray extends Fonction {
 	}
 
 	fractionP(x = this.el): x is `${string}/${string}]` {
-		const fraction: RegExp = /(^\w{1}\/\w{1}$)/;
-		return fraction.test(x);
+		const fractionRegex = /^\d+\/\d+$/;
+		if (!fractionRegex.test(x)) {
+			return false; // Not a valid fraction format
+		}
+		const arrValide: boolean = x.split("/").every((oi) => ~~oi > 0);
+		return arrValide;
 	}
 
 	regex = {

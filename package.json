@@ -1,7 +1,7 @@
 {
   "name": "preset-wind-plus",
   "type": "module",
-  "version": "2.0.29",
+  "version": "2.0.30",
   "packageManager": "pnpm@8.7.0",
   "description": "<description>",
   "author": "unpreset <https://github.com/unpreset>",
@@ -47,7 +47,7 @@
     "dev": "unbuild --stub",
     "prepublishOnly": "pnpm run build",
     "release": "bumpp --commit --push --tag && pnpm publish",
-    "lint": "bunx @biomejs/biome check --apply ./src",
+    "lint": "bunx @biomejs/biome check ./src",
     "test": "vitest",
     "test:update": "vitest --update",
     "play": "vite playground",
@@ -58,10 +58,10 @@
     "@unocss/core": "< 1"
   },
   "dependencies": {
-    "string-ts": "^2.0.0"
+    "string-ts": "^2.1.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.8.3",
+    "@antfu/eslint-config": "^2.14.0",
     "@babel/types": "^7.24.0",
     "@types/node": "^20.11.28",
     "@unocss/eslint-plugin": "^0.58.0",

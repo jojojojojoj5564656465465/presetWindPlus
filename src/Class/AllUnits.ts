@@ -1,53 +1,65 @@
 /**
- * @classdesc Take allUnits groups from regex and make an array from it
+ * @classdesc Take all units groups from regex and make an array from it
  * @class AllUnitsHandler
- *@example p-4-4-6-7 or px-5-4
+ * @example p-4-4-6-7 or px-5-4
  */
 class AllUnitsHandler {
-	match: RegExpMatchArray | null;
-	duplicate: boolean;
-	sizeLimite: number;
-	/**
-	 *
-	 * @param {RegExpMatchArray} match
-	 * @param  {number} sizeLimite - what is the max of arguments in padding or margin
-	 * @param {boolean} duplicate - Do you want to auto remove duplicate exemple px-5-5 => px-5
-	 */
-	constructor(match: RegExpMatchArray | null, sizeLimite: number, duplicate: boolean) {
-		this.match = match;
-		this.duplicate = duplicate;
-		this.sizeLimite = sizeLimite;
-	}
+    match: RegExpMatchArray | null;
+    duplicate: boolean;
+    sizeLimit: number;
 
-	get execRegex(): string[] {
-		if (this.match) {
-			return this.match.slice(1, this.sizeLimite + 1).filter(Boolean);
-		}
-		return [];
-	}
+    /**
+     * @param {RegExpMatchArray | null} match - The regex match array
+     * @param {number} sizeLimit - The maximum number of arguments in padding or margin
+     * @param {boolean} duplicate - Whether to auto remove duplicates (e.g., px-5-5 => px-5)
+     */
+    constructor(match: RegExpMatchArray | null, sizeLimit: number, duplicate: boolean) {
+        this.match = match;
+        this.duplicate = duplicate;
+        this.sizeLimit = sizeLimit;
+    }
 
-	/**
-	 *
-	 * @param array
-	 * @description check if array is too long
-	 * @returns type assertion
-	 */
-	checkLimiteSize(array: unknown[]): asserts array is string[] {
-		if (array.length > this.sizeLimite) console.error("You gave too much arguments !");
-	}
+    /**
+     * @returns {string[]} - The processed regex matches
+     */
+    get execRegex(): string[] {
+        if (this.match) {
+            return this.match.slice(1, this.sizeLimit + 1).filter(Boolean);
+        }
+        return [];
+    }
 
-	removeDuplicateOptional(x: string[]): string[] {
-		return this.duplicate === true ? [...new Set(x)] : x;
-	}
+    /**
+     * @param {unknown[]} array - The array to check
+     * @throws {Error} - Throws an error if the array exceeds the size limit
+     */
+    checkLimitSize(array: unknown[]): asserts array is string[] {
+        if (array.length > this.sizeLimit) {
+            throw new Error("You gave too many arguments!");
+        }
+    }
 
-	get returnArray2(): string[] {
-		try {
-			this.checkLimiteSize(this.execRegex);
-			return this.removeDuplicateOptional(this.execRegex);
-		} catch (error) {
-			throw new Error("error in AllUnitsHandler returnArray2");
-		}
-	}
+    /**
+     * @param {string[]} array - The array to process
+     * @returns {string[]} - The array with duplicates removed if specified
+     */
+    removeDuplicates(array: string[]): string[] {
+        return this.duplicate ? [...new Set(array)] : array;
+    }
+
+    /**
+     * @returns {string[]} - The final processed array
+     * @throws {Error} - Throws an error if there's an issue processing the array
+     */
+    get returnArray(): string[] {
+        try {
+            const regexResult = this.execRegex;
+            this.checkLimitSize(regexResult);
+            return this.removeDuplicates(regexResult);
+        } catch (error) {
+            throw new Error("Error in AllUnitsHandler returnArray");
+        }
+    }
 }
 
 export default AllUnitsHandler;

@@ -111,6 +111,7 @@ type LastOrString<Type extends string | string[]> = Type extends unknown[] ? Las
 
 type LastOfArray<T extends []> = T extends [...T[number], infer U] ? U : never;
 type Pop<T extends unknown[]> = T extends [...infer R, infer _] ? R : never;
+declare const __brand: unique symbol;
 type Regex = `${string}:[${string}]`;
 
 type IsRegex<RegexType> = RegexType extends `${infer Bef}:[${infer inside}]` ? true : false;

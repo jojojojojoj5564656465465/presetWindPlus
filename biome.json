@@ -13,6 +13,7 @@
     "enabled": true,
     "formatWithErrors": false,
     "lineWidth": 220,
-    "ignore": ["node_modules", "dist", "doc"]
+    "ignore": ["node_modules", "dist", "doc"],
+    "indentWidth": 3
   }
 }

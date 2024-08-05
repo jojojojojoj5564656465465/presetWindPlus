@@ -61,7 +61,7 @@ const presetWindPlus = definePreset(() => {
 				(match) => {
 					const direction = matchFromRegex<"p" | "m" | "inset">(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
 					const combination = {
 						p: "padding",
 						m: "margin",
@@ -85,7 +85,7 @@ const presetWindPlus = definePreset(() => {
 					} as const satisfies Record<string, string>;
 					const direction = matchFromRegex<keyof typeof combination>(match, "direction");
 					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
 					const returnDirection = elementFromDictionary(combination, direction);
 					return { [returnDirection]: array.join(" ") };
 				},
@@ -105,7 +105,7 @@ const presetWindPlus = definePreset(() => {
 					} as const satisfies Record<"x" | "y", string>;
 
 					const returnDirection = elementFromDictionary(combination, direction);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
 					return { [returnDirection]: array.join(" ") };
 				},
 				{ autocomplete: "inset-(x|y)-<num>-<num>" },
@@ -122,7 +122,7 @@ const presetWindPlus = definePreset(() => {
 					} as const satisfies Record<"x" | "y", string>;
 
 					const returnDirection = elementFromDictionary(combination, direction);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray2);
+					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
 					return { [returnDirection]: array.join(" ") };
 				},
 				{ autocomplete: "gap-(x|y)-<num>" },
@@ -132,7 +132,7 @@ const presetWindPlus = definePreset(() => {
 				/^size-((?:\[\d+\w*%?\]|\d+\/?\.?\d?|[a-z]+))-?((?:\[\d+\w*%?\]|\d+\/?\.?\d?|[a-z]+))?$/,
 				(match_allUnits) => {
 					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
-					const array: string[] = convertUnitFromArray(classMatch.returnArray2);
+					const array: string[] = convertUnitFromArray(classMatch.returnArray);
 					if (array[0] !== undefined) {
 						return [
 							{

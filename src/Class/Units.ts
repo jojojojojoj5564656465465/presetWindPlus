@@ -21,11 +21,9 @@ class Fonction {
 	}
 
 	fractionPourcentageGenerator = (x: `${string}/${string}`): `${number}%` => {
-		const array = split(x, "/");
-    if (array.length !== 2) {
-      return "0%";
-    }
-    const [numérateur, dénominateur] = array;
+	const array = split(x, "/");
+    if (array.length !== 2) return "0%";
+    const [numérateur, dénominateur] = array.filter(Number);
     this.eliminerUndefined<string>(
       numérateur,
       "fraction numérateur is undefined"
@@ -40,6 +38,7 @@ class Fonction {
 }
 
 class UnitArray extends Fonction {
+	
 	EachElement: Element;
 	/**
 	 * Split from string 6-4-min-[25px] will make an array
@@ -93,7 +92,7 @@ class UnitArray extends Fonction {
 		if (!fractionRegex.test(x)) {
 			return false; // Not a valid fraction format
 		}
-		const arrValide: boolean = x.split("/").every((oi) => ~~oi > 0);
+		const arrValide: boolean = split(x,"/").every((oi) => ~~oi > 0);
 		return arrValide;
 	}
 

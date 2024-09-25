@@ -104,7 +104,9 @@ export function matchFromRegex<T = string>(match: RegExpMatchArray, x: string) {
 function removeDirectionInArray(array: RegExpMatchArray): void {
   array.splice(1, 1);
 }
-
+type NoInfer<T> = {
+  [K in keyof T]: T extends T ? never : T;
+};
 export function elementFromDictionary<T extends Record<string, string>>(
   obj: T,
   key: keyof NoInfer<T>

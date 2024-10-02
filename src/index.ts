@@ -2,12 +2,10 @@ import { definePreset } from "@unocss/core";
 
 import { convertUnitFromArray, elementFromDictionary, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
 
-//import AllUnitsHandler from "./Class/AllUnits";
-//import UnitArray from "./Class/Units";
 import { AllUnitsHandler, UnitArray } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
 const presetWindPlus = definePreset(() => {
-	return {
+  return {
     name: "presetWindPlus",
     // Customize your preset here
     rules: [
@@ -34,8 +32,9 @@ const presetWindPlus = definePreset(() => {
         { autocomplete: "flex|<num>|<num>|(<num>|auto)" },
       ],
       [
-        /^flex-(?<direction>row|col)-(?<num>[1-9])$/,
+        /^(?<flex>inline-flex|flex)-(?<direction>row|col)-(?<num>[1-9])$/,
         (match) => {
+          const flex = matchFromRegex<"inline-flex" | "flex">(match, "flex");
           const direction = matchFromRegex<"row" | "col">(match, "direction");
           const flexNumber = matchFromRegex(match, "num") as IntRange<1, 10>;
           type PositionProps = Readonly<"start" | "center" | "end">;
@@ -53,10 +52,11 @@ const presetWindPlus = definePreset(() => {
             typeof flexNumber,
             readonly [PositionProps, PositionProps]
           >;
+          const display = flex === "inline-flex" ? "inline flex" : "block flex";
           const columORrow = direction === "row" ? "row" : "column";
           const [justify, align] = positions[flexNumber];
           return {
-            display: "flex",
+            display,
             "flex-direction": columORrow,
             "justify-content": justify,
             "align-items": align,
@@ -231,10 +231,31 @@ const presetWindPlus = definePreset(() => {
       [
         /^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-(?<small>\w+)\/(?<big>\w+)$/,
         (match) => {
-          const category = matchFromRegex<string>(match, "category");
+          const category = matchFromRegex<
+            | "m"
+            | "mx"
+            | "my"
+            | "mt"
+            | "mr"
+            | "mb"
+            | "ml"
+            | "p"
+            | "px"
+            | "py"
+            | "pt"
+            | "pr"
+            | "pb"
+            | "pl"
+            | "text"
+            | "gap"
+          >(match, "category");
           const small = matchFromRegex<string>(match, "small");
           const big = matchFromRegex<string>(match, "big");
           return [`${category}-${small}`, `lg:${category}-${big}`].join(" ");
+        },
+        {
+          autocomplete:
+            "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
         },
       ],
     ],

@@ -224,16 +224,6 @@ const presetWindPlus = definePreset(() => {
           };
         },
       ],
-    ],
-    shortcuts: [
-      [
-        /^(?<category>list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[/!@\-\w:,[\]]+)\]/,
-        (match) => {
-          const category = matchFromRegex<Category>(match, "category");
-          const stringElement = matchFromRegex<string>(match, "css");
-          return tailwindKiller(category, stringElement);
-        },
-      ],
       [
         /^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap|w|h|border|outline)-(?<minValue>\d+)\/(?<maxValue>\d+)$/,
         (match) => {
@@ -273,6 +263,16 @@ const presetWindPlus = definePreset(() => {
         {
           autocomplete:
             "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
+        },
+      ],
+    ],
+    shortcuts: [
+      [
+        /^(?<category>list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[/!@\-\w:,[\]]+)\]/,
+        (match) => {
+          const category = matchFromRegex<Category>(match, "category");
+          const stringElement = matchFromRegex<string>(match, "css");
+          return tailwindKiller(category, stringElement);
         },
       ],
     ],

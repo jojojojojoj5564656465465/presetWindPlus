@@ -19,7 +19,7 @@ const tailwindClasses = {
   h: "height",
   border: "border-width",
   outline: "outline-width",
-};
+} as const satisfies Record<string, string>;
 
 interface FluidTypeOptions {
   category: keyof typeof tailwindClasses;
@@ -27,34 +27,42 @@ interface FluidTypeOptions {
   maxVw: number;
   minValue: number;
   maxValue: number;
-  unit?: "px" | "rem"; // Optional unit conversion
+}
+
+function pxToRem(px: number): number {
+  return px / 16;
 }
 
 export function fluidType(options: FluidTypeOptions): string {
-  const { minVw, maxVw, minValue, maxValue, unit = "rem" } = options;
-  const valueRem = {
-    min: minValue / 4,
-    max: maxValue / 4,
-  };
+  const { category, minVw, maxVw, minValue, maxValue } = options;
+
+  // Convert all values to rem
+  const minValueRem = pxToRem(minValue);
+  const maxValueRem = pxToRem(maxValue);
+  const minVwRem = pxToRem(minVw);
+  const maxVwRem = pxToRem(maxVw);
+
   // Validate input options
-  if (minVw >= maxVw || minValue >= maxValue) {
-    throw new Error("Invalid input options");
+  if (minVwRem >= maxVwRem || minValueRem >= maxValueRem) {
+    throw new Error(
+      "Invalid input options: min values should be less than max values"
+    );
   }
 
-  // Calculate the slope of the line that represents the fluid value
-  const slope = (valueRem.max - valueRem.min) / (maxVw - minVw);
+  // Calculate the slope and y-intercept
+  const slope = (maxValueRem - minValueRem) / (maxVwRem - minVwRem);
+  const yIntercept = minValueRem - minVwRem * slope;
 
-  // Calculate the y-intercept of the line
-  const yIntercept = valueRem.min - minVw * slope;
+  // Generate the fluid value
+  const fluidValue = `${yIntercept.toFixed(4)}rem + ${(slope * 100).toFixed(
+    4
+  )}vw`;
 
-  // Generate the fluid value using the slope and y-intercept
-  const fluidValue = `${yIntercept}${unit} + ${100 * slope}svw`;
+  // Generate the clamp value
+  const clampValue = `clamp(${minValueRem.toFixed(
+    4
+  )}rem, ${fluidValue}, ${maxValueRem.toFixed(4)}rem)`;
 
-  // Generate the clamp value using the minimum, fluid, and maximum values
-  const clampValue = `clamp(${valueRem.min}${unit}, ${fluidValue}, ${valueRem.max}${unit})`;
-
-  // Return the CSS string with the fallback and clamp values
-  return `${tailwindClasses[options.category]}: ${clampValue};`;
+  // Return the CSS string with the clamp value
+  return `${tailwindClasses[category]}: ${clampValue};`;
 }
-
-

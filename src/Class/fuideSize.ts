@@ -54,9 +54,7 @@ export function fluidType(options: FluidTypeOptions): string {
   const clampValue = `clamp(${valueRem.min}${unit}, ${fluidValue}, ${valueRem.max}${unit})`;
 
   // Return the CSS string with the fallback and clamp values
-  return `${tailwindClasses[options.category]}: ${valueRem.min}${unit}; ${
-    tailwindClasses[options.category]
-  }: ${clampValue};`;
+  return `${tailwindClasses[options.category]}: ${clampValue};`;
 }
 
 

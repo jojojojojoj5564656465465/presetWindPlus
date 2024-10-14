@@ -259,7 +259,7 @@ const presetWindPlus = definePreset(() => {
             minValue,
             maxValue,
           });
-          return {result};
+          return result;
           //return [`${category}-${small}`, `lg:${category}-${big}`].join(" ");
         },
         {

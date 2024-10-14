@@ -1,9 +1,15 @@
 import { definePreset } from "@unocss/core";
 
-import { convertUnitFromArray, elementFromDictionary, matchFromRegex, removeDuplicateArrayPaddingOrMargin } from "./utils";
+import {
+  convertUnitFromArray,
+  elementFromDictionary,
+  matchFromRegex,
+  removeDuplicateArrayPaddingOrMargin,
+} from "./utils";
 
 import { AllUnitsHandler, UnitArray } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
+import { fluidType } from "./Class/fuideSize";
 const presetWindPlus = definePreset(() => {
   return {
     name: "presetWindPlus",
@@ -229,7 +235,7 @@ const presetWindPlus = definePreset(() => {
         },
       ],
       [
-        /^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-(?<small>\w+)\/(?<big>\w+)$/,
+        /^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap|w|h|border|outline)-(?<minValue>\d+)\/(?<maxValue>\d+)$/,
         (match) => {
           const category = matchFromRegex<
             | "m"
@@ -248,10 +254,21 @@ const presetWindPlus = definePreset(() => {
             | "pl"
             | "text"
             | "gap"
+            | "w"
+            | "h"
+            | "border"
+            | "outline"
           >(match, "category");
-          const small = matchFromRegex<string>(match, "small");
-          const big = matchFromRegex<string>(match, "big");
-          return [`${category}-${small}`, `lg:${category}-${big}`].join(" ");
+          const minValue = +matchFromRegex<string>(match, "minValue");
+          const maxValue = +matchFromRegex<string>(match, "maxValue");
+          return fluidType({
+            category,
+            minVw: 320,
+            maxVw: 1180,
+            minValue,
+            maxValue,
+          });
+          //return [`${category}-${small}`, `lg:${category}-${big}`].join(" ");
         },
         {
           autocomplete:

@@ -19,10 +19,12 @@ const tailwindClasses = {
   h: "height",
   border: "border-width",
   outline: "outline-width",
-} as const satisfies Record<string, string>;
+} as const;
+
+type TailwindClass = keyof typeof tailwindClasses;
 
 interface FluidTypeOptions {
-  category: keyof typeof tailwindClasses;
+  category: TailwindClass;
   minVw: number;
   maxVw: number;
   minValue: number;
@@ -33,7 +35,9 @@ function pxToRem(px: number): number {
   return px / 16;
 }
 
-export function fluidType(options: FluidTypeOptions): string {
+export function fluidType(options: FluidTypeOptions): {
+  [key: string]: string;
+} {
   const { category, minVw, maxVw, minValue, maxValue } = options;
 
   // Convert all values to rem
@@ -64,5 +68,5 @@ export function fluidType(options: FluidTypeOptions): string {
   )}rem, ${fluidValue}, ${maxValueRem.toFixed(4)}rem)`;
 
   // Return the CSS string with the clamp value
-  return `${tailwindClasses[category]}: ${clampValue};`;
+  return { [tailwindClasses[category]]: clampValue };
 }

@@ -249,15 +249,17 @@ const presetWindPlus = definePreset(() => {
             | "border"
             | "outline"
           >(match, "category");
-          const minValue = +matchFromRegex<string>(match, "minValue");
-          const maxValue = +matchFromRegex<string>(match, "maxValue");
-          return fluidType({
+          const minValue = Number(matchFromRegex<string>(match, "minValue"));
+          const maxValue = Number(matchFromRegex<string>(match, "maxValue"));
+
+          const result = fluidType({
             category,
             minVw: 320,
             maxVw: 1180,
             minValue,
             maxValue,
           });
+          return {result};
           //return [`${category}-${small}`, `lg:${category}-${big}`].join(" ");
         },
         {

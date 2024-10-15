@@ -161,7 +161,48 @@ https://github.com/jojojojojoj5564656465465/unocss-preset-starter/assets/4518491
 </div>
 
 ```
+## fluide size 
 
+# Fluid Value Shortcuts for UnoCSS
+
+All fluid value shortcuts must follow these rules:
+1. They must start with `~` to indicate a fluid value.
+2. The minimum and maximum values should be separated by `/`.
+
+## Available Shortcuts
+
+| Shortcut | Description |
+|----------|-------------|
+| `~m-min/max` | Fluid margin |
+| `~mx-min/max` | Fluid horizontal margin (left and right) |
+| `~my-min/max` | Fluid vertical margin (top and bottom) |
+| `~mt-min/max` | Fluid top margin |
+| `~mr-min/max` | Fluid right margin |
+| `~mb-min/max` | Fluid bottom margin |
+| `~ml-min/max` | Fluid left margin |
+| `~p-min/max` | Fluid padding |
+| `~px-min/max` | Fluid horizontal padding (left and right) |
+| `~py-min/max` | Fluid vertical padding (top and bottom) |
+| `~pt-min/max` | Fluid top padding |
+| `~pr-min/max` | Fluid right padding |
+| `~pb-min/max` | Fluid bottom padding |
+| `~pl-min/max` | Fluid left padding |
+| `~text-min/max` | Fluid font size |
+| `~gap-min/max` | Fluid gap (for grid and flexbox layouts) |
+| `~w-min/max` | Fluid width |
+| `~h-min/max` | Fluid height |
+| `~border-min/max` | Fluid border width |
+| `~outline-min/max` | Fluid outline width |
+
+## Examples
+
+- `~m-8/16`: Creates a fluid margin that scales from 8px to 16px
+- `~text-14/20`: Creates a fluid font size that scales from 14px to 20px
+- `~w-100/200`: Creates a fluid width that scales from 100px to 200px
+
+Note: The `min` and `max` values in these shortcuts represent pixels. The function will convert these to rem units and create a `clamp()` function that smoothly transitions between these values based on the viewport width.
+
+This syntax allows for quick and easy creation of fluid, responsive designs without the need for multiple breakpoints or complex media queries.
 ## License
 
 [MIT](./LICENSE) License © 2023

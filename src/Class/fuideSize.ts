@@ -31,8 +31,9 @@ interface FluidTypeOptions {
   maxValue: number;
 }
 
-function pxToRem(px: number): number {
-  return px / 16;
+function toTailwindUnitsBy4(px: number): number {
+  if(px ===0) throw new Error("unit is 0");
+  return px / 4;
 }
 
 export function fluidType(options: FluidTypeOptions): {
@@ -41,10 +42,10 @@ export function fluidType(options: FluidTypeOptions): {
   const { category, minVw, maxVw, minValue, maxValue } = options;
 
   // Convert all values to rem
-  const minValueRem = pxToRem(minValue);
-  const maxValueRem = pxToRem(maxValue);
-  const minVwRem = pxToRem(minVw);
-  const maxVwRem = pxToRem(maxVw);
+  const minValueRem = toTailwindUnitsBy4(minValue);
+  const maxValueRem = toTailwindUnitsBy4(maxValue);
+  const minVwRem = minVw/16;
+  const maxVwRem = maxVw/16;
 
   // Validate input options
   if (minVwRem >= maxVwRem || minValueRem >= maxValueRem) {
@@ -64,8 +65,8 @@ export function fluidType(options: FluidTypeOptions): {
 
   // Generate the clamp value
   const clampValue = `clamp(${minValueRem.toFixed(
-    4
-  )}rem, ${fluidValue}, ${maxValueRem.toFixed(4)}rem)`;
+    5
+  )}rem, ${fluidValue}, ${maxValueRem.toFixed(5)}rem)`;
 
   // Return the CSS string with the clamp value
   return { [tailwindClasses[category]]: clampValue };

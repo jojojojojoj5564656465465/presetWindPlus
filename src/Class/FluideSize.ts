@@ -48,7 +48,7 @@ function toTailwindUnitsBy4(px: number): InferOutput<typeof numberArg> {
   return px / 4;
 }
 
-export function fluidType(options: FluidTypeOptions): {
+function fluidType(options: FluidTypeOptions): {
   [key: string]: string;
 } {
   const { category, minVw, maxVw, minValue, maxValue } = options;
@@ -88,3 +88,4 @@ export function fluidType(options: FluidTypeOptions): {
   // Return the CSS string with the clamp value
   return { [tailwindClasses[category]]: clampValue };
 }
+export default fluidType;

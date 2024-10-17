@@ -7,9 +7,9 @@ import {
   removeDuplicateArrayPaddingOrMargin,
 } from "./utils";
 
-import { AllUnitsHandler, UnitArray } from "./Class";
+import { AllUnitsHandler, UnitArray, FluidSize } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
-import { fluidType } from "./Class/fuideSize";
+
 const presetWindPlus = definePreset(() => {
   return {
     name: "presetWindPlus",
@@ -225,7 +225,7 @@ const presetWindPlus = definePreset(() => {
         },
       ],
       [
-        /^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap|w|h|border|outline)-(?<minValue>\d+)\/(?<maxValue>\d+)$/,
+        /^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap|w|h|border|outline)-(?<minValue>[1-9][0-9]*)\/(?<maxValue>[1-9][0-9]*)$/,
         (match) => {
           const category = matchFromRegex<
             | "m"
@@ -252,7 +252,7 @@ const presetWindPlus = definePreset(() => {
           const minValue = Number(matchFromRegex<string>(match, "minValue"));
           const maxValue = Number(matchFromRegex<string>(match, "maxValue"));
 
-          const result = fluidType({
+          const result = FluidSize({
             category,
             minVw: 320,
             maxVw: 1180,

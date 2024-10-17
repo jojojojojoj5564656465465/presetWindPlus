@@ -1,3 +1,14 @@
+import {
+  pipe,
+  number,
+  parse,
+maxValue as max,
+  type InferOutput,
+  parser,
+  nonNullable,
+  minValue as min,
+} from "valibot";
+
 const tailwindClasses = {
   m: "margin",
   mx: "margin-inline",
@@ -30,9 +41,10 @@ interface FluidTypeOptions {
   minValue: number;
   maxValue: number;
 }
+const numberArg = pipe(number(), min(1), nonNullable(number()));
 
-function toTailwindUnitsBy4(px: number): number {
-  if(px ===0) throw new Error("unit is 0");
+function toTailwindUnitsBy4(px: number): InferOutput<typeof numberArg> {
+  parse(numberArg, px);
   return px / 4;
 }
 
@@ -40,12 +52,17 @@ export function fluidType(options: FluidTypeOptions): {
   [key: string]: string;
 } {
   const { category, minVw, maxVw, minValue, maxValue } = options;
+  const limitScreenSize = pipe(number(), max(1680), min(300));
+  const valibotLimitScreenSize = parser(limitScreenSize);
+
+  valibotLimitScreenSize(maxVw);
+  valibotLimitScreenSize(minVw);
 
   // Convert all values to rem
   const minValueRem = toTailwindUnitsBy4(minValue);
   const maxValueRem = toTailwindUnitsBy4(maxValue);
-  const minVwRem = minVw/16;
-  const maxVwRem = maxVw/16;
+  const minVwRem = minVw / 16;
+  const maxVwRem = maxVw / 16;
 
   // Validate input options
   if (minVwRem >= maxVwRem || minValueRem >= maxValueRem) {

@@ -58,12 +58,13 @@
     "@unocss/core": "^0.58.9"
   },
   "dependencies": {
-    "string-ts": "^2.2.0"
+    "string-ts": "^2.2.0",
+    "valibot": "^0.42.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
     "@babel/types": "^7.25.8",
-    "@types/node": "^20.16.11",
+    "@types/node": "^20.16.12",
     "@unocss/eslint-plugin": "^0.58.9",
     "bumpp": "^9.7.1",
     "eslint": "^8.57.1",

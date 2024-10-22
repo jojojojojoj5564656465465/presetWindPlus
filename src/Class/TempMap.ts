@@ -1,7 +1,14 @@
 import { splitString } from "../netingRules/utils";
 //import { RegexError } from "../Class/regexError";
 import { RegexError } from "./index";
+import * as v from "valibot";
 
+const SetValidation = v.set(
+  v.pipe(
+    v.string("must be a string inside the Set Please"),
+    v.regex(/^\w+:\[[\w\d,-]+\]$/, "Must be a regex like string:[string]")
+  )
+);
 
 
 export default class TempMapClass {

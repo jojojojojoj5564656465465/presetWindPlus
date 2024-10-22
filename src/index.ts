@@ -123,7 +123,7 @@ const presetWindPlus = definePreset(() => {
           const combination = {
             x: "inset-inline",
             y: "inset-block",
-          } as const satisfies Record<"x" | "y", string>;
+          } as const satisfies Record<"x" | "y", `inset-${string}`>;
 
           const returnDirection = elementFromDictionary(combination, direction);
           const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);

@@ -108,12 +108,23 @@ class UnitArray extends Fonction {
   }
 
   fractionP(x = this.el): x is `${string}/${string}]` {
-    const fractionRegex = /^\d+\/\d+$/;
-    if (!fractionRegex.test(x)) {
-      return false; // Not a valid fraction format
-    }
-    const arrValide: boolean = split(x, "/").every((oi) => ~~oi > 0);
-    return arrValide;
+   
+    const franctionP = v.pipe(
+      v.string(),
+      v.nonEmpty("The string should contain at least one character."),
+      v.includes("/", "must be fraction using ==> /"),
+      v.regex(
+        /^[1-9][0-9]{0,2}\/[1-9][0-9]{0,3}$/,
+        "must be a Fraction like 1/2 or 5/9"
+      ),
+      v.transform((str) => str.split("/")),
+      v.tuple([
+        v.pipe(v.string(), v.transform(Number), v.toMinValue(1)),
+        v.pipe(v.string(), v.transform(Number), v.toMinValue(1)),
+      ])
+    );
+
+    return v.is(franctionP, x);
   }
 
   regex = {

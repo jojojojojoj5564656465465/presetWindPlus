@@ -1,4 +1,3 @@
-import { split } from "string-ts";
 import { matchFromRegex } from "../utils";
 
 import * as v from "valibot";

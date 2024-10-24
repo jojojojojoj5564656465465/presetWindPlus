@@ -16,7 +16,7 @@ const presetWindPlus = definePreset(() => {
     // Customize your preset here
     rules: [
       [
-        /^flex\|(?<grow>\d+)?\|(?<shrink>\d+)?\|?(\d+|\[\w+\]|auto)?$/,
+        /^flex\|(?<grow>\d+)?\|(?<shrink>\d+)?\|?(\d+|\[\w+\]|auto|^[1-9][0-9]{0,2}\/[1-9][0-9]{0,3}$)?$/,
         (match) => {
           const [, grow = 1, shrink = 0, basis] = match as [
             unknown,

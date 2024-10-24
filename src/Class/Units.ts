@@ -3,8 +3,6 @@ import { matchFromRegex } from "../utils";
 
 import * as v from "valibot";
 
-
-
 type Element = string | `${number}` | Size | Regex;
 
 /**
@@ -14,66 +12,49 @@ type Element = string | `${number}` | Size | Regex;
  * @property {string} name - The name of the function.
  */
 class Fonction {
-  eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
-    if (input === undefined) console.error(msg ?? "Value is undefined");
 
-    if (input === null) console.error(msg ?? "Value is null");
-  }
   convertToRem(x: string): string {
-    const convert = v.pipe(
-      v.string(),
-      v.transform(Number),
-      v.transform((el) => el / 4)
+    const convert = v.fallback(
+      v.pipe(
+        v.string(),
+        v.transform(Number),
+        v.number('convert to rem only accept number into a string'),
+        v.transform((el) => el / 4),
+        v.transform((el) => el.toFixed(2)),
+        v.transform((el) => `${el}rem`)
+      ),
+      "0in"
     );
-    const result = v.parse(convert, x);
-    return result ? `${result}rem` : "0rem";
+
+    return v.parse(convert, x);
   }
 
   fractionPourcentageGenerator = (x: `${string}/${string}`): string => {
-    /**
-     *
-     */
-    const xValidation = v.fallback(
-      v.pipe(
-        v.string(),
-        v.nonEmpty("The string should contain at least one character."),
-        v.includes("/", "must be fraction using ==> /"),
-        v.regex(
-          /^[1-9][0-9]{0,2}\/[1-9][0-9]{0,3}$/,
-          "must be a Fraction like 1/2 or 5/9"
+      const validateInput__Divide_NumByDenum = v.fallback(
+        v.pipe(
+          v.string(),
+          v.nonEmpty("The string should contain at least one character."),
+          v.includes("/", "must be fraction using ==> /"),
+          v.regex(
+            /^[1-9][0-9]{0,2}\/[1-9][0-9]{0,3}$/,
+            "must be a Fraction like 1/2 or 5/9"
+          ),
+          v.transform((str) => str.split("/")),
+          v.tuple([
+            v.pipe(v.string(), v.transform(Number), v.toMinValue(1)),
+            v.pipe(v.string(), v.transform(Number), v.toMinValue(1)),
+          ]),
+          v.transform((e) => (e[0] / e[1]) * 100),
+          v.transform((e) => e.toFixed(2)),
+          v.transform((digit) => `${digit}%`),
+          v.description("check if array of 2 numbers and devide num/denum")
         ),
-        v.transform((str) => split(str, "/"))
-      ),
-      ["0", "1"]
-    );
+        "0%"
+      );
 
-    /**
-     *
-     * @param tableau the return of xValidation (array of 2 number)
-     * @returns number the result of the division
-     */
-    function diviserElements(tableau: number[]): number {
-      let resu = 0;
-      for (const [index, element] of tableau.entries()) {
-        if (index === 0) {
-          resu = element;
-        } else {
-          resu = resu / element;
-        }
-      }
-      return resu * 100;
-    }
 
-    const NumberSchema = v.pipe(
-      v.array(v.pipe(v.unknown(), v.transform(Number))),
-      v.length(2, "The string must be 2 elements."),
-      v.transform(diviserElements),
-      v.transform((digit) => `${digit}%`),
-      v.description("check if array of 2 numbers and devide num/denum")
-    );
-
-    const array = v.parse(xValidation, x) as [string, string];
-    return v.parse(NumberSchema, array);
+    return v.parse(validateInput__Divide_NumByDenum, x);
+    //return v.parse(NumberSchema, array);
   };
 }
 

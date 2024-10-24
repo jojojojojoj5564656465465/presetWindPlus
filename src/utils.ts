@@ -1,4 +1,6 @@
 import UnitArray from "./Class/Units";
+import * as v from "valibot"
+const schemaArray = v.pipe(v.array(v.string()),v.maxLength(4),v.minLength(1))
 
 /**
  * Removes duplicates in margin or padding values to avoid repetition in CSS output.

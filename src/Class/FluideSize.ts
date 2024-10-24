@@ -52,17 +52,16 @@ function fluidType(options: FluidTypeOptions): {
   [key: string]: string;
 } {
   const { category, minVw, maxVw, minValue, maxValue } = options;
-  const limitScreenSize = pipe(number(), max(1680), min(300));
+  const limitScreenSize = pipe(number('number only for screen Size props'), max(1680,"maxVw should be less than 1680"), min(300,"minVw should be more than 300"));
   const valibotLimitScreenSize = parser(limitScreenSize);
 
-  valibotLimitScreenSize(maxVw);
-  valibotLimitScreenSize(minVw);
+
 
   // Convert all values to rem
   const minValueRem = toTailwindUnitsBy4(minValue);
   const maxValueRem = toTailwindUnitsBy4(maxValue);
-  const minVwRem = minVw / 16;
-  const maxVwRem = maxVw / 16;
+  const minVwRem = valibotLimitScreenSize(minVw) / 16;
+  const maxVwRem = valibotLimitScreenSize(maxVw) / 16;
 
   // Validate input options
   if (minVwRem >= maxVwRem || minValueRem >= maxValueRem) {

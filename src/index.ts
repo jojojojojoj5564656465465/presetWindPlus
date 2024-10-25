@@ -16,14 +16,12 @@ const presetWindPlus = definePreset(() => {
     // Customize your preset here
     rules: [
       [
-        /^flex\|(?<grow>\d+)?\|(?<shrink>\d+)?\|?(\d+|\[\w+\]|auto|^[1-9][0-9]{0,2}\/[1-9][0-9]{0,3}$)?$/,
+        /^flex\|(?<grow>\d+)\|(?<shrink>\d+)?\|?(?<basis>[\w\/%\[\]\.\d]+)$/,
         (match) => {
-          const [, grow = 1, shrink = 0, basis] = match as [
-            unknown,
-            number,
-            number,
-            string | "auto"
-          ];
+          const grow = matchFromRegex<number>(match, "grow");
+          const shrink = matchFromRegex<number>(match, "shrink");
+          const basis = matchFromRegex<string|undefined>(match, "basis");
+
           if (basis) {
             const basisClass = new UnitArray(basis);
             basisClass.numberRemOrString();

@@ -1,4 +1,6 @@
 import { definePreset } from "@unocss/core";
+import UnitProcess from "./Class/Units.valibot";
+
 
 import {
   convertUnitFromArray,
@@ -23,10 +25,11 @@ const presetWindPlus = definePreset(() => {
           const basis = match.groups?.basiss
 
           if (basis) {
-            const basisClass = new UnitArray(basis);
-            basisClass.numberRemOrString();
+            const resultBasis = UnitProcess(basis);
+            // const basisClass = new UnitArray(basis);
+            // basisClass.numberRemOrString();
             return {
-              flex: `${grow} ${shrink} ${basisClass.el}`,
+              flex: `${grow} ${shrink} ${resultBasis}`,
             };
           }
           return {

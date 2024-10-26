@@ -4,6 +4,29 @@ import * as v from "valibot";
 
 type Element = string | `${number}` | Size | Regex;
 
+
+
+// const valideObj = v.pipe(
+//   v.string(),
+//   v.custom<keyof typeof size>((input) =>
+//     Object.keys(size).find((e) => e === input) ? true : false
+//   ),
+//   v.transform((e) => size[e])
+// );
+
+
+
+const Brackets = v.pipe(
+  v.string(),
+  v.startsWith("["),
+  v.endsWith("]"),
+  v.regex(/^\[(?<valueInsideBrakets>[\d\w\.%]{2,})\]$/),
+  v.transform((e) => e.match(/^\[(?<valueInsideBrakets>[\d\w\.%]{2,})\]$/)),
+  v.transform((e) => e?.pop())
+);
+
+
+
 /**
  * This is a description of the MyClass constructor function.
  * @class Fonction
@@ -27,7 +50,7 @@ class Fonction {
 
     return v.parse(convert, x);
   }
-
+  
   fractionPourcentageGenerator = (x: `${string}/${string}`): string => {
       const validateInput__Divide_NumByDenum = v.fallback(
         v.pipe(
@@ -39,7 +62,7 @@ class Fonction {
             "must be a Fraction like 1/2 or 5/9"
           ),
           v.transform((str) => str.split("/")),
-          v.tuple([
+          v.strictTuple([
             v.pipe(v.string(), v.transform(Number), v.toMinValue(1)),
             v.pipe(v.string(), v.transform(Number), v.toMinValue(1)),
           ]),
@@ -132,6 +155,8 @@ class UnitArray extends Fonction {
 
     // biome-ignore lint/complexity/useRegexLiterals: <explanation>
     valideInsideBraket: new RegExp("^\\d+\\w+$"),
+
+    octobreRegex :/^\[(?<valueInsideBrakets>[\d\w\.%]{2,})\]$/
   };
 
   valideinsideBraket(x: string) {
@@ -156,6 +181,8 @@ class UnitArray extends Fonction {
         this.el = this.fractionPourcentageGenerator(
           this.el as `${string}/${string}`
         );
+
+
       } else if (this.insideBraketP()) {
         const match = this.el.match(this.regex.Braket) as RegExpMatchArray;
         const groups = matchFromRegex<string>(match, "insideBrakets");

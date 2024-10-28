@@ -88,3 +88,68 @@ function fluidType(options: FluidTypeOptions): {
   return { [tailwindClasses[category]]: clampValue };
 }
 export default fluidType;
+
+
+
+
+
+
+
+
+
+const limitScreenSizeVW = v.pipe(
+  v.number("number only for screen Size props"),
+  v.maxValue(1680, "maxVw should be less than 1680"),
+  v.minValue(300, "minVw should be more than 300"),
+  v.transform((num) => num / 16),
+  v.description(
+    "vérifier la taille min et max & devide by 16 to convert into px"
+  )
+);
+
+const vwConverter = v.parser(limitScreenSizeVW);
+
+const valueRem = v.pipe(
+  v.number("must be a number"),
+  v.minValue(1),
+  v.transform((num) => num / 4)
+);
+
+const toTailwindUnitsBy4 = v.parser(valueRem);
+
+const obj = {
+  maxValueRem: 18,
+  minValueRem: 1,
+  maxVwRem: 1200,
+  minVwRem: 350,
+};
+const SimpleObjectSchema = v.object({
+  maxValueRem: valueRem,
+  minValueRem: valueRem,
+  maxVwRem: limitScreenSizeVW,
+  minVwRem: limitScreenSizeVW,
+});
+
+const Shema_minmaxCompareAndTransform = v.pipe(
+  v.strictTuple([v.number(), v.number()]),
+  v.check((arr) => arr[0] < arr[1], "max must be above min"),
+  v.transform((arr) => arr[1] - arr[0])
+);
+const minmaxCompareAndTransformP = v.parser(Shema_minmaxCompareAndTransform);
+
+const { maxValueRem, minValueRem, maxVwRem, minVwRem } = v.parse(
+  SimpleObjectSchema,
+  obj
+);
+
+const slope =
+  minmaxCompareAndTransformP([minValueRem, maxValueRem]) /
+  minmaxCompareAndTransformP([minVwRem, maxVwRem]);
+const yIntercept = minValueRem - minVwRem * slope;
+
+const fluidValue = `${yIntercept.toFixed(4)}rem + ${(slope * 100).toFixed(
+  4
+)}vw`;
+
+console.log(fluidValue);
+

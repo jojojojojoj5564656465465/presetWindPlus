@@ -1,5 +1,7 @@
 import { definePreset } from "@unocss/core";
 import UnitProcess from "./Class/Units.valibot";
+import {unitsFromMatch_removeDuplicates} from "./Class/AllUnits";
+import *  as v from "valibot";
 
 
 import {
@@ -9,7 +11,10 @@ import {
   removeDuplicateArrayPaddingOrMargin,
 } from "./utils";
 
-import { AllUnitsHandler,  FluidSize } from "./Class";
+import {
+  AllUnitsHandler,
+  FluidSize,
+} from "./Class";
 //import { AllUnitsHandler, UnitArray, FluidSize } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
 
@@ -79,8 +84,10 @@ const presetWindPlus = definePreset(() => {
             match,
             "direction"
           );
-          const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-          const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+          //const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
+         // const array:string[] = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+
+          const array = v.parse(unitsFromMatch_removeDuplicates(4,false), match);
           const combination = {
             p: "padding",
             m: "margin",

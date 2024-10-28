@@ -95,7 +95,7 @@ export default fluidType;
 
 
 
-
+/*
 
 const limitScreenSizeVW = v.pipe(
   v.number("number only for screen Size props"),
@@ -153,3 +153,4 @@ const fluidValue = `${yIntercept.toFixed(4)}rem + ${(slope * 100).toFixed(
 
 console.log(fluidValue);
 
+*/

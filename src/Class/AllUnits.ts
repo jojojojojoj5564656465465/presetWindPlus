@@ -83,13 +83,20 @@ import * as v from "valibot";
  * @example unitsFromMatch_removeDuplicates(4, true) => ["4", "6", "7"]
  * @description this function is used to remove duplicates from an array extracted from a regex match
  */
-export const unitsFromMatch_removeDuplicates = (sizeLimit: 1 | 2 | 4, duplicate: boolean) =>
+export const unitsFromMatch_removeDuplicates = (
+  sizeLimit: 1 | 2 | 4,
+  duplicate: boolean
+) =>
   v.fallback(
     v.pipe(
       v.array(v.string()),
       v.maxLength(5),
-      v.check((arr) => arr.length > sizeLimit,"if you have size limite above arr length there is an error"),
+      v.minLength(2),
       v.transform((arr) => arr.slice(1, sizeLimit + 1)),
+      v.check(
+        (arr) => arr.length < sizeLimit,
+        "Size Limite is under nb arguments "
+      ),
       v.transform((array) => (duplicate ? [...new Set(array)] : array))
     ),
     []

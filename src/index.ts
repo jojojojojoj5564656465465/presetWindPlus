@@ -85,9 +85,9 @@ const presetWindPlus = definePreset(() => {
             "direction"
           );
           //const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-         // const array:string[] = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+          const arrMatch = v.parse(unitsFromMatch_removeDuplicates(4,false), match);
+          const array: string[] = convertUnitFromArray(arrMatch);
 
-          const array = v.parse(unitsFromMatch_removeDuplicates(4,false), match);
           const combination = {
             p: "padding",
             m: "margin",

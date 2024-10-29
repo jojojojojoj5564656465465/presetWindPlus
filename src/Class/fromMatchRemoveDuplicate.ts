@@ -11,7 +11,7 @@ import * as v from "valibot";
  * @description this function is used to remove duplicates from an array extracted from a regex match
  */
 const fromMatchRemoveDuplicate = (sizeLimit: 1 | 2 | 4, duplicate: boolean) =>
-  v.fallback(
+
     v.pipe(
       v.array(v.string()),
       v.maxLength(5, "array could not be above 5"),
@@ -22,7 +22,5 @@ const fromMatchRemoveDuplicate = (sizeLimit: 1 | 2 | 4, duplicate: boolean) =>
         "Size Limite is under nb arguments "
       ),
       v.transform((array) => (duplicate ? [...new Set(array)] : array))
-    ),
-    []
-  );
+    )
 export default fromMatchRemoveDuplicate;

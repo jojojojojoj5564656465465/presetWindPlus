@@ -14,9 +14,9 @@ const fromMatchRemoveDuplicate = (sizeLimit: 1 | 2 | 4, duplicate: boolean) =>
 
     v.pipe(
       v.array(v.string()),
-      v.maxLength(5, "array could not be above 5"),
-      v.minLength(2, "arr min 2"),
-      v.transform((arr) => arr.slice(1, sizeLimit + 1)),
+      v.maxLength(4, "array could not be above 5"),
+      v.minLength(1, "arr min 2"),
+//      v.transform((arr) => arr.slice(1, sizeLimit + 1)),
       v.check(
         (arr) => arr.length < sizeLimit,
         "Size Limite is under nb arguments "

@@ -119,3 +119,13 @@ export function elementFromDictionary<T extends Record<string, string>>(
   }
   throw new Error("elementFromDictionary is undefined");
 }
+
+/**
+ * 
+ * @param x Match from regex
+ * @returns string[] '5', '6', '9' only the units 
+ * @description match Array(6) [
+  'p-5-6-9', 'p', '5', '6', '9', undefined, index: 0, input: 'p-5-6-9', groups: { direction: 'p', one: '5', four: undefined }]
+
+ */
+  export const matchUnitsNonProcessed = (x: RegExpMatchArray | null)=>x?.filter(Boolean).filter(String).slice(1) as string[];

@@ -9,6 +9,7 @@ import {
   elementFromDictionary,
   matchFromRegex,
   removeDuplicateArrayPaddingOrMargin,
+  matchUnitsNonProcessed,
 } from "./utils";
 
 import {
@@ -88,8 +89,13 @@ const presetWindPlus = definePreset(() => {
             match,
             "direction"
           );
+    
           //const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-          const arrMatch = v.parse(fromMatchRemoveDuplicate(4, false), match);
+          const arrMatch = v.parse(
+            fromMatchRemoveDuplicate(4, false),
+            matchUnitsNonProcessed(match)
+          );
+          
           console.log(arrMatch);
           const array: string[] = convertUnitFromArray(arrMatch);
 

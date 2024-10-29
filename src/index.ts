@@ -1,6 +1,6 @@
 import { definePreset } from "@unocss/core";
 import UnitProcess from "./Class/Units.valibot";
-import {unitsFromMatch_removeDuplicates} from "./Class/AllUnits";
+
 import *  as v from "valibot";
 
 
@@ -14,6 +14,10 @@ import {
 import {
   AllUnitsHandler,
   FluidSize,
+
+  //UnitArray,
+
+  fromMatchRemoveDuplicate,
 } from "./Class";
 //import { AllUnitsHandler, UnitArray, FluidSize } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
@@ -85,7 +89,8 @@ const presetWindPlus = definePreset(() => {
             "direction"
           );
           //const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-          const arrMatch = v.parse(unitsFromMatch_removeDuplicates(4,false), match);
+          const arrMatch = v.parse(fromMatchRemoveDuplicate(4, false), match);
+          console.log(arrMatch);
           const array: string[] = convertUnitFromArray(arrMatch);
 
           const combination = {

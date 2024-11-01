@@ -1,8 +1,7 @@
 import { definePreset } from "@unocss/core";
 import UnitProcess from "./Class/Units.valibot";
 
-import *  as v from "valibot";
-
+import * as v from "valibot";
 
 import {
   convertUnitFromArray,
@@ -10,30 +9,44 @@ import {
   matchFromRegex,
   removeDuplicateArrayPaddingOrMargin,
   matchUnitsNonProcessed,
+
+  regexUnit,
 } from "./utils";
 
 import {
   AllUnitsHandler,
   FluidSize,
-
+UnitArray2,
   //UnitArray,
-
   fromMatchRemoveDuplicate,
 } from "./Class";
 //import { AllUnitsHandler, UnitArray, FluidSize } from "./Class";
 import tailwindKiller from "./netingRules/tailwindKiller";
+import { dictionaryParser } from "./netingRules/utils";
 
-const presetWindPlus = definePreset(() => {
+export interface StarterOptions {
+  /**
+   *  The number of columns in the grid system (Example option)
+   *
+   * @default 1650
+   */
+  maxScreenW?: number;
+  minScreenW?: number;
+}
+const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
   return {
     name: "presetWindPlus",
     // Customize your preset here
+    theme: {
+      // Customize your theme here
+    },
     rules: [
       [
         /^flex\|(?<grow>\d)\|(?<shrink>\d)\|?(?<basiss>[\w\d%\/]*)?/,
         (match) => {
           const grow = matchFromRegex<number>(match, "grow");
           const shrink = matchFromRegex<number>(match, "shrink");
-          const basis = match.groups?.basiss
+          const basis = match.groups?.basiss;
 
           if (basis) {
             const resultBasis = UnitProcess(basis);
@@ -83,31 +96,48 @@ const presetWindPlus = definePreset(() => {
         { autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
       ],
       [
-        /^(?<direction>p|m|inset)-(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?$/,
-        (match) => {
-          const direction = matchFromRegex<"p" | "m" | "inset">(
-            match,
-            "direction"
-          );
-    
-          //const ClassArrayOfUnits = new AllUnitsHandler(match, 4, false);
-          const arrMatch = v.parse(
-            fromMatchRemoveDuplicate(4, false),
-            matchUnitsNonProcessed(match)
-          );
-          
-          console.log(arrMatch);
-          const array: string[] = convertUnitFromArray(arrMatch);
+        // /^(?<direction>p|m|inset)-(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?$/,
+        // biome-ignore lint/complexity/useRegexLiterals: <explanation>
+        new RegExp(
+          `^(?<direction>p|m|inset)-${regexUnit}-?${regexUnit}?-?${regexUnit}?-?${regexUnit}?$`
+        ),
+        ([,...match]) => {
+          const [direction, ...units] = match.filter(Boolean);
+         
+          try {
+                const arrMatch = v.parse(
+                  fromMatchRemoveDuplicate(4, false),
+                  matchUnitsNonProcessed(units)
+                );
+                //const array: string[] = convertUnitFromArray(arrMatch);
+                const array = arrMatch.map(item=>UnitArray2(item))
+                
+                const returnDirection = dictionaryParser(direction);
+                const arrayWithoutDuplicate =
+                  removeDuplicateArrayPaddingOrMargin(array);
 
-          const combination = {
-            p: "padding",
-            m: "margin",
-            inset: "inset",
-          } as const satisfies Record<typeof direction, string>;
-          const returnDirection = elementFromDictionary(combination, direction);
-          const arrayWithoutDuplicate =
-            removeDuplicateArrayPaddingOrMargin(array);
-          return { [returnDirection]: arrayWithoutDuplicate.join(" ") };
+                  console.log({ returnDirection, arrayWithoutDuplicate });
+                return { [returnDirection]: arrayWithoutDuplicate.join(" ") };
+          } catch (error) {
+            if (error instanceof v.ValiError) {
+              console.error(error.issues);
+            }
+          
+          }
+      
+
+          //console.log(arrMatch);
+
+          // const combination = {
+          //   p: "padding",
+          //   m: "margin",
+          //   inset: "inset",
+          // } as const satisfies Record<string, string>;
+          // const returnDirection = elementFromDictionary(
+          //   combination,
+          //   direction as "p" | "m" | "inset"
+          // );
+
         },
         { autocomplete: "(p|m|inset)-<num>-<num>-<num>-<num>" },
       ],
@@ -274,8 +304,8 @@ const presetWindPlus = definePreset(() => {
 
           const result = FluidSize({
             category,
-            minVw: 320,
-            maxVw: 1180,
+            minVw: _options.minScreenW ?? 320,
+            maxVw: _options.maxScreenW ?? 1180,
             minValue,
             maxValue,
           });
@@ -286,6 +316,20 @@ const presetWindPlus = definePreset(() => {
             "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
         },
       ],
+    ],
+    // Customize your variants here
+    variants: [
+      {
+        name: "@active",
+        match(matcher) {
+          if (!matcher.startsWith("@active")) return matcher;
+
+          return {
+            matcher: matcher.slice(8),
+            selector: (s) => `${s}.active`,
+          };
+        },
+      },
     ],
     shortcuts: [
       [

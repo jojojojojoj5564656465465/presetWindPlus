@@ -1,6 +1,6 @@
 import { includes, split, toLowerCase, trim } from "string-ts";
 import { eliminerUndefined } from "../utils";
-
+import * as v from "valibot";
 /**
  * @description Split inside the lg:[....] log error if more than 2 elements in Array
  * @param {string} x
@@ -102,3 +102,29 @@ export class BuildTailwindKiller {
 		return this.makeFinalStringWithCategory(AddCategory);
 	}
 }
+const combination = {
+  px: "padding-inline",
+  py: "padding-block",
+  mx: "margin-inline",
+  my: "margin-block",
+  gap: "gap",
+  p: "padding",
+  m: "margin",
+  inset: "inset",
+  x: "inset-inline",
+  y: "inset-block",
+} as const;
+
+const dictionaryCheckAndTransform = v.pipe(
+  v.string(),
+  v.custom<keyof typeof combination>(
+    (input) =>
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
+      (typeof input === "string" && combination.hasOwnProperty(input)) ?? false,
+    "The list does not match the length."
+  ),
+  v.transform((string) => combination[string]),
+  v.description("check if string is part of dictionary")
+);
+
+export const dictionaryParser = v.parser(dictionaryCheckAndTransform);

@@ -109,6 +109,8 @@ function removeDirectionInArray(array: RegExpMatchArray): void {
 type NoInfer<T> = {
   [K in keyof T]: T extends T ? never : T;
 };
+
+
 export function elementFromDictionary<T extends Record<string, string>>(
   obj: T,
   key: keyof NoInfer<T>
@@ -128,4 +130,30 @@ export function elementFromDictionary<T extends Record<string, string>>(
   'p-5-6-9', 'p', '5', '6', '9', undefined, index: 0, input: 'p-5-6-9', groups: { direction: 'p', one: '5', four: undefined }]
 
  */
-  export const matchUnitsNonProcessed = (x: RegExpMatchArray | null)=>x?.filter(Boolean).filter(String).slice(1) as string[];
+  export const matchUnitsNonProcessed = (x: unknown[])=>x?.filter(Boolean).filter(String) as string[];
+
+
+
+  const a = /^(p|m)/.source;
+const dig = '(?<=-)(\\bfull\\b|\\bscreen\\b|\\bmin\\b|\\bmax\\b|\\bfit\\b|\\bfill\\b|\\bauto\\b|\\bdvw\\b|\\bdvh\\b|\\bsvw\\b|\\bsvh\\b|\\blvw\\b|\\blvh\\b|\\bpx\\b|\\d+\\.?\\/?[1-9]?|\\[\\d+.?(?:\\w+|%)\\])'
+
+let enutilisant = /^(p|m)(?:-?\d{1,4}){4}/g
+const arrr = `${a}${dig}${dig}?${dig}?-?${dig}`;
+
+
+
+export const dynamicRegex = new RegExp(arrr);
+
+//const ez = testString.map(e => e.match(dynamicRegex).slice(1).filter(Boolean))
+//console.log(ez)
+
+
+const regexOptions = {
+  words:
+    /\bfull\b|\bscreen\b|\bmin\b|\bmax\b|\bfit\b|\bfill\b|\bauto\b|\bdvw\b|\bdvh\b|\bsvw\b|\bsvh\b|\blvw\b|\blvh\b|\bpx\b/,
+  numberOnly: /\d+(?:\.5)?(?!\w)/,
+  franction: /[1-9]\/[2-9]/,
+  squareBrackets: /\[[1-9]\d*.?\d?(?:\w+|%)\]/,
+};
+
+export const regexUnit = `(${regexOptions.franction.source}|${regexOptions.words.source}|${regexOptions.numberOnly.source}|${regexOptions.squareBrackets.source})`;

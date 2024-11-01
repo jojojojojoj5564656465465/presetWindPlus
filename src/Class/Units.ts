@@ -199,3 +199,4 @@ class UnitArray extends Fonction {
 }
 
 export default UnitArray;
+

@@ -66,6 +66,7 @@
     "@babel/types": "^7.25.8",
     "@types/node": "^20.16.12",
     "@unocss/eslint-plugin": "^0.58.9",
+    "@vitejs/plugin-vue": "^5.1.2",
     "bumpp": "^9.7.1",
     "eslint": "^8.57.1",
     "typescript": "5.3.3",

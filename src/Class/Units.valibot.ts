@@ -6,7 +6,7 @@ const convertToRem = v.pipe(
   v.transform(Number),
   v.number("convert to rem only accept number into a string"),
   v.transform((el) => el / 4),
-  v.transform((el) => el.toFixed(2)),
+  v.transform((el) => Math.round(el)),
   v.transform((el) => `${el}rem`)
 );
 
@@ -43,7 +43,7 @@ const size = {
   svh: "100svh",
   lvw: "100lvw",
   lvh: "100lvh",
-  px: "1px",
+
 } as const;
 
 const valideObj = v.pipe(
@@ -64,14 +64,15 @@ const Brackets = v.pipe(
 );
 
 
-const caseSwitch = v.fallback(
+const caseSwitch = v.nonNullish(v.nullish(
   v.union([
     convertToRem,
     valideObj,
     validateInput__Divide_NumByDenum,
     Brackets,
   ]),
-  "0in"
-);
-const UnitProcess = v.parser(caseSwitch);
+),"0in")
+
+const UnitProcess = v.parser(caseSwitch) ;
+
 export default UnitProcess;

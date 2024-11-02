@@ -6,7 +6,7 @@ const convertToRem = v.pipe(
   v.transform(Number),
   v.number("convert to rem only accept number into a string"),
   v.transform((el) => el / 4),
-  v.transform((el) => Math.round(el)),
+  v.transform((el) => el.toFixed(2)),
   v.transform((el) => `${el}rem`)
 );
 

@@ -156,4 +156,4 @@ const regexOptions = {
   squareBrackets: /\[[1-9]\d*.?\d?(?:\w+|%)\]/,
 };
 
-export const regexUnit = `(${regexOptions.franction.source}|${regexOptions.words.source}|${regexOptions.numberOnly.source}|${regexOptions.squareBrackets.source})`;
+export const regexUnit = `(?<!--)${regexOptions.franction.source}|${regexOptions.words.source}|${regexOptions.numberOnly.source}|${regexOptions.squareBrackets.source})`;

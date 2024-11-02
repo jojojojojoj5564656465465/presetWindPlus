@@ -1,13 +1,4 @@
-import {
-  pipe,
-  number,
-  parse,
-maxValue as max,
-  type InferOutput,
-  parser,
-  nonNullable,
-  minValue as min,
-} from "valibot";
+import * as v from "valibot";
 
 const tailwindClasses = {
   m: "margin",
@@ -41,19 +32,18 @@ interface FluidTypeOptions {
   minValue: number;
   maxValue: number;
 }
-const numberArg = pipe(number(), min(1), nonNullable(number()));
+const numberArg = v.pipe(v.number(), v.minValue(1), v.nonNullable(v.number()));
 
-function toTailwindUnitsBy4(px: number): InferOutput<typeof numberArg> {
-  parse(numberArg, px);
-  return px / 4;
+function toTailwindUnitsBy4(px: number): v.InferOutput<typeof numberArg> {
+  return v.parse(numberArg, px) / 4;
 }
 
 function fluidType(options: FluidTypeOptions): {
   [key: string]: string;
 } {
   const { category, minVw, maxVw, minValue, maxValue } = options;
-  const limitScreenSize = pipe(number('number only for screen Size props'), max(1680,"maxVw should be less than 1680"), min(300,"minVw should be more than 300"));
-  const valibotLimitScreenSize = parser(limitScreenSize);
+  const limitScreenSize = v.pipe(v.number('number only for screen Size props'), v.maxValue(1680,"maxVw should be less than 1680"), min(300,"minVw should be more than 300"));
+  const valibotLimitScreenSize = v.parser(limitScreenSize);
 
 
 
@@ -93,9 +83,20 @@ export default fluidType;
 
 
 
+const dictionaryCheckAndTransform = v.pipe(
+  v.string(),
+  v.custom<keyof typeof tailwindClasses>(
+    (input) =>
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
+      (typeof input === "string" && tailwindClasses.hasOwnProperty(input)) ??
+      false,
+    "The list does not match the length."
+  ),
+  v.transform((string) => tailwindClasses[string]),
+  v.description("check if string is part of dictionary")
+);
 
 
-/*
 
 const limitScreenSizeVW = v.pipe(
   v.number("number only for screen Size props"),
@@ -150,7 +151,11 @@ const yIntercept = minValueRem - minVwRem * slope;
 const fluidValue = `${yIntercept.toFixed(4)}rem + ${(slope * 100).toFixed(
   4
 )}vw`;
-
+  // Generate the clamp value
+  const clampValue = `clamp(${minValueRem.toFixed(
+    5
+  )}rem, ${fluidValue}, ${maxValueRem.toFixed(5)}rem)`;
 console.log(fluidValue);
 
-*/
+// Return the CSS string with the clamp value
+  return { [v.parse(dictionaryCheckAndTransform,category)]: clampValue };

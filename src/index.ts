@@ -9,14 +9,13 @@ import {
   matchFromRegex,
   removeDuplicateArrayPaddingOrMargin,
   matchUnitsNonProcessed,
-
   regexUnit,
 } from "./utils";
 
 import {
   AllUnitsHandler,
   FluidSize,
-UnitArray2,
+  UnitArray2,
   //UnitArray,
   fromMatchRemoveDuplicate,
 } from "./Class";
@@ -101,43 +100,25 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
         new RegExp(
           `^(?<direction>p|m|inset)-${regexUnit}-?${regexUnit}?-?${regexUnit}?-?${regexUnit}?$`
         ),
-        ([,...match]) => {
-          const [direction, ...units] = match.filter(Boolean);
-         
-          try {
-                const arrMatch = v.parse(
-                  fromMatchRemoveDuplicate(4, false),
-                  matchUnitsNonProcessed(units)
-                );
-                //const array: string[] = convertUnitFromArray(arrMatch);
-                const array = arrMatch.map(item=>UnitArray2(item))
-                
-                const returnDirection = dictionaryParser(direction);
-                const arrayWithoutDuplicate =
-                  removeDuplicateArrayPaddingOrMargin(array);
+        ([, ...match]) => {
+          const [direction, ...units] = match
 
-                  console.log({ returnDirection, arrayWithoutDuplicate });
-                return { [returnDirection]: arrayWithoutDuplicate.join(" ") };
+          try {
+            const arrMatch = v.parse(
+              fromMatchRemoveDuplicate(4, false),
+              matchUnitsNonProcessed(units)
+            );
+            const array = arrMatch.map((item) => UnitArray2(item));
+
+            const returnDirection = dictionaryParser(direction);
+            const arrayWithoutDuplicate =
+              removeDuplicateArrayPaddingOrMargin(array);
+            return { [returnDirection]: arrayWithoutDuplicate.join(" ") };
           } catch (error) {
             if (error instanceof v.ValiError) {
               console.error(error.issues);
             }
-          
           }
-      
-
-          //console.log(arrMatch);
-
-          // const combination = {
-          //   p: "padding",
-          //   m: "margin",
-          //   inset: "inset",
-          // } as const satisfies Record<string, string>;
-          // const returnDirection = elementFromDictionary(
-          //   combination,
-          //   direction as "p" | "m" | "inset"
-          // );
-
         },
         { autocomplete: "(p|m|inset)-<num>-<num>-<num>-<num>" },
       ],

@@ -285,8 +285,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 
           const result = FluidSize({
             category,
-            minVw: _options.minScreenW ?? 320,
-            maxVw: _options.maxScreenW ?? 1180,
+            minScreenW: _options.minScreenW ?? 320,
+            maxScreenW: _options.maxScreenW ?? 1180,
             minValue,
             maxValue,
           });

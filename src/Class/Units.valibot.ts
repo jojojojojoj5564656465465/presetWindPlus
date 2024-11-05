@@ -73,6 +73,5 @@ const caseSwitch = v.nonNullish(v.nullish(
   ]),
 ),"0in")
 
-const UnitProcess = v.parser(caseSwitch) ;
 
-export default UnitProcess;
+export default v.parser(caseSwitch);

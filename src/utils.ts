@@ -50,6 +50,7 @@ export function removeDuplicateArrayPaddingOrMargin(
  * @description take all units from regex and convert it USE CLASS UnitArray
  * @param array [ '4', '[15px]', '5', 'max' ]
  * @returns [ '1rem', '15px', '1.25rem', 'max-content' ]
+ * @deprecated
  */
 export function convertUnitFromArray(array: string[]): string[] {
   for (let index = 0; index < array.length; index++) {
@@ -144,8 +145,7 @@ const arrr = `${a}${dig}${dig}?${dig}?-?${dig}`;
 
 export const dynamicRegex = new RegExp(arrr);
 
-//const ez = testString.map(e => e.match(dynamicRegex).slice(1).filter(Boolean))
-//console.log(ez)
+
 
 
 const regexOptions = {

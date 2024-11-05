@@ -1,5 +1,16 @@
 import * as v from "valibot";
 
+
+
+const obj:FluidTypeOptions = {
+  category:"px",
+  maxValue: 18,
+  minValue: 1,
+  minScreenW: 322,
+  maxScreenW: 1200,
+};
+
+
 const tailwindClasses = {
   m: "margin",
   mx: "margin-inline",
@@ -17,145 +28,90 @@ const tailwindClasses = {
   pl: "padding-inline-start",
   text: "font-size",
   gap: "gap",
-  w: "width",
-  h: "height",
+  w: "inline-size",
+  h: "block-size",
   border: "border-width",
   outline: "outline-width",
-} as const;
-
-type TailwindClass = keyof typeof tailwindClasses;
+} as const satisfies Record<string, string>;
 
 interface FluidTypeOptions {
-  category: TailwindClass;
-  minVw: number;
-  maxVw: number;
+  category: keyof typeof tailwindClasses;
+  minScreenW: number;
+  maxScreenW: number;
   minValue: number;
   maxValue: number;
 }
-const numberArg = v.pipe(v.number(), v.minValue(1), v.nonNullable(v.number()));
 
-function toTailwindUnitsBy4(px: number): v.InferOutput<typeof numberArg> {
-  return v.parse(numberArg, px) / 4;
-}
+function fluidType(options: FluidTypeOptions) {
+  const dictionaryCheckAndTransform = v.pipe(
+    v.string(),
+    v.custom<keyof typeof tailwindClasses>(
+      (input) =>
+        // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
+        (typeof input === "string" && tailwindClasses.hasOwnProperty(input)) ??
+        false,
+      "dictionaryCheckAndTransform did not find the element you wanted"
+    ),
+    v.transform((string) => tailwindClasses[string]),
+    v.description("check if string is part of dictionary")
+  );
+  const keyReturn = v.parser(dictionaryCheckAndTransform);
+  const limitScreenSizeVW = v.pipe(
+    v.number("number only for screen Size props"),
+    v.maxValue(1680, "maxVw should be less than 1680"),
+    v.minValue(300, "minVw should be more than 300"),
+    v.transform((num) => num / 16),
+    v.description(
+      "vérifier la taille min et max & devide by 16 to convert into px"
+    )
+  );
 
-function fluidType(options: FluidTypeOptions): {
-  [key: string]: string;
-} {
-  const { category, minVw, maxVw, minValue, maxValue } = options;
-  const limitScreenSize = v.pipe(v.number('number only for screen Size props'), v.maxValue(1680,"maxVw should be less than 1680"), min(300,"minVw should be more than 300"));
-  const valibotLimitScreenSize = v.parser(limitScreenSize);
+  const valueRem = v.pipe(
+    v.number("must be a number"),
+    v.minValue(0.5, "min value must be more than 0.5"),
+    v.transform((num) => num / 4)
+  );
 
+  const SimpleObjectSchema = v.pipe(
+    v.object({
+      category: dictionaryCheckAndTransform,
+      maxValue: valueRem,
+      minValue: valueRem,
+      maxScreenW: limitScreenSizeVW,
+      minScreenW: limitScreenSizeVW,
+    }),
+    v.partialCheck(
+      [["maxScreenW"], ["minScreenW"]],
+      (input) => input.minScreenW < input.maxScreenW,
+      "maxVwRem is less than minScreenW invert data"
+    ),
+    v.partialCheck(
+      [["maxScreenW"], ["minScreenW"]],
+      (input) => input.minScreenW < input.maxScreenW,
+      "maxVwRem is less than minValueRem invert data"
+    )
+  );
 
+  const { maxValue, minValue, maxScreenW, minScreenW } = v.parse(
+    SimpleObjectSchema,
+    options
+  );
+  const slope = (maxValue - minValue) / (maxScreenW - minScreenW);
+  const yIntercept = minValue - minScreenW * slope;
 
-  // Convert all values to rem
-  const minValueRem = toTailwindUnitsBy4(minValue);
-  const maxValueRem = toTailwindUnitsBy4(maxValue);
-  const minVwRem = valibotLimitScreenSize(minVw) / 16;
-  const maxVwRem = valibotLimitScreenSize(maxVw) / 16;
-
-  // Validate input options
-  if (minVwRem >= maxVwRem || minValueRem >= maxValueRem) {
-    throw new Error(
-      "Invalid input options: min values should be less than max values"
-    );
-  }
-
-  // Calculate the slope and y-intercept
-  const slope = (maxValueRem - minValueRem) / (maxVwRem - minVwRem);
-  const yIntercept = minValueRem - minVwRem * slope;
-
-  // Generate the fluid value
-  const fluidValue = `${yIntercept.toFixed(4)}rem + ${(slope * 100).toFixed(
-    4
+  const fluidValue = `${yIntercept.toFixed(2)}rem + ${(slope * 100).toFixed(
+    2
   )}vw`;
-
   // Generate the clamp value
-  const clampValue = `clamp(${minValueRem.toFixed(
+  const clampValue = `clamp(${minValue.toFixed(
     5
-  )}rem, ${fluidValue}, ${maxValueRem.toFixed(5)}rem)`;
+  )}rem, ${fluidValue}, ${maxValue.toFixed(2)}rem)`;
 
-  // Return the CSS string with the clamp value
-  return { [tailwindClasses[category]]: clampValue };
+  return {
+    [keyReturn(options.category)]: clampValue,
+  };
 }
+const result = fluidType(obj)
+
+
 export default fluidType;
-
-
-
-
-
-const dictionaryCheckAndTransform = v.pipe(
-  v.string(),
-  v.custom<keyof typeof tailwindClasses>(
-    (input) =>
-      // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
-      (typeof input === "string" && tailwindClasses.hasOwnProperty(input)) ??
-      false,
-    "The list does not match the length."
-  ),
-  v.transform((string) => tailwindClasses[string]),
-  v.description("check if string is part of dictionary")
-);
-
-
-
-const limitScreenSizeVW = v.pipe(
-  v.number("number only for screen Size props"),
-  v.maxValue(1680, "maxVw should be less than 1680"),
-  v.minValue(300, "minVw should be more than 300"),
-  v.transform((num) => num / 16),
-  v.description(
-    "vérifier la taille min et max & devide by 16 to convert into px"
-  )
-);
-
-const vwConverter = v.parser(limitScreenSizeVW);
-
-const valueRem = v.pipe(
-  v.number("must be a number"),
-  v.minValue(1),
-  v.transform((num) => num / 4)
-);
-
-const toTailwindUnitsBy4 = v.parser(valueRem);
-
-const obj = {
-  maxValueRem: 18,
-  minValueRem: 1,
-  maxVwRem: 1200,
-  minVwRem: 350,
-};
-const SimpleObjectSchema = v.object({
-  maxValueRem: valueRem,
-  minValueRem: valueRem,
-  maxVwRem: limitScreenSizeVW,
-  minVwRem: limitScreenSizeVW,
-});
-
-const Shema_minmaxCompareAndTransform = v.pipe(
-  v.strictTuple([v.number(), v.number()]),
-  v.check((arr) => arr[0] < arr[1], "max must be above min"),
-  v.transform((arr) => arr[1] - arr[0])
-);
-const minmaxCompareAndTransformP = v.parser(Shema_minmaxCompareAndTransform);
-
-const { maxValueRem, minValueRem, maxVwRem, minVwRem } = v.parse(
-  SimpleObjectSchema,
-  obj
-);
-
-const slope =
-  minmaxCompareAndTransformP([minValueRem, maxValueRem]) /
-  minmaxCompareAndTransformP([minVwRem, maxVwRem]);
-const yIntercept = minValueRem - minVwRem * slope;
-
-const fluidValue = `${yIntercept.toFixed(4)}rem + ${(slope * 100).toFixed(
-  4
-)}vw`;
-  // Generate the clamp value
-  const clampValue = `clamp(${minValueRem.toFixed(
-    5
-  )}rem, ${fluidValue}, ${maxValueRem.toFixed(5)}rem)`;
-console.log(fluidValue);
-
-// Return the CSS string with the clamp value
-  return { [v.parse(dictionaryCheckAndTransform,category)]: clampValue };

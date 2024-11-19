@@ -1,4 +1,17 @@
 import * as v from "valibot";
+import { UnitArray2 } from ".";
+import { myUnits, removeDuplicateArrayPaddingOrMargin } from "../utils";
+
+
+
+const matchFromStringRegex = v.fallback(v.pipe(
+	v.string(),
+	v.transform((e) => e.match(new RegExp(myUnits.source, "g"))),
+	v.transform((e) => (e === null ? [] : Array.from(e))),
+	v.filterItems((e) => e !== ""),
+),[]);
+
+
 
 /**
  *
@@ -11,18 +24,14 @@ import * as v from "valibot";
  * @description this function is used to remove duplicates from an array extracted from a regex match
  */
 const fromMatchRemoveDuplicate = (sizeLimit: 1 | 2 | 4, duplicate: boolean) =>
-  v.pipe(
-    v.array(v.string()),
-    v.maxLength(
-      sizeLimit,
-      `Size Limite ${sizeLimit} is too big`
-    ),
-    v.minLength(1, "arr min 2"),
-    //      v.transform((arr) => arr.slice(1, sizeLimit + 1)),
-    // v.check(
-    //   (arr) => arr.length <= sizeLimit,
-    //   `Size Limite${sizeLimit} is greater than the array length of units`
-    // ),
-    v.transform((array) => (duplicate ? [...new Set(array)] : array))
-  );
+	v.pipe(
+		matchFromStringRegex,
+		v.array(v.string()),
+		v.maxLength(sizeLimit, `Size Limit ${sizeLimit} is too big`),
+		v.transform((array) => (duplicate ? [...new Set(array)] : array)),
+		v.mapItems((item) => UnitArray2(item)),
+		v.transform(removeDuplicateArrayPaddingOrMargin),
+	)
 export default fromMatchRemoveDuplicate;
+
+ 

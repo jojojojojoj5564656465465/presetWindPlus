@@ -43,13 +43,13 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					const shrink = matchFromRegex<number>(match, "shrink");
 					const basis = v.pipe(
 						v.string(),
-						v.transform((e) => UnitProcess(e)),
+						v.transform(UnitProcess),
 						v.description("if basis is here transform it and return it"),
 					);
 					const basisParser = v.safeParse(basis, match.groups?.basisRegex);
 					if (basisParser.success) {
 						return {
-							flex: `${grow} ${shrink} ${basisParser.output}`,
+						flex: `${grow} ${shrink} ${basisParser.output}`,
 						};
 					}
 					return {
@@ -92,11 +92,16 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				// /^(?<direction>p|m|inset)-(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?$/,
 				new RegExp(`^(?<direction>p|m|inset)-(?<allUnitsRegex>${myUnits.source}-${myUnits.source}-?${myUnits.source}?-?${myUnits.source}?$)`),
 				(match) => {
+
 					try {
+						//console.log(match?.groups?.allUnitsRegex?.match(new RegExp(myUnits.source, "g")));
+					
 						const returnDirection = dictionaryParser(match?.groups?.direction);
 						//* UNITS
-						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(4, false), match?.groups?.allUnitsRegex?.split("-"));
+						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(4, false), match?.groups?.allUnitsRegex);
+						
 						if (arrMatch.success) {
+
 							return { [returnDirection]: arrMatch.output.join(" ") };
 						}
 						console.error("\n ERROR UNOCSS code:#58 => p m inset", arrMatch.issues);
@@ -158,7 +163,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					} as const satisfies Record<"x" | "y", string>;
 
 					const returnDirection = elementFromDictionary(combination, direction);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
+					const array = ClassArrayOfUnits.returnArray.map(UnitProcess);
 					return { [returnDirection]: array.join(" ") };
 				},
 				{ autocomplete: "gap-(x|y)-<num>" },

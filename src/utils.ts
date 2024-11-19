@@ -172,16 +172,5 @@ export const dictionaryCheckAndTransform = v.pipe(
 
 export const dicoMatch = v.parser(dictionaryCheckAndTransform);
 
-const regexOptions = {
-  words: /\b(full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px)\b/,
-  numberOnly: /\d+(?:\.5)?(?!\w)/,
-  fraction: /[1-9]\/[2-9]/,
-  squareBrackets: /\[[1-9]\d*\.?\d?(?:\w+|%)\]/,
-};
-
-const regexUnit = `(?<!-)(?:${regexOptions.fraction.source}|${regexOptions.words.source}|${regexOptions.numberOnly.source}|${regexOptions.squareBrackets.source})`;
-
-
-
 
 export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\])/;

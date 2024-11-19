@@ -184,4 +184,4 @@ const regexUnit = `(?<!-)(?:${regexOptions.fraction.source}|${regexOptions.words
 
 
 
-export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]*[a-z]{2,4}\])/;
+export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\])/;

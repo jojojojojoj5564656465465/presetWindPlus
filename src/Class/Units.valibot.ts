@@ -30,15 +30,16 @@ const validateInput__Divide_NumByDenominator = v.pipe(
   v.description("check if array of 2 numbers and divide by num/de numerator")
 );
 
-
 const Brackets = v.pipe(
-  v.string(),
-  v.trim(),
-  v.startsWith("["),
-  v.endsWith("]"),
-  v.regex(/^\[([+-]?([0-9]\d*(?:.\d{0,2})[\w%]+))\]$/),
-  v.transform((e) => e.match(/^\[([+-]?([0-9]\d*(?:.\d{0,2})[\w%]+))\]$/)),
-  v.transform((e) => e?.[1])
+	v.string(),
+	v.trim(),
+	v.startsWith("["),
+	v.endsWith("]"),
+	v.regex(/^\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\]$/),
+	v.transform((e) => e.match(/^\[([-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%))\]$/)),
+	v.transform((e) => e?.[1]),
+	v.string("Could not find unit inside brackets like [24px]"),
+	v.description("find brackets and capture inside [-3.6vw] [45%]"),
 );
 
 
@@ -48,7 +49,7 @@ const caseSwitch =v.undefinedable(
       dictionaryCheckAndTransform,  // check if dictionary and transform
       validateInput__Divide_NumByDenominator,
       Brackets,
-    ]),"0in");
+    ]),"0vw");
 
 
 
@@ -59,6 +60,7 @@ if (result.success) {
  return result.output;
 } 
 console.error("UNITS VALIBOT code:#51", result.issues);
+console.error("UNITS VALIBOT code:#51", result.typed);
 return "0in"
 }
 export default exp

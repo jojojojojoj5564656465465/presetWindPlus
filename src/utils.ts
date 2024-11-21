@@ -1,4 +1,4 @@
-import UnitArray from "./Class/Units";
+//import UnitArray from "./Class/Units";
 import * as v from "valibot";
 
 const arrV = v.pipe(v.array(v.string()), v.minLength(1, "min length is 1 code #44"), v.maxLength(4, "Limit is 4 code #45"));
@@ -44,38 +44,19 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 	return array;
 }
 
+
+
 /**
- * @description take all units from regex and convert it USE CLASS UnitArray
- * @param array [ '4', '[15px]', '5', 'max' ]
- * @returns [ '1rem', '15px', '1.25rem', 'max-content' ]
- * @deprecated
- */
-export function convertUnitFromArray(array: string[]): string[] {
-	for (let index = 0; index < array.length; index++) {
-		try {
-			const e = array[index];
-			if (e === undefined) throw new Error("array convertUnitFromArray is undefined");
-			const element = new UnitArray(e);
-			element.numberRemOrString();
-			array.splice(index, 1, element.el);
-		} catch (error) {
-			console.error("convertUnitFromArray error: ", error);
-		}
+	 * @description assertion Function for Typescript
+	 * @param input unknown type
+	 * @param msg error message in case there is undefined
+	 * @alias eliminerUndefined
+	 */
+	function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
+		if (input === undefined) console.error(msg ?? "Value is undefined 🫎🫎");
+
+		if (input === null) console.error(msg ?? "Value is null 🫎🫎");
 	}
-	return array.filter(Boolean);
-}
-
-/**
- * @description assertion Function for Typescript
- * @param input unknown type
- * @param msg error message in case there is undefined
- * @alias eliminerUndefined
- */
-export function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
-	if (input === undefined) console.error(msg ?? "Value is undefined 🫎🫎");
-
-	if (input === null) console.error(msg ?? "Value is null 🫎🫎");
-}
 
 /**
  *@description avoid undefined in regex TS issues
@@ -92,6 +73,17 @@ export function matchFromRegex<T = string>(match: RegExpMatchArray, x: string) {
 	removeDirectionInArray(match);
 	return result as T;
 }
+
+export function matchFromRegexV(match: RegExpMatchArray, x: string, picklist: string[]) {
+	const e = v.parser(v.pipe(v.string(), v.picklist(picklist)));
+	return e(match.groups?.[x]);
+}
+
+export const matchFromRegexVI = (picklist: string[]) => v.parser(v.pipe(v.string(), v.picklist(picklist)));
+
+
+
+
 
 /**
  * @description remove direction in array match A
@@ -156,6 +148,8 @@ export const tailwindClasses = {
 	svh: "100svh",
 	lvw: "100lvw",
 	lvh: "100lvh",
+	"inset-x": "inset-inline",
+	"inset-y": "inset-block",
 } as const satisfies Record<string, string>;
 
 export const dictionaryCheckAndTransform = v.pipe(

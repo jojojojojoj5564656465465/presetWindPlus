@@ -69,10 +69,7 @@ function processMapDoWhile(): void {
 	}
 }
 
-const firstString = v.undefinedable(
-	v.pipe(v.string("must be a string inside firstString"), v.minLength(1, "text was empty"), v.regex(/^\w*[/!@\-\w:[\]]+,[/!@\-\w,:[\]]+(?<!,)/, "coma is missing in regex")),
-	"error firstString undefined !",
-); // /////////////////////////////////////////////
+const firstString = v.fallback(v.pipe(v.string("must be a string inside firstString"), v.minLength(1, "text was empty"), v.regex(/^\w[/!@\-\w:[\]]+,[/!@\-\w,:[\]]+[\w|\]]$/, "coma is missing in regex")), "0"); // /////////////////////////////////////////////
 /**
  * MARK: function builder
  */
@@ -123,5 +120,3 @@ function tailwindKiller3(category: Category, value: string) {
 
 export default tailwindKiller3;
 
-const f = tailwindKiller3("text", "orange,k");
-console.log(f);

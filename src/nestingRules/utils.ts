@@ -77,7 +77,7 @@ export function removeDuplicates(array: (string | Before)[]): string[] {
 	return [...new Set(array)];
 }
 
-export class BuildTailwindKiller {
+ class BuildTailwindKiller {
 	category: Category;
 	noRegex: Set<string>;
 

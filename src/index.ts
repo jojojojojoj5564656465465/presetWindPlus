@@ -3,10 +3,10 @@ import UnitProcess from "./Class/Units.valibot";
 
 import * as v from "valibot";
 
-import { convertUnitFromArray, elementFromDictionary, matchFromRegex, myUnits } from "./utils";
+import {  elementFromDictionary, matchFromRegex, myUnits } from "./utils";
 
 import {
-	AllUnitsHandler,
+	//AllUnitsHandler,
 	FluidSize,
 	//UnitArray2,
 	//UnitArray,
@@ -37,19 +37,15 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 		},
 		rules: [
 			[
-				/^flex\|(?<grow>\d)\|(?<shrink>\d)\|?(?<basisRegex>[\w\d%/]*)?/,
+				new RegExp(`^flex\\|(?<grow>\\d)\\|(?<shrink>\\d)(?:\\|(?<basisRegex>${myUnits.source}))?$`),
 				(match) => {
 					const grow = matchFromRegex<number>(match, "grow");
 					const shrink = matchFromRegex<number>(match, "shrink");
-					const basis = v.pipe(
-						v.string(),
-						v.transform(UnitProcess),
-						v.description("if basis is here transform it and return it"),
-					);
-					const basisParser = v.safeParse(basis, match.groups?.basisRegex);
+					const basis = v.safeParser(v.pipe(v.string(), v.transform(UnitProcess), v.description("if basis is here transform it and return it")));
+					const basisParser = basis(match.groups?.basisRegex);
 					if (basisParser.success) {
 						return {
-						flex: `${grow} ${shrink} ${basisParser.output}`,
+							flex: `${grow} ${shrink} ${basisParser.output}`,
 						};
 					}
 					return {
@@ -80,7 +76,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					const columnORrow = direction === "row" ? "row" : "column";
 					const [justify, align] = positions[flexNumber];
 					return {
-						display,
+						display: display,
 						"flex-direction": columnORrow,
 						"justify-content": justify,
 						"align-items": align,
@@ -89,19 +85,14 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				{ autocomplete: "flex-(col|row)-(1|2|3|4|5|6|7|8|9)" },
 			],
 			[
-				// /^(?<direction>p|m|inset)-(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?-?(\w+\.?\/?\d?|\[\d+(?:\w+|%)\])?$/,
 				new RegExp(`^(?<direction>p|m|inset)-(?<allUnitsRegex>${myUnits.source}-${myUnits.source}-?${myUnits.source}?-?${myUnits.source}?$)`),
 				(match) => {
-
 					try {
-						//console.log(match?.groups?.allUnitsRegex?.match(new RegExp(myUnits.source, "g")));
-					
 						const returnDirection = dictionaryParser(match?.groups?.direction);
 						//* UNITS
 						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(4, false), match?.groups?.allUnitsRegex);
-						
-						if (arrMatch.success) {
 
+						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
 						}
 						console.error("\n ERROR UNOCSS code:#58 => p m inset", arrMatch.issues);
@@ -115,74 +106,109 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				{ autocomplete: "(p|m|inset)-<num>-<num>-<num>-<num>" },
 			],
 			[
-				/(?<direction>^(?:p|m)(?:x|y)|gap)-(\[?\w+%?\]?)-?(\[?\w+%?\]?)?$/,
+				new RegExp(`(?<direction>^(?:p|m)(?:x|y)|gap)-(?<allUnitsRegex>${myUnits.source}-${myUnits.source}$)`),
 				(match) => {
-					const combination = {
-						px: "padding-inline",
-						py: "padding-block",
-						mx: "margin-inline",
-						my: "margin-block",
-						gap: "gap",
-					} as const satisfies Record<string, string>;
-					const direction = matchFromRegex<keyof typeof combination>(match, "direction");
-					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
-					const returnDirection = elementFromDictionary(combination, direction);
-					return { [returnDirection]: array.join(" ") };
+					try {
+						const returnDirection = dictionaryParser(match?.groups?.direction);
+						//* UNITS
+						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
+
+						if (arrMatch.success) {
+							return { [returnDirection]: arrMatch.output.join(" ") };
+						}
+						console.error("\n ERROR UNOCSS code:#58 => p m inset", arrMatch.issues);
+						return { [returnDirection]: "0in" };
+					} catch (error) {
+						if (error instanceof v.ValiError) {
+							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+						}
+					}
 				},
 				{ autocomplete: "(gap|px|py|mx|my)-<num>-<num>" },
 			],
 
 			[
-				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
-				new RegExp("^inset-(?<direction>x|y)-([[|\\]|\\w]+)-?([[|\\]|\\w]+)?$"),
-
+				new RegExp(`^inset-(?<direction>x|y)-(?<allUnitsRegex>${myUnits.source}-${myUnits.source}$)`),
 				(match) => {
-					const direction = matchFromRegex<"x" | "y">(match, "direction");
-					const ClassArrayOfUnits = new AllUnitsHandler(match, 2, true);
+					const directionParser = v.parser(v.pipe(v.string(), v.picklist(["x", "y"])));
+					const direction = directionParser(match.groups?.direction);
 					const combination = {
 						x: "inset-inline",
 						y: "inset-block",
 					} as const satisfies Record<"x" | "y", `inset-${string}`>;
 
-					const returnDirection = elementFromDictionary(combination, direction);
-					const array = convertUnitFromArray(ClassArrayOfUnits.returnArray);
-					return { [returnDirection]: array.join(" ") };
+					try {
+						const returnDirection = elementFromDictionary(combination, direction);
+						//* UNITS
+						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
+
+						if (arrMatch.success) {
+							return { [returnDirection]: arrMatch.output.join(" ") };
+						}
+						console.error("\n ERROR UNOCSS code:#60 => inset-x-6", arrMatch.issues);
+						return { [returnDirection]: "0in" };
+					} catch (error) {
+						if (error instanceof v.ValiError) {
+							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+						}
+					}
 				},
 				{ autocomplete: "inset-(x|y)-<num>-<num>" },
 			],
 			[
-				// biome-ignore lint/complexity/useRegexLiterals: <explanation>
-				new RegExp("^gap-(?<direction>x|y)-([\\[?\\w%?\\]?]+)$"),
+				new RegExp(`^gap-(?<direction>x|y)-(?<allUnitsRegex>${myUnits.source}$)`),
 				(match) => {
-					const direction = matchFromRegex<"x" | "y">(match, "direction");
-					const ClassArrayOfUnits = new AllUnitsHandler(match, 1, true);
+					const directionParser = v.parser(v.pipe(v.string(), v.picklist(["x", "y"])));
+					const direction = directionParser(match.groups?.direction);
+
 					const combination = {
 						x: "column-gap",
 						y: "row-gap",
 					} as const satisfies Record<"x" | "y", string>;
 
-					const returnDirection = elementFromDictionary(combination, direction);
-					const array = ClassArrayOfUnits.returnArray.map(UnitProcess);
-					return { [returnDirection]: array.join(" ") };
+					try {
+						const returnDirection = elementFromDictionary(combination, direction);
+						//* UNITS
+						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(1, true), match?.groups?.allUnitsRegex);
+
+						if (arrMatch.success) {
+							return { [returnDirection]: arrMatch.output.join(" ") };
+						}
+						console.error("\n ERROR UNOCSS code:#60 => inset-x-6", arrMatch.issues);
+						return { [returnDirection]: "0in" };
+					} catch (error) {
+						if (error instanceof v.ValiError) {
+							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+						}
+					}
 				},
 				{ autocomplete: "gap-(x|y)-<num>" },
 			],
 
 			[
-				/^size-((?:\[\d+\w*%?\]|\d+\/?\.?\d?|[a-z]+))-?((?:\[\d+\w*%?\]|\d+\/?\.?\d?|[a-z]+))?$/,
-				(match_allUnits) => {
-					const classMatch = new AllUnitsHandler(match_allUnits, 2, true);
-					const array: string[] = convertUnitFromArray(classMatch.returnArray);
-					if (array[0] !== undefined) {
-						return [
-							{
-								"block-size": array[0],
-								"inline-size": array[1] ?? array[0],
-							},
-						];
+				new RegExp(`^size-(?<allUnitsRegex>${myUnits.source}-?${myUnits.source}?$)`),
+				(match) => {
+					try {
+						//* UNITS
+						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
+
+						if (arrMatch.success) {
+							if (arrMatch.output[0] !== undefined) {
+								return [
+									{
+										"block-size": arrMatch.output[0],
+										"inline-size": arrMatch.output[1] ?? arrMatch.output[0],
+									},
+								];
+							}
+						}
+						console.error("\n ERROR UNOCSS code:#61 => size", arrMatch.issues);
+						return { "block-size": "0in" };
+					} catch (error) {
+						if (error instanceof v.ValiError) {
+							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+						}
 					}
-					console.error("size allUnits are undefined");
 				},
 				{ autocomplete: "size-<num>-<num>" },
 			],
@@ -218,7 +244,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				{ autocomplete: "vertical-(rl|lr)" },
 			],
 			[
-				/^grid-area-(?<str>\w+)$/,
+				/^grid-area-(?<str>[a-z]+)$/,
 				(match): Record<"grid-area", string> => {
 					const gridAreaString = matchFromRegex<string>(match, "str");
 					return {
@@ -266,8 +292,6 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");
-
-					//console.log(tailwindKiller3(category, stringElement));
 					return tailwindKiller3(category, stringElement);
 				},
 			],

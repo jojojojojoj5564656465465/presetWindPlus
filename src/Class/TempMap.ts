@@ -1,15 +1,7 @@
-import { splitString } from "../netingRules/utils";
+
+import { splitString } from "../nestingRules/utils";
 //import { RegexError } from "../Class/regexError";
 import { RegexError } from "./index";
-import * as v from "valibot";
-
-const SetValidation = v.set(
-  v.pipe(
-    v.string("must be a string inside the Set Please"),
-    v.regex(/^\w+:\[[\w\d,-]+\]$/, "Must be a regex like string:[string]")
-  )
-);
-
 
 export default class TempMapClass {
   Initial: Set<string> | null;
@@ -44,14 +36,15 @@ export default class TempMapClass {
 
   /**
    * @description size of isRegex
+   *
    */
   get SizeIsZero(): boolean {
     return this.IsRegex?.size > 0;
   }
 
   private regex = {
-    is: /(?<before>^[@?\w:]+):\[(?<css>[%\/@\-\w:,[\]]+)\]$/,
-    no: /(?<css>^\[?[\/@?\w:-]+\]?)$/,
+    is: /(?<before>^[@?\w:]+):\[(?<css>[%/@\-\w:,[\]]+)\]$/,
+    no: /(?<css>^\[?[/@?\w:-]+\]?)$/,
   } as const satisfies Record<string, RegExp>;
 
   /**
@@ -81,6 +74,7 @@ export default class TempMapClass {
    *
    * @returns send to the right TempMap if it's a regex or not
    * @description use predicate to know if it's a regex or not
+   *
    */
   sendToRegexOrNoRegex(): void {
     const x: Set<string | Regex> = this.Initial ?? this._IsRegex;

@@ -14,6 +14,7 @@ You need [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind) and th
 - flex-grow flex-shrink flex-basis
 - Compress tailwind Line 30%
 - grid area
+- fluide size
 
 ## Usage
 ```shell
@@ -29,7 +30,10 @@ export default defineConfig({
   presets: [
     // ...
     presetWind(),
-    presetWindPlus(),
+    presetWindPlus({
+      maxScreenW:1150,
+      minScreenW:320,
+    }),
   ],
 })
 ```
@@ -86,7 +90,7 @@ grid-[col-start-1,col-span-2,lg:[col-start-1,col-span-3,row-span-12]]
 ```
 ## Compress the length of tailwindcss Class
 ### Merge rules for :
-"grid"|"font" | "text" | "bg" | "border" | "stroke" | "outline" | "underline" | "ring" | "divide"| "row"| "col";
+list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide
 It reqiuere the ```presetWind()``` [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind)to work because it convert to tailwindcss class
 [Preset-wind presset](https://www.npmjs.com/package/@unocss/preset-wind)
 

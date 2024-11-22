@@ -1,17 +1,18 @@
 import * as v from "valibot";
-import { UnitArray2 } from ".";
+import { Units } from ".";
 import { myUnits, removeDuplicateArrayPaddingOrMargin } from "../utils";
 
+const matchFromStringRegex = v.fallback(
+	v.pipe(
+		v.string(),
+		v.transform((e) => e.match(new RegExp(myUnits.source, "g"))),
+		v.transform((e) => (e === null ? [] : Array.from(e))),
+		v.filterItems((e) => e !== ""),
+	),
+	[],
+);
 
-
-const matchFromStringRegex = v.fallback(v.pipe(
-	v.string(),
-	v.transform((e) => e.match(new RegExp(myUnits.source, "g"))),
-	v.transform((e) => (e === null ? [] : Array.from(e))),
-	v.filterItems((e) => e !== ""),
-),[]);
-
-
+/// used below↓↓↓↓↓↓↓↓↓
 
 /**
  *
@@ -29,9 +30,7 @@ const fromMatchRemoveDuplicate = (sizeLimit: 1 | 2 | 4, duplicate: boolean) =>
 		v.array(v.string()),
 		v.maxLength(sizeLimit, `Size Limit ${sizeLimit} is too big`),
 		v.transform((array) => (duplicate ? [...new Set(array)] : array)),
-		v.mapItems((item) => UnitArray2(item)),
+		v.mapItems((item) => Units(item)),
 		v.transform(removeDuplicateArrayPaddingOrMargin),
-	)
+	);
 export default fromMatchRemoveDuplicate;
-
- 

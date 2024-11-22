@@ -44,19 +44,17 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 	return array;
 }
 
-
-
 /**
-	 * @description assertion Function for Typescript
-	 * @param input unknown type
-	 * @param msg error message in case there is undefined
-	 * @alias eliminerUndefined
-	 */
-	function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
-		if (input === undefined) console.error(msg ?? "Value is undefined 🫎🫎");
+ * @description assertion Function for Typescript
+ * @param input unknown type
+ * @param msg error message in case there is undefined
+ * @alias eliminerUndefined
+ */
+function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
+	if (input === undefined) console.error(msg ?? "Value is undefined 🫎🫎");
 
-		if (input === null) console.error(msg ?? "Value is null 🫎🫎");
-	}
+	if (input === null) console.error(msg ?? "Value is null 🫎🫎");
+}
 
 /**
  *@description avoid undefined in regex TS issues
@@ -80,10 +78,6 @@ export function matchFromRegexV(match: RegExpMatchArray, x: string, picklist: st
 }
 
 export const matchFromRegexVI = (picklist: string[]) => v.parser(v.pipe(v.string(), v.picklist(picklist)));
-
-
-
-
 
 /**
  * @description remove direction in array match A
@@ -166,5 +160,4 @@ export const dictionaryCheckAndTransform = v.pipe(
 
 export const dicoMatch = v.parser(dictionaryCheckAndTransform);
 
-
-export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\])/;
+export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,2}ø|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\])/;

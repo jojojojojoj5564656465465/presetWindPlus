@@ -1,23 +1,13 @@
 import { definePreset } from "@unocss/core";
-import UnitProcess from "./Class/Units.valibot";
+import UnitProcess from "./Class/Units";
 
 import * as v from "valibot";
 
-import {  elementFromDictionary, matchFromRegex, myUnits } from "./utils";
+import { elementFromDictionary, matchFromRegex, myUnits } from "./utils";
 
-import {
-	//AllUnitsHandler,
-	FluidSize,
-	//UnitArray2,
-	//UnitArray,
-	fromMatchRemoveDuplicate,
-	//tailwindKiller2, // il faut garder c'est ancien qui marche
-} from "./Class";
-//import { AllUnitsHandler, UnitArray, FluidSize } from "./Class";
-//import tailwindKiller from "./nestingRules/tailwindKiller";
-import { dictionaryParser } from "./nestingRules/utils";
-import tailwindKiller3 from "./Class/TempMap.valibot";
-//import tailwindKiller from "./nestingRules/tailwindKiller";
+import { FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./Class";
+
+import { dictionaryParser } from "./nestingRules/utils.valibot";
 
 export interface StarterOptions {
 	/**
@@ -288,11 +278,14 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 		shortcuts: [
 			[
 				// biome-ignore lint/nursery/noUselessEscapeInRegex: <explanation>
-				/^(?<category>list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[\/!@\-\w:[\]]+,[\/!@\-\w,:[\]]+(?<!,))\]$/,
+				/^(?<category>list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[#\/!.@\-\w:[\]]+,[#\/!@\-\w,:[\]]+(?<!,))\]$/,
 				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");
-					return tailwindKiller3(category, stringElement);
+					const re = tailwindKiller(category, stringElement);
+					//console.log(re);
+
+					return re;
 				},
 			],
 		],

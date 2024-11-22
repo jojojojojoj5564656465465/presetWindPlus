@@ -47,7 +47,7 @@
     "dev": "unbuild --stub",
     "prepublishOnly": "pnpm run build",
     "release": "bumpp --commit --push --tag && pnpm publish",
-    "lint": "bunx @biomejs/biome check ./src",
+    "lint": "bunx biome lint --write --unsafe ./src ; bunx biome format --write ./src",
     "test": "vitest",
     "test:update": "vitest --update",
     "play": "vite playground",

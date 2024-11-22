@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { splitString } from "../nestingRules/utils";
+import { splitValibot } from "./utils.valibot";
 
 /**
  * @description Map of regex use to do the process
@@ -28,12 +28,12 @@ const NoRegex = {
 const isRegex = v.undefinedable(
 	v.pipe(
 		v.string("must be a string inside the Set Please"),
-		v.custom<Regex>((input) => (typeof input === "string" ? /(?<before>^[@?\w:]+):\[(?<css>[%/@\-\w:,[\]]+)\]$/.test(input) : false)),
+		v.custom<Regex>((input) => (typeof input === "string" ? /(?<before>^@?[a-z:]{2,}):\[(?<css>[%./@\-\w:,[\]]+)\]$/.test(input) : false)),
 		v.transform((isRegexStr) => {
-			const match = isRegexStr.match(/(?<before>^[@?\w:]+):\[(?<css>[%/@\-\w:,[\]]+)\]$/);
+			const match = isRegexStr.match(/(?<before>^@?[a-z:]{2,}):\[(?<css>[%/@\-\w:.,[\]]+)\]$/);
 			const before = v.parse(v.string("before is not string type"), match?.groups?.before);
 			const css = v.parse(v.string("css is not a string type"), match?.groups?.css);
-			mapRegex.set(before, splitString(css));
+			mapRegex.set(before, v.parse(splitValibot, css));
 		}),
 		v.transform(processMapDoWhile),
 	),
@@ -69,7 +69,7 @@ function processMapDoWhile(): void {
 	}
 }
 
-const firstString = v.fallback(v.pipe(v.string("must be a string inside firstString"), v.minLength(1, "text was empty"), v.regex(/^\w[/!@\-\w:[\]]+,[/!@\-\w,:[\]]+[\w|\]]$/, "coma is missing in regex")), "0"); // /////////////////////////////////////////////
+const firstString = v.fallback(v.pipe(v.string("must be a string inside firstString"), v.nonEmpty("text was empty"), v.regex(/^\w[/!@\-\w:[\]]+,[/!@\-\w,:[\]]+[\w|\]]$/, "coma is missing in regex")), "0in"); // /////////////////////////////////////////////
 /**
  * MARK: function builder
  */
@@ -77,7 +77,7 @@ const firstString = v.fallback(v.pipe(v.string("must be a string inside firstStr
 const processString = (x: string): Set<string> => {
 	try {
 		const X = v.parse(firstString, x);
-		const Initial = splitString(X);
+		const Initial = v.parse(splitValibot, X);
 
 		init(Initial);
 		return setOfNORegex;
@@ -92,7 +92,6 @@ const processString = (x: string): Set<string> => {
 		return new Set<string>(["error #1"]);
 	}
 };
-
 
 function tailwindKiller3(category: Category, value: string) {
 	const setElement: Set<string> = processString(value);
@@ -115,8 +114,7 @@ function tailwindKiller3(category: Category, value: string) {
 		return result.output;
 	}
 
-	console.log("error in safe parser: ",result.issues);
+	console.log("error in safe parser: ", result.issues);
 }
 
 export default tailwindKiller3;
-

@@ -1,6 +1,6 @@
 import * as v from "valibot";
 import { splitValibot } from "./utils.valibot";
-
+import { join, split } from "string-ts";
 /**
  * @description Map of regex use to do the process
  */
@@ -20,7 +20,7 @@ const NoRegex = {
 	),
 	convertToArray: v.pipe(
 		v.set(v.pipe(v.string("must be a string inside the Set Please"), v.regex(/^\[[@\w:-]+\]$|[@\w:-]+$/, "Must be a no regex like string:[string]"))),
-		v.transform((e) => Array.from(e, (e) => e.split(":"))),
+		v.transform((e) => Array.from(e, (e) => split(e, ":"))),
 		v.minLength(1),
 	),
 };
@@ -31,8 +31,8 @@ const isRegex = v.undefinedable(
 		v.custom<Regex>((input) => (typeof input === "string" ? /(?<before>^@?[a-z:]{2,}):\[(?<css>[%./@\-\w:,[\]]+)\]$/.test(input) : false)),
 		v.transform((isRegexStr) => {
 			const match = isRegexStr.match(/(?<before>^@?[a-z:]{2,}):\[(?<css>[%/@\-\w:.,[\]]+)\]$/);
-			const before = v.parse(v.string("before is not string type"), match?.groups?.before);
-			const css = v.parse(v.string("css is not a string type"), match?.groups?.css);
+			const before = v.parse(v.string("before is not string type isRegex"), match?.groups?.before);
+			const css = v.parse(v.string("css is not a string type isRegex"), match?.groups?.css);
 			mapRegex.set(before, v.parse(splitValibot, css));
 		}),
 		v.transform(processMapDoWhile),
@@ -56,8 +56,6 @@ function processMapDoWhile(): void {
 		iteration++;
 		const TempSet = new Set<string>();
 		mapRegex.forEach((value, key) => {
-			//console.log({ value, key });
-
 			for (const iterator of value) {
 				TempSet.add(`${key}:${iterator}`);
 			}
@@ -106,7 +104,7 @@ function tailwindKiller3(category: Category, value: string) {
 			const CatCss = e.pop();
 			return `${Before}-${CatCss}`;
 		}),
-		v.transform((e) => e.join(" ")),
+		v.transform((e) => join(e, " ")),
 	);
 	const parser = v.safeParser(arrayOf);
 	const result = parser(setElement);
@@ -114,7 +112,7 @@ function tailwindKiller3(category: Category, value: string) {
 		return result.output;
 	}
 
-	console.log("error in safe parser: ", result.issues);
+	console.log("error in safe parser: tailwindKiller3", result.issues);
 }
 
 export default tailwindKiller3;

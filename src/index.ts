@@ -8,7 +8,6 @@ import { elementFromDictionary, matchFromRegex, myUnits } from "./utils";
 import { FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./Class";
 
 import { dictionaryParser } from "./nestingRules/utils.valibot";
-
 export interface StarterOptions {
 	/**
 	 *  The number of columns in the grid system (Example option)
@@ -106,11 +105,11 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
 						}
-						console.error("\n ERROR UNOCSS code:#58 => p m inset", arrMatch.issues);
+						console.error("\n ERROR UNOCSS code:#59 => px my gap", arrMatch.issues);
 						return { [returnDirection]: "0in" };
 					} catch (error) {
 						if (error instanceof v.ValiError) {
-							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+							console.error("ERROR UNOCSS code:#59 => px my gap", error.issues[0].message);
 						}
 					}
 				},
@@ -139,7 +138,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						return { [returnDirection]: "0in" };
 					} catch (error) {
 						if (error instanceof v.ValiError) {
-							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+							console.error("ERROR UNOCSS code:#60 => inset-x-6", error.issues[0].message);
 						}
 					}
 				},
@@ -164,11 +163,11 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
 						}
-						console.error("\n ERROR UNOCSS code:#60 => inset-x-6", arrMatch.issues);
+						console.error("\n ERROR UNOCSS code:#61 => gap-x-6", arrMatch.issues);
 						return { [returnDirection]: "0in" };
 					} catch (error) {
 						if (error instanceof v.ValiError) {
-							console.error("ERROR UNOCSS code:#58 => p m inset", error.issues[0].message);
+							console.error("ERROR UNOCSS code:#61 => gap-x-6", error.issues[0].message);
 						}
 					}
 				},

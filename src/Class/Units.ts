@@ -1,5 +1,10 @@
 import * as v from "valibot";
 import { dictionaryCheckAndTransform } from "../utils";
+import { split, replace, concat } from "string-ts";
+
+
+
+
 
 const convertToRem = v.pipe(
 	v.string(),
@@ -8,14 +13,14 @@ const convertToRem = v.pipe(
 	v.number("convert to rem only accept number into a string"),
 	v.transform((el) => el / 4),
 	v.transform((el) => el.toFixed(2)),
-	v.transform((el) => `${el}rem`),
+	v.transform((el) => concat(el, "rem")),
 );
 const convertToPhi = v.pipe(
 	v.string(),
 	v.regex(/(\d+)ø/),
-	v.transform((golden) => Number(golden.replace("ø", ""))),
+	v.transform((golden) => Number(replace(golden, "ø", ""))),
 	v.transform((phi) => ((1 + Math.sqrt(5)) / 2) * phi),
-	v.transform((el) => `${el}rem`),
+	v.transform((el) => concat(String(el), "rem")),
 );
 
 const validateInput__Divide_NumByDenominator = v.pipe(
@@ -23,11 +28,11 @@ const validateInput__Divide_NumByDenominator = v.pipe(
 	v.nonEmpty("The string should contain at least one character."),
 	v.includes("/", "must be fraction using ==> /"),
 	v.regex(/^[1-9][0-9]{0,2}\/[1-9][0-9]{0,3}$/, "must be a Fraction like 1/2 or 5/9"),
-	v.transform((str) => str.split("/")),
+	v.transform((str) => split(str, "/")),
 	v.tuple([v.pipe(v.string(), v.transform(Number)), v.pipe(v.string(), v.transform(Number))]),
 	v.transform((e) => (e[0] / e[1]) * 100),
 	v.transform((e) => e.toFixed(3)),
-	v.transform((digit) => `${digit}%`),
+	v.transform((digit) => concat(digit, "%")),
 	v.description("check if array of 2 numbers and divide by num/de numerator"),
 );
 

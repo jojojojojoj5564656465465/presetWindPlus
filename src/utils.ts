@@ -44,17 +44,7 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 	return array;
 }
 
-/**
- * @description assertion Function for Typescript
- * @param input unknown type
- * @param msg error message in case there is undefined
- * @alias eliminerUndefined
- */
-function eliminerUndefined<T>(input: unknown, msg?: string): asserts input is T {
-	if (input === undefined) console.error(msg ?? "Value is undefined 🫎🫎");
 
-	if (input === null) console.error(msg ?? "Value is null 🫎🫎");
-}
 
 /**
  *@description avoid undefined in regex TS issues
@@ -72,13 +62,31 @@ export function matchFromRegex<T = string>(match: RegExpMatchArray, x: string) {
 	return result as T;
 }
 
-export function matchFromRegexV(match: RegExpMatchArray, x: string, picklist: string[]) {
-	const e = v.parser(v.pipe(v.string(), v.picklist(picklist)));
-	return e(match.groups?.[x]);
+/**
+ * ! faire un parser pour les chiffres
+ * @param match
+ * @param x
+ * @param picklist
+ * @returns
+ */
+export function matchFromRegexV<const T extends string>(match: RegExpMatchArray | null, x: string, picklist: T[]) {
+	const parser = v.parser(v.pipe(v.string(), v.picklist(picklist)));
+	const result = match?.groups?.[x];
+	return parser(result);
 }
 
-export const matchFromRegexVI = (picklist: string[]) => v.parser(v.pipe(v.string(), v.picklist(picklist)));
 
+
+export function matchFromRegexNumber(match: RegExpMatchArray | null, x: string) {
+	const parser = v.parser(v.pipe(v.string(),v.transform(Number), v.integer("The number must be an integer.")));
+	const result = match?.groups?.[x];
+	return parser(result) as number;
+}
+
+
+export function matchFromRegexString<const T extends string>(match: RegExpMatchArray, x: string) {
+	return v.parse(v.string(), match.groups?.[x]) as T;
+}
 /**
  * @description remove direction in array match A
  * @param {RegExpMatchArray} array come from Match
@@ -91,7 +99,7 @@ type NoInfer<T> = {
 };
 
 export function elementFromDictionary<T extends Record<string, string>>(obj: T, key: keyof NoInfer<T>): T[keyof T] {
-	eliminerUndefined(key, "key is undefined");
+	
 	if (key in obj) {
 		return obj[key];
 	}

@@ -1,13 +1,13 @@
 import { definePreset } from "@unocss/core";
-import UnitProcess from "./Class/Units";
+import UnitProcess from "./utils/Units";
 
 import * as v from "valibot";
 
-import { elementFromDictionary, matchFromRegex, myUnits } from "./utils";
+import { elementFromDictionary, matchFromRegex, matchFromRegexV, matchFromRegexString, myUnits } from "./utils";
 
-import { FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./Class";
+import { FluidSize, fromMatchRemoveDuplicate, tailwindKiller, DictionaryParser } from "./utils";
 
-import { dictionaryParser } from "./nestingRules/utils.valibot";
+
 export interface StarterOptions {
 	/**
 	 *  The number of columns in the grid system (Example option)
@@ -46,8 +46,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 			[
 				/^(?<flex>inline-flex|flex)-(?<direction>row|col)-(?<num>[1-9])$/,
 				(match) => {
-					const flex = matchFromRegex<"inline-flex" | "flex">(match, "flex");
-					const direction = matchFromRegex<"row" | "col">(match, "direction");
+					const flex = matchFromRegexV(match, "flex", ["inline-flex", "flex"]);
+					const direction = matchFromRegexV(match, "direction", ["row", "col"]);
 					const flexNumber = matchFromRegex(match, "num") as IntRange<1, 10>;
 					type PositionProps = Readonly<"start" | "center" | "end">;
 					const positions = {
@@ -77,7 +77,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				new RegExp(`^(?<direction>p|m|inset)-(?<allUnitsRegex>${myUnits.source}-${myUnits.source}-?${myUnits.source}?-?${myUnits.source}?$)`),
 				(match) => {
 					try {
-						const returnDirection = dictionaryParser(match?.groups?.direction);
+						const returnDirection = DictionaryParser(match?.groups?.direction);
 						//* UNITS
 						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(4, false), match?.groups?.allUnitsRegex);
 
@@ -98,7 +98,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				new RegExp(`(?<direction>^(?:p|m)(?:x|y)|gap)-(?<allUnitsRegex>${myUnits.source}-${myUnits.source}$)`),
 				(match) => {
 					try {
-						const returnDirection = dictionaryParser(match?.groups?.direction);
+						const returnDirection = DictionaryParser(match?.groups?.direction);
 						//* UNITS
 						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
 
@@ -153,7 +153,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					const combination = {
 						x: "column-gap",
 						y: "row-gap",
-					} as const satisfies Record<"x" | "y", string>;
+					} as const satisfies Record<typeof direction, string>;
 
 					try {
 						const returnDirection = elementFromDictionary(combination, direction);
@@ -204,7 +204,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 			[
 				/(?<direction>^m(?:(x|y|t|b|l|r)))-trim\b$/,
 				(match): Record<"margin-trim", "inline" | "block" | "block-start" | "block-end" | "inline-start" | "inline-end">[] => {
-					const s = matchFromRegex<"mx" | "my" | "mt" | "mb" | "ml" | "mr">(match, "direction");
+					const direction = matchFromRegexV(match, "direction", ["mx", "my", "mt", "mb", "ml", "mr"]);
+
 					const dictionary = {
 						mx: "inline",
 						my: "block",
@@ -212,8 +213,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						mb: "block-end",
 						ml: "inline-start",
 						mr: "inline-end",
-					} as const satisfies Record<typeof s, string>;
-					const returnDirection = elementFromDictionary(dictionary, s);
+					} as const satisfies Record<typeof direction, string>;
+					const returnDirection = elementFromDictionary(dictionary, direction);
 					return [
 						{
 							"margin-trim": returnDirection,
@@ -235,9 +236,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 			[
 				/^grid-area-(?<str>[a-z]+)$/,
 				(match): Record<"grid-area", string> => {
-					const gridAreaString = matchFromRegex<string>(match, "str");
 					return {
-						"grid-area": gridAreaString,
+						"grid-area": v.parse(v.string(), match?.groups?.str),
 					};
 				},
 			],
@@ -245,8 +245,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				/^~(?<category>m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap|w|h|border|outline)-(?<minValue>[1-9][0-9]*)\/(?<maxValue>[1-9][0-9]*)$/,
 				(match) => {
 					const category = matchFromRegex<"m" | "mx" | "my" | "mt" | "mr" | "mb" | "ml" | "p" | "px" | "py" | "pt" | "pr" | "pb" | "pl" | "text" | "gap" | "w" | "h" | "border" | "outline">(match, "category");
-					const minValue = Number(matchFromRegex<string>(match, "minValue"));
-					const maxValue = Number(matchFromRegex<string>(match, "maxValue"));
+					const minValue = Number(matchFromRegexString(match, "minValue"));
+					const maxValue = Number(matchFromRegexString(match, "maxValue"));
 					return FluidSize({
 						category,
 						minScreenW: _options.minScreenW ?? 320,
@@ -277,7 +277,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 		shortcuts: [
 			[
 				// biome-ignore lint/nursery/noUselessEscapeInRegex: <explanation>
-				/^(?<category>list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[#\/!.@\-\w:[\]]+,[#\/!@\-\w,:[\]]+(?<!,))\]$/,
+				/^(?<category>list|col|row|grid|fill|font|text|bg|border|stroke|outline|underline|ring|divide)-\[(?<css>[\/!.@\-\w:[\]]+,[\/!.@\-\w,:[\]]+(?<!,))\]$/,
 				(match) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");

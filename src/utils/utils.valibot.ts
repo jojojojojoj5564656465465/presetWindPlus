@@ -67,4 +67,4 @@ const dictionaryCheckAndTransform = v.pipe(
 	v.description("check if string is part of dictionary"),
 );
 
-export const dictionaryParser = v.parser(dictionaryCheckAndTransform);
+export default v.parser(dictionaryCheckAndTransform);

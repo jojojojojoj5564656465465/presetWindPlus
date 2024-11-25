@@ -2,10 +2,6 @@ import * as v from "valibot";
 import { dictionaryCheckAndTransform } from "../utils";
 import { split, replace, concat } from "string-ts";
 
-
-
-
-
 const convertToRem = v.pipe(
 	v.string(),
 	v.trim(),
@@ -39,8 +35,8 @@ const validateInput__Divide_NumByDenominator = v.pipe(
 const Brackets = v.pipe(
 	v.string(),
 	v.trim(),
-	v.startsWith("["),
-	v.endsWith("]"),
+	v.startsWith("[","brackets must start with ["),
+	v.endsWith("]","brackets must end with ]"),
 	v.regex(/^\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\]$/),
 	v.transform((e) => e.match(/^\[([-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%))\]$/)),
 	v.transform((e) => e?.[1]),
@@ -66,6 +62,6 @@ const exp = (x: string) => {
 	}
 	console.error("UNITS VALIBOT code:#51", result.issues);
 	console.error("UNITS VALIBOT code:#51", result.typed);
-	return "0in";
+	return "0pt";
 };
 export default exp;

@@ -36,9 +36,9 @@ function fluidType(options: FluidTypeOptions) {
 		v.partialCheck([["maxScreenW"], ["minScreenW"]], (input) => input.minScreenW < input.maxScreenW, "maxVwRem is less than minValueRem invert data"),
 	);
 	try {
-		const OK = v.parse(SimpleObjectSchema, options);
+		
 
-		const { maxValue, minValue, maxScreenW, minScreenW } = OK;
+		const { maxValue, minValue, maxScreenW, minScreenW } = v.parse(SimpleObjectSchema, options);
 		const slope = (maxValue - minValue) / (maxScreenW - minScreenW);
 		const yIntercept = minValue - minScreenW * slope;
 

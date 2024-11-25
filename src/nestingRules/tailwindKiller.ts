@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { splitValibot } from "./utils.valibot";
+import { splitValibot } from "../utils/utils.valibot";
 import { join, split } from "string-ts";
 /**
  * @description Map of regex use to do the process
@@ -91,7 +91,7 @@ const processString = (x: string): Set<string> => {
 	}
 };
 
-function tailwindKiller3(category: Category, value: string) {
+function tailwindKiller3(category: Category, value: string): string | null {
 	const setElement: Set<string> = processString(value);
 	const arrayOf = v.pipe(
 		NoRegex.convertToArray,
@@ -111,8 +111,8 @@ function tailwindKiller3(category: Category, value: string) {
 	if (result.success) {
 		return result.output;
 	}
-
-	console.log("error in safe parser: tailwindKiller3", result.issues);
+	console.error("error in safe parser: tailwindKiller3", result.issues);
+	return null;
 }
 
 export default tailwindKiller3;

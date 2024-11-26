@@ -10,12 +10,16 @@ export const splitValibot = v.undefinedable(
 		v.string(),
 		v.trim(),
 		v.toLowerCase(),
-		v.includes(","),
+
 		v.transform((string) =>
 			string
 				.replace(/,+/g, " ")
 				.replace(/:{2,}/g, ":")
 				.replace(/\s+|\|+/g, ",")
+				.replace(/\w+:?\[\w?\]/g, "")
+				.replace(/\[\]/g, "")
+				.replace(/(?<=\])(\w+)/g, "],$1")
+				.replace(/(\w+)(\[[\w-,@:]+\])/g, "$1:$2")
 				.replace(/(?<=\[)([\w:@-]+)$/, "$1"),
 		),
 		v.transform((arg_string) => {

@@ -35,8 +35,8 @@ const validateInput__Divide_NumByDenominator = v.pipe(
 const Brackets = v.pipe(
 	v.string(),
 	v.trim(),
-	v.startsWith("[","brackets must start with ["),
-	v.endsWith("]","brackets must end with ]"),
+	v.startsWith("[", "brackets must start with ["),
+	v.endsWith("]", "brackets must end with ]"),
 	v.regex(/^\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\]$/),
 	v.transform((e) => e.match(/^\[([-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%))\]$/)),
 	v.transform((e) => e?.[1]),

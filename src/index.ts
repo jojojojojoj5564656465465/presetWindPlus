@@ -7,7 +7,6 @@ import { elementFromDictionary, matchFromRegex, matchFromRegexV, matchFromRegexS
 
 import { FluidSize, fromMatchRemoveDuplicate, tailwindKiller, DictionaryParser } from "./utilsFN";
 
-
 export interface StarterOptions {
 	/**
 	 *  The number of columns in the grid system (Example option)
@@ -203,7 +202,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 			],
 			[
 				/(?<direction>^m(?:(x|y|t|b|l|r)))-trim\b$/,
-				(match): Record<"margin-trim", "inline" | "block" | "block-start" | "block-end" | "inline-start" | "inline-end">[] => {
+				(match) => {
 					const direction = matchFromRegexV(match, "direction", ["mx", "my", "mt", "mb", "ml", "mr"]);
 
 					const dictionary = {

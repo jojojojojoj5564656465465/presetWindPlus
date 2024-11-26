@@ -44,8 +44,6 @@ export function removeDuplicateArrayPaddingOrMargin(array: Array<string>): Array
 	return array;
 }
 
-
-
 /**
  *@description avoid undefined in regex TS issues
  * @param match what come from the function as match
@@ -75,14 +73,11 @@ export function matchFromRegexV<const T extends string>(match: RegExpMatchArray 
 	return parser(result);
 }
 
-
-
 export function matchFromRegexNumber(match: RegExpMatchArray | null, x: string) {
-	const parser = v.parser(v.pipe(v.string(),v.transform(Number), v.integer("The number must be an integer.")));
+	const parser = v.parser(v.pipe(v.string(), v.transform(Number), v.integer("The number must be an integer.")));
 	const result = match?.groups?.[x];
 	return parser(result) as number;
 }
-
 
 export function matchFromRegexString<const T extends string>(match: RegExpMatchArray, x: string) {
 	return v.parse(v.string(), match.groups?.[x]) as T;
@@ -99,7 +94,6 @@ type NoInfer<T> = {
 };
 
 export function elementFromDictionary<T extends Record<string, string>>(obj: T, key: keyof NoInfer<T>): T[keyof T] {
-	
 	if (key in obj) {
 		return obj[key];
 	}

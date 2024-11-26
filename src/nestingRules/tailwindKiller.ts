@@ -91,7 +91,7 @@ const processString = (x: string): Set<string> => {
 	}
 };
 
-function tailwindKiller3(category: Category, value: string): string | null {
+function tailwindKiller3(category: Category, value: string): string | undefined {
 	const setElement: Set<string> = processString(value);
 	const arrayOf = v.pipe(
 		NoRegex.convertToArray,
@@ -112,7 +112,6 @@ function tailwindKiller3(category: Category, value: string): string | null {
 		return result.output;
 	}
 	console.error("error in safe parser: tailwindKiller3", result.issues);
-	return null;
 }
 
 export default tailwindKiller3;

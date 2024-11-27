@@ -7,3 +7,5 @@ dist
 poubelle
 mytest.ts
 test/index.test.ts
+
+reset.d.ts

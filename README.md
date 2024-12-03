@@ -1,4 +1,6 @@
+🔴 use UNOCSS 0.59 OR BELOW
 ## Features
+
 
 We like the tailwindcss syntax, but it's often too long to read. Today, with unocss and this preset, you can reduce tailwind syntax by 30% and improve code readability.
 You need [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind) and this preset to work

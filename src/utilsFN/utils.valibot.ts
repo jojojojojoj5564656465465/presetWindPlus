@@ -32,7 +32,9 @@ export const splitValibot = v.undefinedable(
 
 				if (char === "," && countBrackets === 0) {
 					result.add(currentElement);
-					currentElement &&= "";
+					if (currentElement) {
+						currentElement = "";
+					}
 				} else {
 					currentElement += char;
 				}

@@ -1,6 +1,6 @@
+import { join, split } from "string-ts";
 import * as v from "valibot";
 import { splitValibot } from "../utilsFN/utils.valibot";
-import { join, split } from "string-ts";
 /**
  * @description Map of regex use to do the process
  */

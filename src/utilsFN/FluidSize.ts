@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { type tailwindClasses, dicoMatch, dictionaryCheckAndTransform } from "../utils";
+import { dicoMatch, dictionaryCheckAndTransform, type tailwindClasses } from "../utils";
 
 interface FluidTypeOptions {
 	category: keyof typeof tailwindClasses;

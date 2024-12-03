@@ -1,6 +1,6 @@
+import { concat, replace, split } from "string-ts";
 import * as v from "valibot";
 import { dictionaryCheckAndTransform } from "../utils";
-import { split, replace, concat } from "string-ts";
 
 const convertToRem = v.pipe(
 	v.string(),

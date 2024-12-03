@@ -45,7 +45,7 @@
 		"testcode": "bun --watch run src/testcode.ts"
 	},
 	"peerDependencies": {
-		"@unocss/core": "^0.58.9"
+		"@unocss/core": "^0.65.0"
 	},
 	"dependencies": {
 		"string-ts": "^2.2.0",
@@ -61,28 +61,9 @@
 		"eslint": "^9.16.0",
 		"typescript": "5.3.3",
 		"unbuild": "^2.0.0",
-		"unocss": "^0.58.9",
+		"unocss": "^0.65.0",
 		"vite": "^6.0.2",
 		"vitest": "^1.6.0"
-	},
-	"wireit": {
-		"build": {
-			"command": "unbuild",
-			"output": ["dist"]
-		},
-		"release": {
-			"command": "npm publish --no-git-checks",
-			"clean": false,
-			"dependencies": ["format"],
-			"output": ["dist"]
-		},
-		"format": {
-			"command": "bun x @biomejs/biome format --write ."
-		},
-		"dev": {
-			"command": "bun --watch run test.ts",
-			"clean": true
-		}
 	},
 	"directories": {
 		"doc": "doc",

@@ -80,12 +80,11 @@ const processString = (x: string): Set<string> => {
 		init(Initial);
 		return setOfNORegex;
 	} catch (error) {
-		console.log("error in processString");
+		console.error("error in processString");
 
 		if (error instanceof v.ValiError) {
-			console.log("error Valibot");
-			console.error(error.issues);
-			console.error(error.cause);
+			console.error("error Valibot Issues", error.issues);
+			console.error("error Valibot Cause", error.cause);
 		}
 		return new Set<string>(["error #1"]);
 	}

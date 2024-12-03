@@ -20,16 +20,14 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 	return {
 		name: "presetWindPlus",
 		// Customize your preset here
-		theme: {
-			// Customize your theme here
-		},
+
 		rules: [
 			[
 				new RegExp(`^flex\\|(?<grow>\\d)\\|(?<shrink>\\d)(?:\\|(?<basisRegex>${myUnits.source}))?$`),
 				(match) => {
 					const grow = matchFromRegex<number>(match, "grow");
 					const shrink = matchFromRegex<number>(match, "shrink");
-					const basis = v.safeParser(v.pipe(v.string(), v.transform(UnitProcess), v.description("if basis is here transform it and return it")));
+					const basis = v.safeParser(v.pipe(v.string("basis must be string"), v.transform(UnitProcess), v.description("if basis is here transform it and return it")));
 					const basisParser = basis(match.groups?.basisRegex);
 					if (basisParser.success) {
 						return {
@@ -224,7 +222,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 			],
 			[
 				/^vertical-(rl|lr)$/,
-				([, rl_lr = "lr"]): Record<string, `vertical-${typeof rl_lr}`> => {
+				([, rl_lr = "lr"]) => {
 					const returnArr: string[] = ["-webkit-writing-mode", "-ms-writing-mode", "writingMode"];
 					const result: Record<string, `vertical-${typeof rl_lr}`> = {};
 					for (const e of returnArr) result[e] = `vertical-${rl_lr}`;
@@ -234,7 +232,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 			],
 			[
 				/^grid-area-(?<str>[a-z]+)$/,
-				(match): Record<"grid-area", string> => {
+				(match) => {
 					return {
 						"grid-area": v.parse(v.string(), match?.groups?.str),
 					};

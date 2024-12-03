@@ -1,4 +1,4 @@
-import { definePreset } from "@unocss/core";
+import { type PresetOptions, definePreset, type Rule, type Shortcut, type Variant } from "@unocss/core";
 import UnitProcess from "./utilsFN/Units";
 
 import * as v from "valibot";
@@ -7,15 +7,16 @@ import { elementFromDictionary, matchFromRegex, matchFromRegexV, matchFromRegexS
 
 import { FluidSize, fromMatchRemoveDuplicate, tailwindKiller, DictionaryParser } from "./utilsFN";
 
-export interface StarterOptions {
-	/**
-	 *  The number of columns in the grid system (Example option)
-	 *
-	 * @default 1650
-	 */
-	maxScreenW?: number;
-	minScreenW?: number;
-}
+
+export interface StarterOptions extends PresetOptions {
+		/**
+		 *  The number of columns in the grid system (Example option)
+		 *
+		 * @default 1650
+		 */
+		maxScreenW?: number;
+		minScreenW?: number;
+	}
 const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 	return {
 		name: "presetWindPlus",
@@ -256,7 +257,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					autocomplete: "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
 				},
 			],
-		],
+		] ,
 		// Customize your variants here
 		variants: [
 			{
@@ -270,7 +271,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					};
 				},
 			},
-		],
+		] ,
 		shortcuts: [
 			[
 				// biome-ignore lint/nursery/noUselessEscapeInRegex: <explanation>
@@ -284,7 +285,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					return re;
 				},
 			],
-		],
+		] ,
 	};
 });
 

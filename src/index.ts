@@ -1,4 +1,4 @@
-import { type PresetOptions, definePreset, type Rule, type Shortcut, type Variant } from "@unocss/core";
+import { type PresetOptions, definePreset } from "@unocss/core";
 import UnitProcess from "./utilsFN/Units";
 
 import * as v from "valibot";

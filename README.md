@@ -1,4 +1,3 @@
-🔴 use UNOCSS 0.59 OR BELOW
 ## Features
 
 

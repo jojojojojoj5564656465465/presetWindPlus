@@ -7,16 +7,15 @@ import { elementFromDictionary, matchFromRegex, matchFromRegexString, matchFromR
 
 import { DictionaryParser, FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./utilsFN";
 
-
 export interface StarterOptions extends PresetOptions {
-		/**
-		 *  The number of columns in the grid system (Example option)
-		 *
-		 * @default 1650
-		 */
-		maxScreenW?: number;
-		minScreenW?: number;
-	}
+	/**
+	 *  The number of columns in the grid system (Example option)
+	 *
+	 * @default 1650
+	 */
+	maxScreenW?: number;
+	minScreenW?: number;
+}
 const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 	return {
 		name: "presetWindPlus",
@@ -257,7 +256,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					autocomplete: "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
 				},
 			],
-		] ,
+		],
 		// Customize your variants here
 		variants: [
 			{
@@ -271,7 +270,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					};
 				},
 			},
-		] ,
+		],
 		shortcuts: [
 			[
 				// biome-ignore lint/nursery/noUselessEscapeInRegex: <explanation>
@@ -285,7 +284,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					return re;
 				},
 			],
-		] ,
+		],
 	};
 });
 

@@ -13,5 +13,3 @@ it("presetWindPlus", async () => {
 
 	expect(css).toMatchInlineSnapshot(`""`);
 });
-
-

@@ -14,6 +14,10 @@ export interface StarterOptions extends PresetOptions {
 	 * @default 1650
 	 */
 	maxScreenW?: number;
+
+	/**
+	 *  The minimum width of the screen (Example option)
+	 */
 	minScreenW?: number;
 }
 const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
@@ -75,8 +79,9 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				(match) => {
 					try {
 						const returnDirection = DictionaryParser(match?.groups?.direction);
+
 						//* UNITS
-						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(4, false), match?.groups?.allUnitsRegex);
+						const arrMatch = fromMatchRemoveDuplicate(4, false, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
@@ -97,7 +102,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					try {
 						const returnDirection = DictionaryParser(match?.groups?.direction);
 						//* UNITS
-						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
+						const arrMatch = fromMatchRemoveDuplicate(2, true, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
@@ -126,7 +131,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					try {
 						const returnDirection = elementFromDictionary(combination, direction);
 						//* UNITS
-						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
+						const arrMatch = fromMatchRemoveDuplicate(2, true, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
@@ -155,7 +160,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					try {
 						const returnDirection = elementFromDictionary(combination, direction);
 						//* UNITS
-						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(1, true), match?.groups?.allUnitsRegex);
+						const arrMatch = fromMatchRemoveDuplicate(1, true, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
 							return { [returnDirection]: arrMatch.output.join(" ") };
@@ -176,8 +181,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 				(match) => {
 					try {
 						//* UNITS
-						const arrMatch = v.safeParse(fromMatchRemoveDuplicate(2, true), match?.groups?.allUnitsRegex);
-
+						const arrMatch = fromMatchRemoveDuplicate(2, true, match?.groups?.allUnitsRegex);
 						if (arrMatch.success) {
 							if (arrMatch.output[0] !== undefined) {
 								return [

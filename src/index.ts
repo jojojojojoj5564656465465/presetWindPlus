@@ -1,4 +1,4 @@
-import { type PresetOptions, definePreset } from "@unocss/core";
+import { type PresetOptions, definePreset, type Rule } from "@unocss/core";
 import UnitProcess from "./utilsFN/Units";
 
 import * as v from "valibot";
@@ -24,7 +24,9 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 	return {
 		name: "presetWindPlus",
 		// Customize your preset here
-
+		theme: {
+			// Customize your theme here
+		},
 		rules: [
 			[
 				new RegExp(`^flex\\|(?<grow>\\d)\\|(?<shrink>\\d)(?:\\|(?<basisRegex>${myUnits.source}))?$`),
@@ -260,7 +262,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					autocomplete: "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
 				},
 			],
-		],
+		] as Rule[],
 		// Customize your variants here
 		variants: [
 			{

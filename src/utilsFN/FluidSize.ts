@@ -20,7 +20,7 @@ function fluidType(options: FluidTypeOptions) {
 
 	const valueRem = v.pipe(
 		v.number("must be a number"),
-		v.minValue(0.5, "min value must be more than 0.5"),
+		v.minValue(0.5, "min value must be more than 0.5 in valueRem"),
 		v.transform((num) => num / 4),
 	);
 
@@ -33,7 +33,7 @@ function fluidType(options: FluidTypeOptions) {
 			minScreenW: limitScreenSizeVW,
 		}),
 		v.partialCheck([["maxScreenW"], ["minScreenW"]], (input) => input.minScreenW < input.maxScreenW, "maxVwRem is less than minScreenW invert data"),
-		v.partialCheck([["maxScreenW"], ["minScreenW"]], (input) => input.minScreenW < input.maxScreenW, "maxVwRem is less than minValueRem invert data"),
+		v.partialCheck([["maxValue"], ["minValue"]], (input) => input.minValue < input.maxValue, "maxVwRem is less than minValueRem invert data"),
 	);
 	try {
 		const { maxValue, minValue, maxScreenW, minScreenW } = v.parse(SimpleObjectSchema, options);
@@ -49,10 +49,10 @@ function fluidType(options: FluidTypeOptions) {
 		};
 	} catch (error) {
 		if (error instanceof v.ValiError) {
-			console.log("error Valibot fluidSize");
-			console.error(error.issues);
+			console.error("error Valibot fluidSize", error.issues);
 			console.error(error.cause);
 		}
+		console.error("error in fluidSize not Valibot issue", error);
 	}
 }
 

@@ -3,22 +3,22 @@
   "type": "module",
   "version": "2.1.9",
   "packageManager": "pnpm@8.7.0",
-  "description": "<description>",
-  "author": "unpreset <https://github.com/unpreset>",
+  "description": "unocss preset work with preset-wind",
+  "author": "jo <https://github.com/unpreset>",
   "license": "MIT",
   "homepage": "https://github.com/unpreset/unocss-preset-starter#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unpreset/unocss-preset-starter.git"
+    "url": "git+https://github.com/jojojojojoj5564656465465/presetWindPlus"
   },
   "bugs": {
-    "url": "https://github.com/unpreset/unocss-preset-starter/issues"
+    "url": "https://github.com/jojojojojoj5564656465465/presetWindPlus/issues"
   },
   "keywords": [
     "unocss",
     "unpreset",
     "unocss-preset",
-    "unocss-preset-starter"
+    "tailwind"
   ],
   "sideEffects": false,
   "exports": {
@@ -62,43 +62,18 @@
     "valibot": "^0.42.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.11.2",
+    "@antfu/eslint-config": "^3.12.0",
     "@babel/types": "^7.26.3",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.2",
     "@unocss/eslint-plugin": "^0.65.1",
     "@vitejs/plugin-vue": "^5.2.1",
-    "bumpp": "^9.8.1",
-    "eslint": "^9.16.0",
+    "bumpp": "^9.9.1",
+    "eslint": "^9.17.0",
     "typescript": "5.3.3",
     "unbuild": "^2.0.0",
     "unocss": "^0.65.1",
-    "vite": "^6.0.2",
+    "vite": "^6.0.3",
     "vitest": "^1.6.0"
-  },
-  "wireit": {
-    "build": {
-      "command": "unbuild",
-      "output": [
-        "dist"
-      ]
-    },
-    "release": {
-      "command": "npm publish --no-git-checks",
-      "clean": false,
-      "dependencies": [
-        "format"
-      ],
-      "output": [
-        "dist"
-      ]
-    },
-    "format": {
-      "command": "bun x @biomejs/biome format --write ."
-    },
-    "dev": {
-      "command": "bun --watch run test.ts",
-      "clean": true
-    }
   },
   "directories": {
     "doc": "doc",

@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { dictionaryCheckAndTransform } from "../utils";
 
 const convertToRem = v.pipe(
-	v.string(),
+	v.string("convertToRem		🅾️"),
 	v.trim(),
 	v.transform(Number),
 	v.number("convert to rem only accept number into a string"),
@@ -12,11 +12,12 @@ const convertToRem = v.pipe(
 	v.transform((el) => concat(el, "rem")),
 );
 const convertToPhi = v.pipe(
-	v.string(),
+	v.string("convertToPhi"),
 	v.regex(/(\d+)ø/),
 	v.transform((golden) => Number(replace(golden, "ø", ""))),
 	v.transform((phi) => ((1 + Math.sqrt(5)) / 2) * phi),
 	v.transform((el) => concat(String(el), "rem")),
+	v.description("convert to phi number Φ"),
 );
 
 const validateInput__Divide_NumByDenominator = v.pipe(

@@ -1,32 +1,39 @@
-import { type PresetOptions, definePreset, type Rule } from "@unocss/core";
-import UnitProcess from "./utilsFN/Units";
+import { definePreset } from "@unocss/core";
+import type { Preset, Rule } from "unocss";
 
+import UnitProcess from "./utilsFN/Units";
+import type { PresetMiniOptions } from "@unocss/preset-mini";
 import * as v from "valibot";
+import * as s from "string-ts";
 
 import { elementFromDictionary, matchFromRegex, matchFromRegexString, matchFromRegexV, myUnits } from "./utils";
 
 import { DictionaryParser, FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./utilsFN";
 
-export interface StarterOptions extends PresetOptions {
-	/**
-	 *  The number of columns in the grid system (Example option)
-	 *
-	 * @default 1650
-	 */
-	maxScreenW?: number;
+export interface StarterOptions extends PresetMiniOptions {
+		/**
+		 *  The number of columns in the grid system (Example option)
+		 *
+		 * @default 1650
+		 */
+		maxScreenW?: number;
 
-	/**
-	 *  The minimum width of the screen (Example option)
-	 */
-	minScreenW?: number;
-}
-const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
+		/**
+		 *  The minimum width of the screen (Example option)
+		 * @default 320
+		 */
+		minScreenW?: number;
+	}
+/**
+ * The Tailwind CSS v3 / Windi CSS compact preset for UnoCSS.
+ *
+ * @see https://unocss.dev/presets/wind
+ */
+const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 1150, minScreenW: 320 }): Preset => {
 	return {
 		name: "presetWindPlus",
 		// Customize your preset here
-		theme: {
-			// Customize your theme here
-		},
+		theme: {},
 		rules: [
 			[
 				new RegExp(`^flex\\|(?<grow>\\d)\\|(?<shrink>\\d)(?:\\|(?<basisRegex>${myUnits.source}))?$`),
@@ -86,7 +93,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						const arrMatch = fromMatchRemoveDuplicate(4, false, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
-							return { [returnDirection]: arrMatch.output.join(" ") };
+							return { [returnDirection]: s.join(arrMatch.output, " ") };
 						}
 						console.error("\n ERROR UNOCSS code:#58 => p m inset", arrMatch.issues);
 						return { [returnDirection]: "0in" };
@@ -107,7 +114,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						const arrMatch = fromMatchRemoveDuplicate(2, true, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
-							return { [returnDirection]: arrMatch.output.join(" ") };
+							return { [returnDirection]: s.join(arrMatch.output, " ") };
 						}
 						console.error("\n ERROR UNOCSS code:#59 => px my gap", arrMatch.issues);
 						return { [returnDirection]: "0in" };
@@ -165,7 +172,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 						const arrMatch = fromMatchRemoveDuplicate(1, true, match?.groups?.allUnitsRegex);
 
 						if (arrMatch.success) {
-							return { [returnDirection]: arrMatch.output.join(" ") };
+							return { [returnDirection]: s.join(arrMatch.output, " ") };
 						}
 						console.error("\n ERROR UNOCSS code:#61 => gap-x-6", arrMatch.issues);
 						return { [returnDirection]: "0in" };
@@ -285,7 +292,6 @@ const presetWindPlus = definePreset((_options: StarterOptions = {}) => {
 					const category = matchFromRegex<Category>(match, "category");
 					const stringElement = matchFromRegex<string>(match, "css");
 					const re = tailwindKiller(category, stringElement);
-					//console.log(re);
 
 					return re;
 				},

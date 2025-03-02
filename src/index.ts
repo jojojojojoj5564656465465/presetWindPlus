@@ -1,6 +1,6 @@
 import { definePreset } from "unocss";
 import type { Preset, Rule } from "unocss";
-
+import type { PresetOptions } from "@unocss/core";
 import UnitProcess from "./utilsFN/Units";
 
 import * as v from "valibot";
@@ -10,7 +10,7 @@ import { elementFromDictionary, matchFromRegex, matchFromRegexString, matchFromR
 
 import { DictionaryParser, FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./utilsFN";
 
-export interface StarterOptions{
+export interface StarterOptions extends PresetOptions {
 		/**
 		 *  The number of columns in the grid system (Example option)
 		 *
@@ -29,7 +29,7 @@ export interface StarterOptions{
  *
  * @see https://unocss.dev/presets/wind
  */
-const presetWindPlus: Preset = definePreset((_options: StarterOptions = { maxScreenW: 1150, minScreenW: 320 }): Preset => {
+const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 1150, minScreenW: 320 }): Preset => {
 	return {
 		name: "presetWindPlus",
 		// Customize your preset here

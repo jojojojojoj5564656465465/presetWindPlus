@@ -1,4 +1,3 @@
-//import UnitArray from "./Class/Units";
 import * as v from "valibot";
 
 const arrV = v.pipe(v.array(v.string()), v.minLength(1, "min length is 1 removeDuplicateArrayPaddingOrMargin"), v.maxLength(4, "Limit is 4 removeDuplicateArrayPaddingOrMargin"));
@@ -188,43 +187,3 @@ export const dicoMatch = v.parser(dictionaryCheckAndTransform);
 
 export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,2}ø|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\])/;
 
-/*
-export const containerSize = {
-	default: "40rem",
-	medium: "60rem",
-	large: "90rem",
-	full: "100%",
-};
-const maxInlineSizeFn = (x: keyof typeof containerSize): string => {
-	return `min(calc(100% - clamp(1.5rem, 1.4348rem + 0.3261dvw, 1.6875rem) * 2), ${containerSize[x]})`;
-};
-
-export const container = styleVariants({
-	default: {
-		marginInline: "auto",
-	},
-	medium: {
-		backgroundColor: "sienna",
-		maxInlineSize: maxInlineSizeFn("medium"),
-	},
-	large: { backgroundColor: "salmon", maxInlineSize: maxInlineSizeFn("large") },
-	full: { maxInlineSize: maxInlineSizeFn("full") },
-});
-globalStyle(`${container.default} > *`, {
-	marginInline: "auto",
-	backgroundColor: "green",
-	maxInlineSize: maxInlineSizeFn("default"),
-});
-globalStyle(`${container.default} > ${container.medium}`, {
-	backgroundColor: "sienna",
-	maxInlineSize: maxInlineSizeFn("medium"),
-});
-globalStyle(`${container.default} > ${container.large}`, {
-	backgroundColor: "salmon",
-	maxInlineSize: maxInlineSizeFn("large"),
-});
-globalStyle(`${container.default} > ${container.full}`, {
-	backgroundColor: "orange",
-	maxInlineSize: maxInlineSizeFn("full"),
-});
-*/

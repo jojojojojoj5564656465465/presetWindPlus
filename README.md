@@ -2,7 +2,7 @@
 
 
 We like the tailwindcss syntax, but it's often too long to read. Today, with unocss and this preset, you can reduce tailwind syntax by 30% and improve code readability.
-You need [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind) and this preset to work
+You need [Preset-wind3 ](https://www.npmjs.com/package/@unocss/preset-wind3) and this preset to work
 ![Reduce 30% tailwind syntax](https://github.com/jojojojojoj5564656465465/unocss-preset-starter/assets/45184918/efb0180e-38f5-4360-89f5-92b646995de1)
 
 ### Liste des Shortcuts
@@ -19,18 +19,18 @@ You need [Preset-wind](https://www.npmjs.com/package/@unocss/preset-wind) and th
 
 ## Usage
 ```shell
-pnpm i preset-wind-plus unocss @unocss/preset-wind
+pnpm i preset-wind-plus unocss @unocss/preset-wind3
 ```
 
 ```ts
 // uno.config.ts
-import { defineConfig, presetWind } from 'unocss'
+import { defineConfig, presetWind3 } from "unocss";
 import presetWindPlus from 'preset-wind-plus'
 
 export default defineConfig({
   presets: [
     // ...
-    presetWind(),
+    presetWind3(),
     presetWindPlus({
       maxScreenW:1150,
       minScreenW:320,

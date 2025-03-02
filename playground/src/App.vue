@@ -3,7 +3,7 @@
     <p>ORANGE bg-[orange,hover:white]</p>
   </div>
   <div class="flex|4|5|full">
-    <p>ORANGE bg-[orange,hover:white]</p>
+    <p>ORANGE bg-[orange,hover:whitegree]</p>
   </div>
   <div class="bg-[purple-200,hover:orange-100] ~py-1/8 cursor-pointer text-[4xl,lg:[green,6xl,hover:[orange-900,8xl]]]">
     <p>1</p>

@@ -1,14 +1,11 @@
-import { defineConfig, presetWind } from "unocss";
+import { defineConfig, presetWind3 } from "unocss";
 import presetWindPlus from "./src";
 
-// Just for Vscode Extension
+
 
 export default defineConfig({
 	presets: [
-		presetWind(),
-		presetWindPlus({
-			maxScreenW: 1150,
-			minScreenW: 320,
-		}),
-	],
+		presetWindPlus({ maxScreenW: 1150, minScreenW: 320 }),
+		 presetWind3()
+		],
 });

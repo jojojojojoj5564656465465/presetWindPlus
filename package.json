@@ -4,7 +4,7 @@
   "version": "2.1.9",
   "packageManager": "pnpm@8.7.0",
   "description": "unocss preset work with preset-wind",
-  "author": "jo <https://github.com/unpreset>",
+  "author": "jo <https://github.com/jojojojojoj5564656465465>",
   "license": "MIT",
   "homepage": "https://github.com/unpreset/unocss-preset-starter#readme",
   "repository": {
@@ -55,25 +55,26 @@
     "testcode": "bun --watch run src/testcode.ts"
   },
   "peerDependencies": {
-    "@unocss/core": "^0.65.1"
+    "@unocss/core": "^0.65.4"
   },
   "dependencies": {
-    "string-ts": "^2.2.0",
+    "string-ts": "^2.2.1",
     "valibot": "^0.42.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.12.0",
-    "@babel/types": "^7.26.3",
-    "@types/node": "^22.10.2",
-    "@unocss/eslint-plugin": "^0.65.1",
+    "@antfu/eslint-config": "^3.16.0",
+    "@babel/types": "^7.26.9",
+    "@types/node": "^22.13.8",
+    "@unocss/eslint-plugin": "^66.0.0",
+    "@unocss/preset-wind3": "^66.0.0",
     "@vitejs/plugin-vue": "^5.2.1",
-    "bumpp": "^9.9.1",
-    "eslint": "^9.17.0",
+    "bumpp": "^10.0.3",
+    "eslint": "^9.21.0",
     "typescript": "5.3.3",
-    "unbuild": "^2.0.0",
-    "unocss": "^0.65.1",
-    "vite": "^6.0.3",
-    "vitest": "^1.6.0"
+    "unbuild": "^3.5.0",
+    "unocss": "^66.1.0-beta.3",
+    "vite": "^6.2.0",
+    "vitest": "^1.6.1"
   },
   "directories": {
     "doc": "doc",

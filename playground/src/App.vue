@@ -11,7 +11,7 @@
 
 
 
-  <div class="bg-black size-8-[358.5px]  mx-9-[-2rem] p-4ø-5ø-7ø ~gap-7/4 text-white px-6-8 text-[red,base]">
+  <div class="bg-black size-8-[358.5px]  mx-9-[-2rem] p-4ø-5ø-7ø ~gap-780000/4 text-white px-6-8 text-[red,base]">
     <p>BLANC</p>
   </div>
     <div class="bg-[green-900,hover:green-300] size-5ø-20ø my-2ø-5 gap-5ø-6">

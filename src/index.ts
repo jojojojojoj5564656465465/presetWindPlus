@@ -1,6 +1,6 @@
 import { definePreset } from "unocss";
-import type { Preset, Rule } from "unocss";
-import type { PresetOptions } from "@unocss/core";
+
+import type { Preset, PresetOptions } from "@unocss/core";
 import UnitProcess from "./utilsFN/Units";
 
 import * as v from "valibot";
@@ -33,7 +33,6 @@ const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 11
 	return {
 		name: "presetWindPlus",
 		// Customize your preset here
-		theme: {},
 		rules: [
 			[
 				new RegExp(`^flex\\|(?<grow>\\d)\\|(?<shrink>\\d)(?:\\|(?<basisRegex>${myUnits.source}))?$`),
@@ -269,7 +268,7 @@ const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 11
 					autocomplete: "~(m|mx|my|mt|mr|mb|ml|p|px|py|pt|pr|pb|pl|text|gap)-<num>/<num>",
 				},
 			],
-		] as Rule[],
+		],
 		// Customize your variants here
 		variants: [
 			{

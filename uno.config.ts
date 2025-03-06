@@ -1,11 +1,7 @@
-import { defineConfig, presetWind3 } from "unocss";
+import { defineConfig } from "unocss";
+import presetWind4 from "@unocss/preset-wind4";
 import presetWindPlus from "./src";
 
-
-
 export default defineConfig({
-	presets: [
-		presetWindPlus({ maxScreenW: 1150, minScreenW: 320 }),
-		 presetWind3()
-		],
+	presets: [presetWindPlus({ maxScreenW: 1150, minScreenW: 320 }), presetWind4()],
 });

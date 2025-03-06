@@ -1,8 +1,6 @@
-import antfu from "@antfu/eslint-config";
+import unocss from "@unocss/eslint-config/flat";
 
-export default antfu({
-  unocss: true,
-  rules: {
-    "no-useless-escape": "0",
-  },
-});
+export default [
+  unocss,
+  // other configs
+];

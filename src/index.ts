@@ -32,7 +32,7 @@ export interface StarterOptions extends PresetOptions {
  */
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
-const presetWindPlus: PresetFactory<{}, StarterOptions> = definePreset((_options: StarterOptions = {}) => {
+export const presetWindPlus: PresetFactory<{}, StarterOptions> = definePreset((_options: StarterOptions = {}) => {
 	const maxScreenW = _options.maxScreenW ?? 1150;
 	const minScreenW = _options.minScreenW ?? 320;
 
@@ -303,5 +303,3 @@ const presetWindPlus: PresetFactory<{}, StarterOptions> = definePreset((_options
 		],
 	};
 });
-
-export default presetWindPlus;

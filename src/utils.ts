@@ -87,13 +87,12 @@ const str = v.string();
 const num = v.pipe(v.string(), v.transform(Number), v.integer("The number must be an integer."));
 const list = <const T extends string>(arr: T[]) => v.pipe(v.string(), v.picklist(arr));
 
-
 /**
- * 
+ *
  * @deprecated
- * @param match 
- * @param arr 
- * @returns 
+ * @param match
+ * @param arr
+ * @returns
  */
 function matchFromGroupRegex(match: RegExpMatchArray, arr?: string[]) {
 	if (arr) {

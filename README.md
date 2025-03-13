@@ -19,13 +19,13 @@ You need [Preset-wind4 ](https://www.npmjs.com/package/@unocss/preset-wind3) and
 
 ## Usage
 ```shell
-bun i -D       preset-wind-plus unocss @unocss/preset-wind4
+bun i -D preset-wind-plus unocss @unocss/preset-wind4
 ```
 
 ```ts
 // uno.config.ts
 import { defineConfig} from "unocss";
-import presetWindPlus from 'preset-wind-plus'
+import {presetWindPlus} from 'preset-wind-plus'
 import presetWind4 from "@unocss/preset-wind4";
 export default defineConfig({
   presets: [

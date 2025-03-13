@@ -4,10 +4,8 @@ export default defineBuildConfig({
 	entries: ["src/index"],
 	clean: true,
 	declaration: true,
-	externals: ["@unocss/core"],
+	externals: ["unocss"],
 	rollup: {
-		dts: {
-			respectExternal: false,
-		},
+		emitCJS: true,
 	},
 });

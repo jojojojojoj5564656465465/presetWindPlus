@@ -7,13 +7,11 @@
     "resolveJsonModule": true,
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noEmit": true,
     "sourceMap": true,
     "esModuleInterop": true
   },
   "include": ["./src/**/*.ts", "./test/**/*.ts"],
-  "exclude": ["**/dist/**", "**/node_modules/**", "eslint.config.js", "playground", "dist"]
+  "exclude": ["**/dist/**", "**/node_modules/**", "eslint.config.mjs"]
 }

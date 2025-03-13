@@ -1,6 +1,6 @@
-import { definePreset } from "unocss";
+import { definePreset, type PresetOptions, type PresetFactory } from "@unocss/core";
 
-import type { Preset, PresetOptions } from "@unocss/core";
+//import type {  PresetOptions } from "@unocss/core";
 import UnitProcess from "./utilsFN/Units";
 
 import * as v from "valibot";
@@ -11,28 +11,33 @@ import { elementFromDictionary, matchFromRegex, matchFromRegexString, matchFromR
 import { DictionaryParser, FluidSize, fromMatchRemoveDuplicate, tailwindKiller } from "./utilsFN";
 
 export interface StarterOptions extends PresetOptions {
-		/**
-		 *  The number of columns in the grid system (Example option)
-		 *
-		 * @default 1650
-		 */
-		maxScreenW?: number;
+	/**
+	 *  The number of columns in the grid system (Example option)
+	 *
+	 * @default 1650
+	 */
+	maxScreenW?: number;
 
-		/**
-		 *  The minimum width of the screen (Example option)
-		 * @default 320
-		 */
-		minScreenW?: number;
-	}
+	/**
+	 *  The minimum width of the screen (Example option)
+	 * @default 320
+	 */
+	minScreenW?: number;
+}
+
 /**
  * The Tailwind CSS v3 / Windi CSS compact preset for UnoCSS.
  *
  * @see https://unocss.dev/presets/wind
  */
-const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 1150, minScreenW: 320 }): Preset => {
+
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
+const presetWindPlus: PresetFactory<{}, StarterOptions> = definePreset((_options: StarterOptions = {}) => {
+	const maxScreenW = _options.maxScreenW ?? 1150;
+	const minScreenW = _options.minScreenW ?? 320;
+
 	return {
 		name: "presetWindPlus",
-		// Customize your preset here
 		rules: [
 			[
 				new RegExp(`^flex\\|(?<grow>\\d)\\|(?<shrink>\\d)(?:\\|(?<basisRegex>${myUnits.source}))?$`),
@@ -258,8 +263,8 @@ const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 11
 					const maxValue = Number(matchFromRegexString(match, "maxValue"));
 					return FluidSize({
 						category,
-						minScreenW: _options.minScreenW ?? 320,
-						maxScreenW: _options.maxScreenW ?? 1180,
+						minScreenW: minScreenW,
+						maxScreenW: maxScreenW,
 						minValue,
 						maxValue,
 					});
@@ -298,5 +303,4 @@ const presetWindPlus = definePreset((_options: StarterOptions = { maxScreenW: 11
 		],
 	};
 });
-
 export default presetWindPlus;

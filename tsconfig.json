@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "lib": ["esnext"],
-    "module": "esnext",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "sourceMap": true,
-    "esModuleInterop": true
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true
   },
   "exclude": ["**/dist/**", "**/node_modules/**", "eslint.config.mjs"]
 }

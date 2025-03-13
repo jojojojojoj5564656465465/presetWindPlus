@@ -12,9 +12,9 @@ interface FluidTypeOptions {
 /**
  * ! je crians que la formule n'est pas bonne de la slope
  * ? je ne sais pas si je peux faire une formule plus simple
- * @param options 
- * 
- * @returns 
+ * @param options
+ *
+ * @returns
  */
 function fluidType(options: FluidTypeOptions) {
 	const limitScreenSizeVW = v.pipe(
@@ -29,7 +29,7 @@ function fluidType(options: FluidTypeOptions) {
 		v.number("must be a number"),
 		v.minValue(0.5, "min value must be more than 0.5 in valueRem"),
 		v.transform((num) => num / 4),
-		v.description("convert to tailwind size unit")
+		v.description("convert to tailwind size unit"),
 	);
 
 	const SimpleObjectSchema = v.pipe(

@@ -58,7 +58,7 @@ export function matchFromRegex<T = string>(match: RegExpMatchArray, x: string) {
 	removeDirectionInArray(match);
 	return result as T;
 }
-type D<TArr extends string[], TElement> = TElement extends TArr[number] ? TElement : never;
+
 /**
  * ! faire un parser pour les chiffres
  * @param match
@@ -87,6 +87,14 @@ const str = v.string();
 const num = v.pipe(v.string(), v.transform(Number), v.integer("The number must be an integer."));
 const list = <const T extends string>(arr: T[]) => v.pipe(v.string(), v.picklist(arr));
 
+
+/**
+ * 
+ * @deprecated
+ * @param match 
+ * @param arr 
+ * @returns 
+ */
 function matchFromGroupRegex(match: RegExpMatchArray, arr?: string[]) {
 	if (arr) {
 		const f = v.safeParser(list(arr));
@@ -186,4 +194,3 @@ export const dictionaryCheckAndTransform = v.pipe(
 export const dicoMatch = v.parser(dictionaryCheckAndTransform);
 
 export const myUnits = /(?<!--)([1-9][0-9]?\/[1-9]\d*|\d{1,2}ø|\d{1,3}|full|screen|min|max|fit|fill|auto|dvw|dvh|svw|svh|lvw|lvh|px|\[[-+]?[0-9]*\.?[0-9]{0,2}(?:[a-z]{2,4}|%)\])/;
-

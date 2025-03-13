@@ -19,7 +19,7 @@ You need [Preset-wind4 ](https://www.npmjs.com/package/@unocss/preset-wind3) and
 
 ## Usage
 ```shell
-pnpm i preset-wind-plus unocss @unocss/preset-wind4
+bun i -D       preset-wind-plus unocss @unocss/preset-wind4
 ```
 
 ```ts

@@ -1,7 +1,7 @@
 {
   "name": "preset-wind-plus",
   "type": "module",
-  "version": "2.1.17",
+  "version": "2.1.18",
   "packageManager": "pnpm@8.7.0",
   "description": "unocss preset work with preset-wind",
   "author": "jo <https://github.com/jojojojojoj5564656465465>",

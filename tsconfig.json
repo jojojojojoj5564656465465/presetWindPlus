@@ -12,11 +12,5 @@
     "sourceMap": true,
     "esModuleInterop": true
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
-  "exclude": [
-    "**/dist/**",
-    "**/node_modules/**",
-    "eslint.config.mjs",
-    "playground"
-  ]
+  "exclude": ["**/dist/**", "**/node_modules/**", "eslint.config.mjs"]
 }

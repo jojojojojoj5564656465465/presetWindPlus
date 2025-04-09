@@ -1,7 +1,7 @@
 {
   "name": "preset-wind-plus",
   "type": "module",
-  "version": "2.1.19",
+  "version": "2.1.20",
   "packageManager": "pnpm@8.7.0",
   "description": "unocss preset work with preset-wind",
   "author": "jo <https://github.com/jojojojojoj5564656465465>",
@@ -57,22 +57,22 @@
   "dependencies": {
     "string-ts": "^2.2.1",
     "valibot": "^0.42.1",
-    "@unocss/core": "^66.1.0-beta.6"
+    "@unocss/core": "^66.1.0-beta.10"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.11.0",
     "@babel/types": "^7.27.0",
-    "@types/node": "^22.13.13",
-    "@unocss/eslint-config": "^66.1.0-beta.6",
-    "@unocss/eslint-plugin": "^66.1.0-beta.6",
-    "@unocss/preset-wind4": "^66.1.0-beta.6",
+    "@types/node": "^22.14.0",
+    "@unocss/eslint-config": "^66.1.0-beta.10",
+    "@unocss/eslint-plugin": "^66.1.0-beta.10",
+    "@unocss/preset-wind4": "^66.1.0-beta.10",
     "@vitejs/plugin-vue": "^5.2.3",
     "bumpp": "^10.1.0",
-    "eslint": "^9.23.0",
+    "eslint": "^9.24.0",
     "typescript": "5.3.3",
     "unbuild": "^3.5.0",
-    "unocss": "^66.1.0-beta.6",
-    "vite": "^6.2.3",
+    "unocss": "^66.1.0-beta.10",
+    "vite": "^6.2.5",
     "vitest": "^1.6.1"
   },
   "directories": {

@@ -116,7 +116,7 @@ function matchFromGroupRegex(match: RegExpMatchArray, arr?: string[]) {
  * @description remove direction in array match A
  * @param {RegExpMatchArray} array come from Match
  */
-function removeDirectionInArray(array: RegExpMatchArray): void {
+export function removeDirectionInArray(array: RegExpMatchArray): void {
 	array.splice(1, 1);
 }
 type NoInfer<T> = {

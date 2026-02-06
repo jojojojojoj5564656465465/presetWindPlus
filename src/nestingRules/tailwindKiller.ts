@@ -55,7 +55,8 @@ function processMapDoWhile(): void {
 	while (mapRegex.size > 0 && iteration < 6) {
 		iteration++;
 		const TempSet = new Set<string>();
-		mapRegex.forEach((value, key) => {
+		// biome-ignore lint/complexity/noForEach: <explanation>
+			mapRegex.forEach((value, key) => {
 			for (const iterator of value) {
 				TempSet.add(`${key}:${iterator}`);
 			}
